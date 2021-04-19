@@ -12,6 +12,9 @@ class DiscourseApiClient {
   DiscourseApiClient(String siteUrl) : siteUrl = _prepareUrl(siteUrl) {
     var cookieJar = CookieJar();
     var dio = Dio();
+    dio.options = BaseOptions(headers: {
+      Headers.acceptHeader: Headers.jsonContentType,
+    });
     dio.interceptors.add(CookieManager(cookieJar));
     _cookieJar = cookieJar;
     _dio = dio;
@@ -25,7 +28,7 @@ class DiscourseApiClient {
   }
 
   Future<About> about() async {
-    var res = await _dio.get('$siteUrl/about.json');
+    var res = await _dio.get('$siteUrl/about');
     var jsonMap = res.data['about'];
     return About.fromMap(jsonMap);
   }
@@ -34,7 +37,6 @@ class DiscourseApiClient {
     var res = await _dio.get('$siteUrl/session/csrf',
         options: Options(headers: {
           'X-CSRF-Token': 'undefined',
-          'X-Requested-With': 'XMLHttpRequest',
           'Referer': siteUrl,
         }));
     return res.data['csrf'];
@@ -47,7 +49,6 @@ class DiscourseApiClient {
           headers: {
             'Origin': siteUrl,
             'Referer': siteUrl,
-            'X-Requested-With': 'XMLHttpRequest',
           },
           contentType: Headers.formUrlEncodedContentType,
         ),
