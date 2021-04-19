@@ -40,5 +40,14 @@ void main() {
       expect(result.last.topicCount, greaterThanOrEqualTo(0));
       expect(result.first.slug, isNotEmpty);
     });
+
+    test('Latest Topics', () async {
+      var result = await client.topics(latest: true);
+      expect(result.length, greaterThan(1));
+      expect(result.last.title, isNotEmpty);
+      expect(result.last.id, greaterThan(0));
+      expect(result.last.postsCount, greaterThanOrEqualTo(0));
+      expect(result.first.slug, isNotEmpty);
+    });
   });
 }

@@ -1,7 +1,6 @@
 import 'package:cookie_jar/cookie_jar.dart';
 import 'package:dio/dio.dart';
 import 'package:dio_cookie_manager/dio_cookie_manager.dart';
-import 'package:discourse_api/src/models/category.dart';
 
 import 'models/models.dart';
 
@@ -67,5 +66,21 @@ class DiscourseApiClient {
     var res = await _dio.get('$siteUrl/categories');
     List list = res.data['category_list']['categories'];
     return list.map((map) => Category.fromMap(map)).toList();
+  }
+
+  Future<List<Topic>> topics({
+    bool latest = true,
+    bool top = false,
+    int? page,
+  }) async {
+    var result;
+
+    if (latest) {
+      var res = await _dio.get('$siteUrl/latest');
+      List list = res.data['topic_list']['topics'];
+      result = list.map((map) => Topic.fromMap(map)).toList();
+    }
+    // TODO: More
+    return result;
   }
 }
