@@ -5,11 +5,11 @@ class About {
   final String title;
   final String version;
 
-  About(
-    this.description,
-    this.title,
-    this.version,
-  );
+  About({
+    required this.description,
+    required this.title,
+    required this.version,
+  });
 
   About copyWith({
     String? description,
@@ -17,9 +17,9 @@ class About {
     String? version,
   }) {
     return About(
-      description ?? this.description,
-      title ?? this.title,
-      version ?? this.version,
+      description: description ?? this.description,
+      title: title ?? this.title,
+      version: version ?? this.version,
     );
   }
 
@@ -33,9 +33,9 @@ class About {
 
   factory About.fromMap(Map<String, dynamic> map) {
     return About(
-      map['description'],
-      map['title'],
-      map['version'],
+      description: map['description'],
+      title: map['title'],
+      version: map['version'],
     );
   }
 
