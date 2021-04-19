@@ -7,7 +7,9 @@ void main() {
     late DiscourseApiClient client;
 
     setUp(() {
-      client = DiscourseApiClient('https://www.dart-china.org');
+      dot_env.load();
+      var siteUrl = dot_env.env['siteurl']!;
+      client = DiscourseApiClient(siteUrl);
     });
 
     test('About', () async {
@@ -23,8 +25,6 @@ void main() {
     });
 
     test('Login', () async {
-      dot_env.load();
-
       var username = dot_env.env['username'];
       var password = dot_env.env['password'];
 
