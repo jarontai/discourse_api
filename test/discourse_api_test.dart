@@ -2,15 +2,18 @@ import 'package:discourse_api/discourse_api.dart';
 import 'package:test/test.dart';
 
 void main() {
-  group('A group of tests', () {
-    Awesome awesome;
+  group('Api Test', () {
+    late DiscourseApiClient client;
 
     setUp(() {
-      awesome = Awesome();
+      client = DiscourseApiClient('https://www.dart-china.org');
     });
 
-    test('First Test', () {
-      expect(awesome.isAwesome, isTrue);
+    test('About', () async {
+      var result = await client.about();
+      expect(result.description, isNotEmpty);
+      expect(result.title, isNotEmpty);
+      expect(result.version, isNotEmpty);
     });
   });
 }
