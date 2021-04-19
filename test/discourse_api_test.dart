@@ -31,5 +31,14 @@ void main() {
       var result = await client.login(username!, password!);
       expect(result.username, username);
     });
+
+    test('Categories', () async {
+      var result = await client.categories();
+      expect(result.length, greaterThan(1));
+      expect(result.last.name, isNotEmpty);
+      expect(result.last.id, greaterThan(0));
+      expect(result.last.topicCount, greaterThanOrEqualTo(0));
+      expect(result.first.slug, isNotEmpty);
+    });
   });
 }

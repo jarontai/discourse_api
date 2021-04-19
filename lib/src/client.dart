@@ -1,6 +1,7 @@
 import 'package:cookie_jar/cookie_jar.dart';
 import 'package:dio/dio.dart';
 import 'package:dio_cookie_manager/dio_cookie_manager.dart';
+import 'package:discourse_api/src/models/category.dart';
 
 import 'models/models.dart';
 
@@ -60,5 +61,11 @@ class DiscourseApiClient {
 
     var jsonMap = res.data['user'];
     return User.fromMap(jsonMap);
+  }
+
+  Future<List<Category>> categories() async {
+    var res = await _dio.get('$siteUrl/categories');
+    List list = res.data['category_list']['categories'];
+    return list.map((map) => Category.fromMap(map)).toList();
   }
 }
