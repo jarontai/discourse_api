@@ -30,7 +30,7 @@ class DiscourseApiClient {
   Future<About> about() async {
     var res = await _dio.get('$siteUrl/about');
     var jsonMap = res.data['about'];
-    return About.fromMap(jsonMap);
+    return About.fromJson(jsonMap);
   }
 
   Future<String> csrf() async {
@@ -59,13 +59,13 @@ class DiscourseApiClient {
         });
 
     var jsonMap = res.data['user'];
-    return User.fromMap(jsonMap);
+    return User.fromJson(jsonMap);
   }
 
   Future<List<Category>> categories() async {
     var res = await _dio.get('$siteUrl/categories');
     List list = res.data['category_list']['categories'];
-    return list.map((map) => Category.fromMap(map)).toList();
+    return list.map((map) => Category.fromJson(map)).toList();
   }
 
   Future<List<Topic>> topics({
@@ -78,7 +78,7 @@ class DiscourseApiClient {
     if (latest) {
       var res = await _dio.get('$siteUrl/latest');
       List list = res.data['topic_list']['topics'];
-      result = list.map((map) => Topic.fromMap(map)).toList();
+      result = list.map((map) => Topic.fromJson(map)).toList();
     }
     // TODO: More
     return result;
