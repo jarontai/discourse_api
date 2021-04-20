@@ -25,7 +25,7 @@ class _$CategoryTearOff {
       required String name,
       required String color,
       required String slug,
-      required int topicCount,
+      @JsonKey(name: 'topic_count') required int topicCount,
       required String description}) {
     return _Category(
       id: id,
@@ -51,6 +51,7 @@ mixin _$Category {
   String get name => throw _privateConstructorUsedError;
   String get color => throw _privateConstructorUsedError;
   String get slug => throw _privateConstructorUsedError;
+  @JsonKey(name: 'topic_count')
   int get topicCount => throw _privateConstructorUsedError;
   String get description => throw _privateConstructorUsedError;
 
@@ -69,7 +70,7 @@ abstract class $CategoryCopyWith<$Res> {
       String name,
       String color,
       String slug,
-      int topicCount,
+      @JsonKey(name: 'topic_count') int topicCount,
       String description});
 }
 
@@ -129,7 +130,7 @@ abstract class _$CategoryCopyWith<$Res> implements $CategoryCopyWith<$Res> {
       String name,
       String color,
       String slug,
-      int topicCount,
+      @JsonKey(name: 'topic_count') int topicCount,
       String description});
 }
 
@@ -189,7 +190,7 @@ class _$_Category implements _Category {
       required this.name,
       required this.color,
       required this.slug,
-      required this.topicCount,
+      @JsonKey(name: 'topic_count') required this.topicCount,
       required this.description});
 
   factory _$_Category.fromJson(Map<String, dynamic> json) =>
@@ -204,6 +205,7 @@ class _$_Category implements _Category {
   @override
   final String slug;
   @override
+  @JsonKey(name: 'topic_count')
   final int topicCount;
   @override
   final String description;
@@ -260,7 +262,7 @@ abstract class _Category implements Category {
       required String name,
       required String color,
       required String slug,
-      required int topicCount,
+      @JsonKey(name: 'topic_count') required int topicCount,
       required String description}) = _$_Category;
 
   factory _Category.fromJson(Map<String, dynamic> json) = _$_Category.fromJson;
@@ -274,6 +276,7 @@ abstract class _Category implements Category {
   @override
   String get slug => throw _privateConstructorUsedError;
   @override
+  @JsonKey(name: 'topic_count')
   int get topicCount => throw _privateConstructorUsedError;
   @override
   String get description => throw _privateConstructorUsedError;

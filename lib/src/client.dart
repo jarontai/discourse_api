@@ -73,14 +73,56 @@ class DiscourseApiClient {
     bool top = false,
     int? page,
   }) async {
-    var result;
+    var result = <Topic>[];
 
     if (latest) {
       var res = await _dio.get('$siteUrl/latest');
       List list = res.data['topic_list']['topics'];
-      result = list.map((map) => Topic.fromJson(map)).toList();
+      result.addAll(list.map((map) => Topic.fromJson(map)));
     }
     // TODO: More
+    return result;
+  }
+
+  Future<Topic> topic(int topicId) async {
+    var res = await _dio.get('$siteUrl/t/$topicId');
+    var result = Topic.fromJson(res.data);
+
+    List postList = res.data['post_stream']['posts'];
+    List postIdList = res.data['post_stream']['stream'];
+    result = result.copyWith(
+      posts: postList.map((e) => Post.fromJson(e)).toList(),
+      postIds: postIdList.map((e) => int.parse((e.toString()))).toList(),
+    );
+
+    return result;
+  }
+
+  Future<List<Post>> topicPosts(Topic topic,
+      {int page = 0, int pageSize = 20}) async {
+    var postIds = topic.postIds;
+    var topicId = topic.id;
+
+    var result = <Post>[];
+    if (postIds != null && postIds.isNotEmpty) {
+      var start = page * pageSize;
+      var end = (page + 1) * pageSize;
+      if (start > postIds.length) {
+        start = postIds.length;
+      } else if (end > postIds.length) {
+        end = postIds.length - 1;
+      }
+
+      if (start <= end) {
+        var ids = postIds.getRange(start, end);
+        var res = await _dio.get('$siteUrl/t/$topicId/posts', queryParameters: {
+          'post_ids[]': ids.toList(),
+        });
+        List postList = res.data['post_stream']['posts'];
+        result.addAll(postList.map((e) => Post.fromJson(e)));
+      }
+    }
+
     return result;
   }
 }

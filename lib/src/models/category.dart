@@ -10,7 +10,7 @@ class Category with _$Category {
     required String name,
     required String color,
     required String slug,
-    required int topicCount,
+    @JsonKey(name: 'topic_count') required int topicCount,
     required String description,
   }) = _Category;
 

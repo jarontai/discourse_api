@@ -41,13 +41,22 @@ void main() {
       expect(result.first.slug, isNotEmpty);
     });
 
-    test('Latest Topics', () async {
+    test('Topics / Posts', () async {
       var result = await client.topics(latest: true);
       expect(result.length, greaterThan(1));
       expect(result.last.title, isNotEmpty);
       expect(result.last.id, greaterThan(0));
       expect(result.last.postsCount, greaterThanOrEqualTo(0));
       expect(result.first.slug, isNotEmpty);
+
+      var topic = await client.topic(result.first.id);
+      expect(topic.title, isNotEmpty);
+      expect(topic.posts, isNotEmpty);
+      expect(topic.postIds, isNotEmpty);
+
+      var posts = await client.topicPosts(topic);
+      expect(posts.length, topic.posts!.length);
+      expect(posts.first.id, equals(topic.postIds!.first));
     });
   });
 }
