@@ -9,11 +9,12 @@ class User with _$User {
     required int id,
     required String username,
     required String name,
-    required String avatarTemplate,
-    required int badgeCount,
-    required String bioExcerpt,
-    required int trustLevel,
-    required String cardBackgroundUploadUrl,
+    @JsonKey(name: 'avatar_template') required String avatarTemplate,
+    @JsonKey(name: 'badge_count') required int badgeCount,
+    @JsonKey(name: 'bio_excerpt') required String bioExcerpt,
+    @JsonKey(name: 'trust_level') required int trustLevel,
+    @JsonKey(name: 'card_background_upload_url')
+        required String cardBackgroundUploadUrl,
     required bool moderator,
     required bool admin,
   }) = _User;

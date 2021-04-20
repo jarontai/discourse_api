@@ -19,11 +19,6 @@ void main() {
       expect(result.version, isNotEmpty);
     });
 
-    test('Csrf', () async {
-      var result = await client.csrf();
-      expect(result.length, greaterThan(80));
-    });
-
     test('Login', () async {
       var username = dot_env.env['username'];
       var password = dot_env.env['password'];

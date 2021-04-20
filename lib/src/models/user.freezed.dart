@@ -24,11 +24,16 @@ class _$UserTearOff {
       {required int id,
       required String username,
       required String name,
-      required String avatarTemplate,
-      required int badgeCount,
-      required String bioExcerpt,
-      required int trustLevel,
-      required String cardBackgroundUploadUrl,
+      @JsonKey(name: 'avatar_template')
+          required String avatarTemplate,
+      @JsonKey(name: 'badge_count')
+          required int badgeCount,
+      @JsonKey(name: 'bio_excerpt')
+          required String bioExcerpt,
+      @JsonKey(name: 'trust_level')
+          required int trustLevel,
+      @JsonKey(name: 'card_background_upload_url')
+          required String cardBackgroundUploadUrl,
       required bool moderator,
       required bool admin}) {
     return _User(
@@ -58,10 +63,15 @@ mixin _$User {
   int get id => throw _privateConstructorUsedError;
   String get username => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
+  @JsonKey(name: 'avatar_template')
   String get avatarTemplate => throw _privateConstructorUsedError;
+  @JsonKey(name: 'badge_count')
   int get badgeCount => throw _privateConstructorUsedError;
+  @JsonKey(name: 'bio_excerpt')
   String get bioExcerpt => throw _privateConstructorUsedError;
+  @JsonKey(name: 'trust_level')
   int get trustLevel => throw _privateConstructorUsedError;
+  @JsonKey(name: 'card_background_upload_url')
   String get cardBackgroundUploadUrl => throw _privateConstructorUsedError;
   bool get moderator => throw _privateConstructorUsedError;
   bool get admin => throw _privateConstructorUsedError;
@@ -79,11 +89,16 @@ abstract class $UserCopyWith<$Res> {
       {int id,
       String username,
       String name,
-      String avatarTemplate,
-      int badgeCount,
-      String bioExcerpt,
-      int trustLevel,
-      String cardBackgroundUploadUrl,
+      @JsonKey(name: 'avatar_template')
+          String avatarTemplate,
+      @JsonKey(name: 'badge_count')
+          int badgeCount,
+      @JsonKey(name: 'bio_excerpt')
+          String bioExcerpt,
+      @JsonKey(name: 'trust_level')
+          int trustLevel,
+      @JsonKey(name: 'card_background_upload_url')
+          String cardBackgroundUploadUrl,
       bool moderator,
       bool admin});
 }
@@ -163,11 +178,16 @@ abstract class _$UserCopyWith<$Res> implements $UserCopyWith<$Res> {
       {int id,
       String username,
       String name,
-      String avatarTemplate,
-      int badgeCount,
-      String bioExcerpt,
-      int trustLevel,
-      String cardBackgroundUploadUrl,
+      @JsonKey(name: 'avatar_template')
+          String avatarTemplate,
+      @JsonKey(name: 'badge_count')
+          int badgeCount,
+      @JsonKey(name: 'bio_excerpt')
+          String bioExcerpt,
+      @JsonKey(name: 'trust_level')
+          int trustLevel,
+      @JsonKey(name: 'card_background_upload_url')
+          String cardBackgroundUploadUrl,
       bool moderator,
       bool admin});
 }
@@ -247,11 +267,16 @@ class _$_User implements _User {
       {required this.id,
       required this.username,
       required this.name,
-      required this.avatarTemplate,
-      required this.badgeCount,
-      required this.bioExcerpt,
-      required this.trustLevel,
-      required this.cardBackgroundUploadUrl,
+      @JsonKey(name: 'avatar_template')
+          required this.avatarTemplate,
+      @JsonKey(name: 'badge_count')
+          required this.badgeCount,
+      @JsonKey(name: 'bio_excerpt')
+          required this.bioExcerpt,
+      @JsonKey(name: 'trust_level')
+          required this.trustLevel,
+      @JsonKey(name: 'card_background_upload_url')
+          required this.cardBackgroundUploadUrl,
       required this.moderator,
       required this.admin});
 
@@ -265,14 +290,19 @@ class _$_User implements _User {
   @override
   final String name;
   @override
+  @JsonKey(name: 'avatar_template')
   final String avatarTemplate;
   @override
+  @JsonKey(name: 'badge_count')
   final int badgeCount;
   @override
+  @JsonKey(name: 'bio_excerpt')
   final String bioExcerpt;
   @override
+  @JsonKey(name: 'trust_level')
   final int trustLevel;
   @override
+  @JsonKey(name: 'card_background_upload_url')
   final String cardBackgroundUploadUrl;
   @override
   final bool moderator;
@@ -348,11 +378,16 @@ abstract class _User implements User {
       {required int id,
       required String username,
       required String name,
-      required String avatarTemplate,
-      required int badgeCount,
-      required String bioExcerpt,
-      required int trustLevel,
-      required String cardBackgroundUploadUrl,
+      @JsonKey(name: 'avatar_template')
+          required String avatarTemplate,
+      @JsonKey(name: 'badge_count')
+          required int badgeCount,
+      @JsonKey(name: 'bio_excerpt')
+          required String bioExcerpt,
+      @JsonKey(name: 'trust_level')
+          required int trustLevel,
+      @JsonKey(name: 'card_background_upload_url')
+          required String cardBackgroundUploadUrl,
       required bool moderator,
       required bool admin}) = _$_User;
 
@@ -365,14 +400,19 @@ abstract class _User implements User {
   @override
   String get name => throw _privateConstructorUsedError;
   @override
+  @JsonKey(name: 'avatar_template')
   String get avatarTemplate => throw _privateConstructorUsedError;
   @override
+  @JsonKey(name: 'badge_count')
   int get badgeCount => throw _privateConstructorUsedError;
   @override
+  @JsonKey(name: 'bio_excerpt')
   String get bioExcerpt => throw _privateConstructorUsedError;
   @override
+  @JsonKey(name: 'trust_level')
   int get trustLevel => throw _privateConstructorUsedError;
   @override
+  @JsonKey(name: 'card_background_upload_url')
   String get cardBackgroundUploadUrl => throw _privateConstructorUsedError;
   @override
   bool get moderator => throw _privateConstructorUsedError;

@@ -33,7 +33,7 @@ class DiscourseApiClient {
     return About.fromJson(jsonMap);
   }
 
-  Future<String> csrf() async {
+  Future<String> _csrf() async {
     var res = await _dio.get('$siteUrl/session/csrf',
         options: Options(headers: {
           'X-CSRF-Token': 'undefined',
@@ -43,7 +43,8 @@ class DiscourseApiClient {
   }
 
   Future<User> login(String username, String password) async {
-    var csrfToken = await csrf();
+    var csrfToken = await _csrf();
+    assert(csrfToken.length >= 80, 'csrf token error');
     var res = await _dio.post('$siteUrl/session',
         options: Options(
           headers: {
