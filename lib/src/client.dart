@@ -4,7 +4,7 @@ import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 
 import 'models/models.dart';
 
-const kPageSize = 20;
+const defaultPageSize = 20;
 
 class DiscourseApiClient {
   final String siteUrl;
@@ -122,7 +122,7 @@ class DiscourseApiClient {
     return _buildTopic(res.data);
   }
 
-  Future<int> topicCreate(String title, String raw, {int? categoryId}) async {
+  Future<Topic> topicCreate(String title, String raw, {int? categoryId}) async {
     var data = {
       'title': title,
       'raw': raw,
@@ -130,8 +130,8 @@ class DiscourseApiClient {
     };
     var options = await _csrfOptions();
     var res = await _dio.post('$siteUrl/posts', options: options, data: data);
-    var result = res.data['topic_id'];
-    return result;
+    var topicId = res.data['topic_id'];
+    return topicDetail(topicId);
   }
 
   Future<int> topicUpdate(int topicId, String title, {int? categoryId}) async {
@@ -156,22 +156,23 @@ class DiscourseApiClient {
     return result;
   }
 
-  Future<bool> topicDelete(int topicId) async {
+  Future<void> topicDelete(int topicId) async {
     var options = await _csrfOptions();
     await _dio.delete(
       '$siteUrl/t/$topicId',
       options: options,
     );
-    return true;
   }
 
   Future<List<Post>> topicPosts(Topic topic,
-      {int page = 1, int pageSize = kPageSize}) async {
+      {int page = 1, int pageSize = defaultPageSize}) async {
     var postIds = topic.postIds;
     var topicId = topic.id;
 
     var result = <Post>[];
-    if (postIds != null && postIds.isNotEmpty && postIds.length > kPageSize) {
+    if (postIds != null &&
+        postIds.isNotEmpty &&
+        postIds.length > defaultPageSize) {
       var start = page * pageSize;
       var end = (page + 1) * pageSize;
       if (start > postIds.length) {
@@ -193,13 +194,10 @@ class DiscourseApiClient {
     return result;
   }
 
-  Future<Post> postCreate(int topicId, String title, String raw,
-      {int? categoryId}) async {
+  Future<Post> postCreate(int topicId, String raw) async {
     var data = {
-      'title': title,
       'raw': raw,
       'topic_id': topicId,
-      if (categoryId != null) 'category': categoryId,
     };
     var options = await _csrfOptions();
     var res = await _dio.post('$siteUrl/posts', options: options, data: data);
@@ -207,9 +205,11 @@ class DiscourseApiClient {
     return result;
   }
 
-  Future<Post> postUpdate(int postId, String raw, {String? editReason}) async {
+  Future<Post> postUpdate(int topicId, int postId, String raw,
+      {String? editReason}) async {
     var data = {
       'raw': raw,
+      'topic_id': topicId,
       if (editReason != null) 'edit_reason': editReason,
     };
     var options = await _csrfOptions();
@@ -219,30 +219,11 @@ class DiscourseApiClient {
     return result;
   }
 
-//   Future<bool> postDelete(int postId) async {
-//     var options = await _csrfOptions();
-
-// // context: /t/topic/1660
-
-//     try {
-//       await _dio.delete(
-//         '$siteUrl/posts/$postId',
-//         options: options,
-//       );
-//     } on DioError catch (e) {
-//       // The request was made and the server responded with a status code
-//       // that falls out of the range of 2xx and is also not 304.
-//       if (e.response != null) {
-//         print(e.response!.data);
-//         print(e.response!.headers);
-//         // print(e.response!.request);
-//       } else {
-//         // Something happened in setting up or sending the request that triggered an Error
-//         print(e.request);
-//         print(e.message);
-//       }
-//     }
-
-//     return true;
-//   }
+  Future<void> postDelete(int postId) async {
+    var options = await _csrfOptions();
+    await _dio.delete(
+      '$siteUrl/posts/$postId',
+      options: options,
+    );
+  }
 }

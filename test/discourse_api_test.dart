@@ -44,11 +44,11 @@ void main() {
       expect(topic.postIds, isNotEmpty);
 
       var posts = await client.topicPosts(topic);
-      expect(posts.length, topic.posts!.length);
-      expect(posts.first.id, equals(topic.postIds!.first));
+      expect(posts.length, lessThanOrEqualTo(topic.posts!.length));
+      expect(posts.first.id, isNot(equals(topic.postIds!.first)));
     });
 
-    test('Topic Create / Edit / Delete', () async {
+    test('Topic & Post Create/Update/Delete', () async {
       var username = dot_env.env['username'];
       var password = dot_env.env['password'];
 
@@ -62,19 +62,34 @@ void main() {
       expect(staffCategory.id, isNotNull);
 
       var categoryId = staffCategory.id;
-      var topicId = await client.topicCreate(
+      var topic = await client.topicCreate(
           'Test Topic Create', 'Test Topic Create',
           categoryId: categoryId);
-      expect(topicId, isNotNull);
-
-      var topic = await client.topicDetail(topicId);
       expect(topic, isNotNull);
-      expect(topic.id, equals(topicId));
+      expect(topic.id, isNotNull);
       expect(topic.title, equals('Test Topic Create'));
 
+      var topicPost = topic.posts!.first;
+      expect(topicPost, isNotNull);
+      expect(topicPost.topicId, equals(topic.id));
+
+      var post = await client.postCreate(
+          topic.id, 'This is a post of topic ${topic.id}');
+      expect(post, isNotNull);
+      expect(post.topicId, topic.id);
+      expect(post.cooked, isNotEmpty);
+
+      var updatedPost = await client.postUpdate(
+          topic.id, post.id, 'This is a post of topic ${topic.id}!!!');
+      expect(updatedPost, isNotNull);
+      expect(updatedPost.id, equals(post.id));
+      expect(updatedPost.cooked, isNot(equals(post.cooked)));
+
+      await client.postDelete(post.id);
+
       var updateTopicId =
-          await client.topicUpdate(topicId, 'Test Topic Create!!!');
-      expect(topicId, equals(updateTopicId));
+          await client.topicUpdate(topic.id, 'Test Topic Create!!!');
+      expect(topic.id, equals(updateTopicId));
 
       await client.topicDelete(updateTopicId);
     });
