@@ -13,6 +13,9 @@ class DiscourseApiClient {
     var cookieJar = CookieJar();
     var dio = Dio();
     dio.options = BaseOptions(headers: {
+      'Origin': siteUrl,
+      'Referer': siteUrl,
+      'x-requested-with': 'XMLHttpRequest',
       Headers.acceptHeader: Headers.jsonContentType,
     });
     dio.interceptors.add(CookieManager(cookieJar));
@@ -27,12 +30,6 @@ class DiscourseApiClient {
     return url;
   }
 
-  Future<About> about() async {
-    var res = await _dio.get('$siteUrl/about');
-    var jsonMap = res.data['about'];
-    return About.fromJson(jsonMap);
-  }
-
   Future<String> _csrf() async {
     var res = await _dio.get('$siteUrl/session/csrf',
         options: Options(headers: {
@@ -42,14 +39,40 @@ class DiscourseApiClient {
     return res.data['csrf'];
   }
 
+  Future<Options> _csrfOptions() async {
+    var csrfToken = await _csrf();
+    var options = Options(
+      headers: {
+        'x-csrf-token': csrfToken,
+      },
+    );
+    return options;
+  }
+
+  Topic _buildTopic(Map<String, dynamic> json) {
+    var result = Topic.fromJson(json);
+    List postList = json['post_stream']['posts'];
+    List postIdList = json['post_stream']['stream'];
+    result = result.copyWith(
+      posts: postList.map((e) => Post.fromJson(e)).toList(),
+      postIds: postIdList.map((e) => int.parse((e.toString()))).toList(),
+    );
+    return result;
+  }
+
+  Future<About> about() async {
+    var res = await _dio.get('$siteUrl/about');
+    var jsonMap = res.data['about'];
+    return About.fromJson(jsonMap);
+  }
+
   Future<User> login(String username, String password) async {
     var csrfToken = await _csrf();
     assert(csrfToken.length >= 80, 'csrf token error');
     var res = await _dio.post('$siteUrl/session',
         options: Options(
           headers: {
-            'Origin': siteUrl,
-            'Referer': siteUrl,
+            'x-csrf-token': csrfToken,
           },
           contentType: Headers.formUrlEncodedContentType,
         ),
@@ -69,7 +92,7 @@ class DiscourseApiClient {
     return list.map((map) => Category.fromJson(map)).toList();
   }
 
-  Future<List<Topic>> topics({
+  Future<List<Topic>> topicList({
     bool latest = true,
     bool top = false,
     int? page,
@@ -85,18 +108,52 @@ class DiscourseApiClient {
     return result;
   }
 
-  Future<Topic> topic(int topicId) async {
+  Future<Topic> topicDetail(int topicId) async {
     var res = await _dio.get('$siteUrl/t/$topicId');
-    var result = Topic.fromJson(res.data);
+    return _buildTopic(res.data);
+  }
 
-    List postList = res.data['post_stream']['posts'];
-    List postIdList = res.data['post_stream']['stream'];
-    result = result.copyWith(
-      posts: postList.map((e) => Post.fromJson(e)).toList(),
-      postIds: postIdList.map((e) => int.parse((e.toString()))).toList(),
-    );
+  Future<int> topicCreate(String title, String raw, {int? categoryId}) async {
+    var data = {
+      'title': title,
+      'raw': raw,
+      if (categoryId != null) 'category': categoryId,
+    };
+    var options = await _csrfOptions();
+    var res = await _dio.post('$siteUrl/posts', options: options, data: data);
+    var result = res.data['topic_id'];
+    return result;
+  }
+
+  Future<int> topicUpdate(int topicId, String title, {int? categoryId}) async {
+    var data = {
+      'title': title,
+      if (categoryId != null) 'category_id': categoryId,
+    };
+    var options = await _csrfOptions();
+
+    var result;
+    try {
+      var res = await _dio.put('$siteUrl/t/topic/$topicId',
+          options: options, data: data);
+      result = res.data['basic_topic']['id'];
+    } on DioError catch (e) {
+      if (e.response != null) {
+        print(e.response!.data);
+        print(e.response!.headers);
+      }
+    }
 
     return result;
+  }
+
+  Future<bool> topicDelete(int topicId) async {
+    var options = await _csrfOptions();
+    await _dio.delete(
+      '$siteUrl/t/$topicId',
+      options: options,
+    );
+    return true;
   }
 
   Future<List<Post>> topicPosts(Topic topic,
@@ -126,4 +183,57 @@ class DiscourseApiClient {
 
     return result;
   }
+
+  Future<Post> postCreate(int topicId, String title, String raw,
+      {int? categoryId}) async {
+    var data = {
+      'title': title,
+      'raw': raw,
+      'topic_id': topicId,
+      if (categoryId != null) 'category': categoryId,
+    };
+    var options = await _csrfOptions();
+    var res = await _dio.post('$siteUrl/posts', options: options, data: data);
+    var result = Post.fromJson(res.data);
+    return result;
+  }
+
+  Future<Post> postUpdate(int postId, String raw, {String? editReason}) async {
+    var data = {
+      'raw': raw,
+      if (editReason != null) 'edit_reason': editReason,
+    };
+    var options = await _csrfOptions();
+    var res =
+        await _dio.put('$siteUrl/posts/$postId', options: options, data: data);
+    var result = Post.fromJson(res.data['post']);
+    return result;
+  }
+
+//   Future<bool> postDelete(int postId) async {
+//     var options = await _csrfOptions();
+
+// // context: /t/topic/1660
+
+//     try {
+//       await _dio.delete(
+//         '$siteUrl/posts/$postId',
+//         options: options,
+//       );
+//     } on DioError catch (e) {
+//       // The request was made and the server responded with a status code
+//       // that falls out of the range of 2xx and is also not 304.
+//       if (e.response != null) {
+//         print(e.response!.data);
+//         print(e.response!.headers);
+//         // print(e.response!.request);
+//       } else {
+//         // Something happened in setting up or sending the request that triggered an Error
+//         print(e.request);
+//         print(e.message);
+//       }
+//     }
+
+//     return true;
+//   }
 }
