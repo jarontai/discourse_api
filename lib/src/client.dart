@@ -7,10 +7,18 @@ import 'models/models.dart';
 class DiscourseApiClient {
   final String siteUrl;
   late final Dio _dio;
-  late final CookieJar _cookieJar;
 
-  DiscourseApiClient(String siteUrl) : siteUrl = _prepareUrl(siteUrl) {
-    var cookieJar = CookieJar();
+  DiscourseApiClient(String siteUrl, {String? cookieDir})
+      : siteUrl = _prepareUrl(siteUrl) {
+    var cookieJar;
+    if (cookieDir != null) {
+      cookieJar = PersistCookieJar(
+        ignoreExpires: true,
+        storage: FileStorage(cookieDir + '/.cookies/'),
+      );
+    } else {
+      cookieJar = CookieJar();
+    }
     var dio = Dio();
     dio.options = BaseOptions(headers: {
       'Origin': siteUrl,
@@ -19,7 +27,6 @@ class DiscourseApiClient {
       Headers.acceptHeader: Headers.jsonContentType,
     });
     dio.interceptors.add(CookieManager(cookieJar));
-    _cookieJar = cookieJar;
     _dio = dio;
   }
 
