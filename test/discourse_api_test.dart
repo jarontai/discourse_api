@@ -21,14 +21,6 @@ void main() {
       expect(result.version, isNotEmpty);
     });
 
-    // test('Login', () async {
-    //   var username = dot_env.env['username'];
-    //   var password = dot_env.env['password'];
-
-    //   var result = await client.login(username!, password!);
-    //   expect(result.username, username);
-    // });
-
     test('Categories', () async {
       var result = await client.categories();
       expect(result.length, greaterThan(1));

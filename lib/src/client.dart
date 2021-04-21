@@ -4,6 +4,8 @@ import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 
 import 'models/models.dart';
 
+const kPageSize = 20;
+
 class DiscourseApiClient {
   final String siteUrl;
   late final Dio _dio;
@@ -164,12 +166,12 @@ class DiscourseApiClient {
   }
 
   Future<List<Post>> topicPosts(Topic topic,
-      {int page = 0, int pageSize = 20}) async {
+      {int page = 1, int pageSize = kPageSize}) async {
     var postIds = topic.postIds;
     var topicId = topic.id;
 
     var result = <Post>[];
-    if (postIds != null && postIds.isNotEmpty) {
+    if (postIds != null && postIds.isNotEmpty && postIds.length > kPageSize) {
       var start = page * pageSize;
       var end = (page + 1) * pageSize;
       if (start > postIds.length) {
