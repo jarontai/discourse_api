@@ -4,9 +4,11 @@ import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 
 import 'models/models.dart';
 
-const defaultPageSize = 20;
-
 class DiscourseApiClient {
+  static const topicPageSize = 30;
+  static const postPageSize = 20;
+  static const searchPageSize = 50;
+
   final String siteUrl;
   late final Dio _dio;
 
@@ -165,14 +167,14 @@ class DiscourseApiClient {
   }
 
   Future<List<Post>> topicPosts(Topic topic,
-      {int page = 1, int pageSize = defaultPageSize}) async {
+      {int page = 1, int pageSize = postPageSize}) async {
     var postIds = topic.postIds;
     var topicId = topic.id;
 
     var result = <Post>[];
     if (postIds != null &&
         postIds.isNotEmpty &&
-        postIds.length > defaultPageSize) {
+        postIds.length > postPageSize) {
       var start = page * pageSize;
       var end = (page + 1) * pageSize;
       if (start > postIds.length) {
@@ -225,5 +227,22 @@ class DiscourseApiClient {
       '$siteUrl/posts/$postId',
       options: options,
     );
+  }
+
+  Future<SearchResult> search(String q, {int page = 0}) async {
+    var options = await _csrfOptions();
+    var res = await _dio.get(
+      '$siteUrl/search',
+      options: options,
+      queryParameters: {
+        'q': q,
+      },
+    );
+
+    List postList = res.data['posts'];
+    List topicList = res.data['topics'];
+    var searchPosts = postList.map((e) => SearchPost.fromJson(e)).toList();
+    var searchTopics = topicList.map((e) => SearchTopic.fromJson(e)).toList();
+    return SearchResult(posts: searchPosts, topics: searchTopics);
   }
 }

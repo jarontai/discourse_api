@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:discourse_api/discourse_api.dart';
 import 'package:test/test.dart';
 import 'package:dotenv/dotenv.dart' as dot_env;
@@ -92,6 +90,16 @@ void main() {
       expect(topic.id, equals(updateTopicId));
 
       await client.topicDelete(updateTopicId);
+    });
+
+    test('Search', () async {
+      var result = await client.search('flutter');
+      expect(result.posts, isNotNull);
+      expect(result.posts, isNotEmpty);
+      expect(result.posts.last.blurb, isNotEmpty);
+      expect(result.topics, isNotNull);
+      expect(result.topics, isNotEmpty);
+      expect(result.topics.last.title, isNotEmpty);
     });
   });
 }
