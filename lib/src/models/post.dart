@@ -16,6 +16,7 @@ class Post with _$Post {
     @JsonKey(name: 'reply_count') required int replyCount,
     @JsonKey(name: 'topic_id') required int topicId,
     @JsonKey(name: 'topic_slug') required String topicSlug,
+    @JsonKey(ignore: true) Map<String, dynamic>? rawJson,
   }) = _Post;
 
   factory Post.fromJson(Map<String, dynamic> json) => _$PostFromJson(json);

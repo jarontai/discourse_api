@@ -30,7 +30,8 @@ class _$PostTearOff {
       @JsonKey(name: 'updated_at') required String updatedAt,
       @JsonKey(name: 'reply_count') required int replyCount,
       @JsonKey(name: 'topic_id') required int topicId,
-      @JsonKey(name: 'topic_slug') required String topicSlug}) {
+      @JsonKey(name: 'topic_slug') required String topicSlug,
+      @JsonKey(ignore: true) Map<String, dynamic>? rawJson}) {
     return _Post(
       id: id,
       name: name,
@@ -42,6 +43,7 @@ class _$PostTearOff {
       replyCount: replyCount,
       topicId: topicId,
       topicSlug: topicSlug,
+      rawJson: rawJson,
     );
   }
 
@@ -71,6 +73,8 @@ mixin _$Post {
   int get topicId => throw _privateConstructorUsedError;
   @JsonKey(name: 'topic_slug')
   String get topicSlug => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  Map<String, dynamic>? get rawJson => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -91,7 +95,8 @@ abstract class $PostCopyWith<$Res> {
       @JsonKey(name: 'updated_at') String updatedAt,
       @JsonKey(name: 'reply_count') int replyCount,
       @JsonKey(name: 'topic_id') int topicId,
-      @JsonKey(name: 'topic_slug') String topicSlug});
+      @JsonKey(name: 'topic_slug') String topicSlug,
+      @JsonKey(ignore: true) Map<String, dynamic>? rawJson});
 }
 
 /// @nodoc
@@ -114,6 +119,7 @@ class _$PostCopyWithImpl<$Res> implements $PostCopyWith<$Res> {
     Object? replyCount = freezed,
     Object? topicId = freezed,
     Object? topicSlug = freezed,
+    Object? rawJson = freezed,
   }) {
     return _then(_value.copyWith(
       id: id == freezed
@@ -156,6 +162,10 @@ class _$PostCopyWithImpl<$Res> implements $PostCopyWith<$Res> {
           ? _value.topicSlug
           : topicSlug // ignore: cast_nullable_to_non_nullable
               as String,
+      rawJson: rawJson == freezed
+          ? _value.rawJson
+          : rawJson // ignore: cast_nullable_to_non_nullable
+              as Map<String, dynamic>?,
     ));
   }
 }
@@ -175,7 +185,8 @@ abstract class _$PostCopyWith<$Res> implements $PostCopyWith<$Res> {
       @JsonKey(name: 'updated_at') String updatedAt,
       @JsonKey(name: 'reply_count') int replyCount,
       @JsonKey(name: 'topic_id') int topicId,
-      @JsonKey(name: 'topic_slug') String topicSlug});
+      @JsonKey(name: 'topic_slug') String topicSlug,
+      @JsonKey(ignore: true) Map<String, dynamic>? rawJson});
 }
 
 /// @nodoc
@@ -199,6 +210,7 @@ class __$PostCopyWithImpl<$Res> extends _$PostCopyWithImpl<$Res>
     Object? replyCount = freezed,
     Object? topicId = freezed,
     Object? topicSlug = freezed,
+    Object? rawJson = freezed,
   }) {
     return _then(_Post(
       id: id == freezed
@@ -241,6 +253,10 @@ class __$PostCopyWithImpl<$Res> extends _$PostCopyWithImpl<$Res>
           ? _value.topicSlug
           : topicSlug // ignore: cast_nullable_to_non_nullable
               as String,
+      rawJson: rawJson == freezed
+          ? _value.rawJson
+          : rawJson // ignore: cast_nullable_to_non_nullable
+              as Map<String, dynamic>?,
     ));
   }
 }
@@ -259,7 +275,8 @@ class _$_Post implements _Post {
       @JsonKey(name: 'updated_at') required this.updatedAt,
       @JsonKey(name: 'reply_count') required this.replyCount,
       @JsonKey(name: 'topic_id') required this.topicId,
-      @JsonKey(name: 'topic_slug') required this.topicSlug});
+      @JsonKey(name: 'topic_slug') required this.topicSlug,
+      @JsonKey(ignore: true) this.rawJson});
 
   factory _$_Post.fromJson(Map<String, dynamic> json) =>
       _$_$_PostFromJson(json);
@@ -290,10 +307,13 @@ class _$_Post implements _Post {
   @override
   @JsonKey(name: 'topic_slug')
   final String topicSlug;
+  @override
+  @JsonKey(ignore: true)
+  final Map<String, dynamic>? rawJson;
 
   @override
   String toString() {
-    return 'Post(id: $id, name: $name, username: $username, cooked: $cooked, postNumber: $postNumber, createdAt: $createdAt, updatedAt: $updatedAt, replyCount: $replyCount, topicId: $topicId, topicSlug: $topicSlug)';
+    return 'Post(id: $id, name: $name, username: $username, cooked: $cooked, postNumber: $postNumber, createdAt: $createdAt, updatedAt: $updatedAt, replyCount: $replyCount, topicId: $topicId, topicSlug: $topicSlug, rawJson: $rawJson)';
   }
 
   @override
@@ -326,7 +346,9 @@ class _$_Post implements _Post {
                     .equals(other.topicId, topicId)) &&
             (identical(other.topicSlug, topicSlug) ||
                 const DeepCollectionEquality()
-                    .equals(other.topicSlug, topicSlug)));
+                    .equals(other.topicSlug, topicSlug)) &&
+            (identical(other.rawJson, rawJson) ||
+                const DeepCollectionEquality().equals(other.rawJson, rawJson)));
   }
 
   @override
@@ -341,7 +363,8 @@ class _$_Post implements _Post {
       const DeepCollectionEquality().hash(updatedAt) ^
       const DeepCollectionEquality().hash(replyCount) ^
       const DeepCollectionEquality().hash(topicId) ^
-      const DeepCollectionEquality().hash(topicSlug);
+      const DeepCollectionEquality().hash(topicSlug) ^
+      const DeepCollectionEquality().hash(rawJson);
 
   @JsonKey(ignore: true)
   @override
@@ -365,7 +388,8 @@ abstract class _Post implements Post {
       @JsonKey(name: 'updated_at') required String updatedAt,
       @JsonKey(name: 'reply_count') required int replyCount,
       @JsonKey(name: 'topic_id') required int topicId,
-      @JsonKey(name: 'topic_slug') required String topicSlug}) = _$_Post;
+      @JsonKey(name: 'topic_slug') required String topicSlug,
+      @JsonKey(ignore: true) Map<String, dynamic>? rawJson}) = _$_Post;
 
   factory _Post.fromJson(Map<String, dynamic> json) = _$_Post.fromJson;
 
@@ -395,6 +419,9 @@ abstract class _Post implements Post {
   @override
   @JsonKey(name: 'topic_slug')
   String get topicSlug => throw _privateConstructorUsedError;
+  @override
+  @JsonKey(ignore: true)
+  Map<String, dynamic>? get rawJson => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   _$PostCopyWith<_Post> get copyWith => throw _privateConstructorUsedError;

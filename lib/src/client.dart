@@ -62,11 +62,28 @@ class DiscourseApiClient {
 
   Topic _buildTopic(Map<String, dynamic> json) {
     var result = Topic.fromJson(json);
-    List postList = json['post_stream']['posts'];
-    List postIdList = json['post_stream']['stream'];
     result = result.copyWith(
-      posts: postList.map((e) => Post.fromJson(e)).toList(),
-      postIds: postIdList.map((e) => int.parse((e.toString()))).toList(),
+      rawJson: json,
+    );
+    if (json['post_stream'] != null && json['post_stream']['posts'] != null) {
+      List postList = json['post_stream']['posts'];
+      result = result.copyWith(
+        posts: postList.map((e) => _buildPost(e)).toList(),
+      );
+    }
+    if (json['post_stream'] != null && json['post_stream']['stream'] != null) {
+      List postIdList = json['post_stream']['stream'];
+      result = result.copyWith(
+        postIds: postIdList.map((e) => int.parse((e.toString()))).toList(),
+      );
+    }
+    return result;
+  }
+
+  Post _buildPost(Map<String, dynamic> json) {
+    var result = Post.fromJson(json);
+    result = result.copyWith(
+      rawJson: json,
     );
     return result;
   }
@@ -113,7 +130,7 @@ class DiscourseApiClient {
     if (latest) {
       var res = await _dio.get('$siteUrl/latest');
       List list = res.data['topic_list']['topics'];
-      result.addAll(list.map((map) => Topic.fromJson(map)));
+      result.addAll(list.map((map) => _buildTopic(map)));
     }
     // TODO: More
     return result;
@@ -189,7 +206,7 @@ class DiscourseApiClient {
           'post_ids[]': ids.toList(),
         });
         List postList = res.data['post_stream']['posts'];
-        result.addAll(postList.map((e) => Post.fromJson(e)));
+        result.addAll(postList.map((e) => _buildPost(e)));
       }
     }
 
@@ -203,7 +220,7 @@ class DiscourseApiClient {
     };
     var options = await _csrfOptions();
     var res = await _dio.post('$siteUrl/posts', options: options, data: data);
-    var result = Post.fromJson(res.data);
+    var result = _buildPost(res.data);
     return result;
   }
 
@@ -217,7 +234,7 @@ class DiscourseApiClient {
     var options = await _csrfOptions();
     var res =
         await _dio.put('$siteUrl/posts/$postId', options: options, data: data);
-    var result = Post.fromJson(res.data['post']);
+    var result = _buildPost(res.data['post']);
     return result;
   }
 

@@ -24,6 +24,7 @@ class Topic with _$Topic {
     required bool pinned,
     @JsonKey(ignore: true) List<Post>? posts,
     @JsonKey(ignore: true) List<int>? postIds,
+    @JsonKey(ignore: true) Map<String, dynamic>? rawJson,
   }) = _Topic;
 
   factory Topic.fromJson(Map<String, dynamic> json) => _$TopicFromJson(json);

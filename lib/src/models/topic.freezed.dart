@@ -36,7 +36,8 @@ class _$TopicTearOff {
       @JsonKey(name: 'pinned_globally') required bool pinnedGlobally,
       required bool pinned,
       @JsonKey(ignore: true) List<Post>? posts,
-      @JsonKey(ignore: true) List<int>? postIds}) {
+      @JsonKey(ignore: true) List<int>? postIds,
+      @JsonKey(ignore: true) Map<String, dynamic>? rawJson}) {
     return _Topic(
       id: id,
       title: title,
@@ -54,6 +55,7 @@ class _$TopicTearOff {
       pinned: pinned,
       posts: posts,
       postIds: postIds,
+      rawJson: rawJson,
     );
   }
 
@@ -91,6 +93,8 @@ mixin _$Topic {
   List<Post>? get posts => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   List<int>? get postIds => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  Map<String, dynamic>? get rawJson => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -117,7 +121,8 @@ abstract class $TopicCopyWith<$Res> {
       @JsonKey(name: 'pinned_globally') bool pinnedGlobally,
       bool pinned,
       @JsonKey(ignore: true) List<Post>? posts,
-      @JsonKey(ignore: true) List<int>? postIds});
+      @JsonKey(ignore: true) List<int>? postIds,
+      @JsonKey(ignore: true) Map<String, dynamic>? rawJson});
 }
 
 /// @nodoc
@@ -146,6 +151,7 @@ class _$TopicCopyWithImpl<$Res> implements $TopicCopyWith<$Res> {
     Object? pinned = freezed,
     Object? posts = freezed,
     Object? postIds = freezed,
+    Object? rawJson = freezed,
   }) {
     return _then(_value.copyWith(
       id: id == freezed
@@ -212,6 +218,10 @@ class _$TopicCopyWithImpl<$Res> implements $TopicCopyWith<$Res> {
           ? _value.postIds
           : postIds // ignore: cast_nullable_to_non_nullable
               as List<int>?,
+      rawJson: rawJson == freezed
+          ? _value.rawJson
+          : rawJson // ignore: cast_nullable_to_non_nullable
+              as Map<String, dynamic>?,
     ));
   }
 }
@@ -237,7 +247,8 @@ abstract class _$TopicCopyWith<$Res> implements $TopicCopyWith<$Res> {
       @JsonKey(name: 'pinned_globally') bool pinnedGlobally,
       bool pinned,
       @JsonKey(ignore: true) List<Post>? posts,
-      @JsonKey(ignore: true) List<int>? postIds});
+      @JsonKey(ignore: true) List<int>? postIds,
+      @JsonKey(ignore: true) Map<String, dynamic>? rawJson});
 }
 
 /// @nodoc
@@ -267,6 +278,7 @@ class __$TopicCopyWithImpl<$Res> extends _$TopicCopyWithImpl<$Res>
     Object? pinned = freezed,
     Object? posts = freezed,
     Object? postIds = freezed,
+    Object? rawJson = freezed,
   }) {
     return _then(_Topic(
       id: id == freezed
@@ -333,6 +345,10 @@ class __$TopicCopyWithImpl<$Res> extends _$TopicCopyWithImpl<$Res>
           ? _value.postIds
           : postIds // ignore: cast_nullable_to_non_nullable
               as List<int>?,
+      rawJson: rawJson == freezed
+          ? _value.rawJson
+          : rawJson // ignore: cast_nullable_to_non_nullable
+              as Map<String, dynamic>?,
     ));
   }
 }
@@ -357,7 +373,8 @@ class _$_Topic implements _Topic {
       @JsonKey(name: 'pinned_globally') required this.pinnedGlobally,
       required this.pinned,
       @JsonKey(ignore: true) this.posts,
-      @JsonKey(ignore: true) this.postIds});
+      @JsonKey(ignore: true) this.postIds,
+      @JsonKey(ignore: true) this.rawJson});
 
   factory _$_Topic.fromJson(Map<String, dynamic> json) =>
       _$_$_TopicFromJson(json);
@@ -402,10 +419,13 @@ class _$_Topic implements _Topic {
   @override
   @JsonKey(ignore: true)
   final List<int>? postIds;
+  @override
+  @JsonKey(ignore: true)
+  final Map<String, dynamic>? rawJson;
 
   @override
   String toString() {
-    return 'Topic(id: $id, title: $title, postsCount: $postsCount, createdAt: $createdAt, views: $views, replyCount: $replyCount, likeCount: $likeCount, lastPostedAt: $lastPostedAt, visible: $visible, closed: $closed, archived: $archived, slug: $slug, pinnedGlobally: $pinnedGlobally, pinned: $pinned, posts: $posts, postIds: $postIds)';
+    return 'Topic(id: $id, title: $title, postsCount: $postsCount, createdAt: $createdAt, views: $views, replyCount: $replyCount, likeCount: $likeCount, lastPostedAt: $lastPostedAt, visible: $visible, closed: $closed, archived: $archived, slug: $slug, pinnedGlobally: $pinnedGlobally, pinned: $pinned, posts: $posts, postIds: $postIds, rawJson: $rawJson)';
   }
 
   @override
@@ -451,7 +471,10 @@ class _$_Topic implements _Topic {
             (identical(other.posts, posts) ||
                 const DeepCollectionEquality().equals(other.posts, posts)) &&
             (identical(other.postIds, postIds) ||
-                const DeepCollectionEquality().equals(other.postIds, postIds)));
+                const DeepCollectionEquality()
+                    .equals(other.postIds, postIds)) &&
+            (identical(other.rawJson, rawJson) ||
+                const DeepCollectionEquality().equals(other.rawJson, rawJson)));
   }
 
   @override
@@ -472,7 +495,8 @@ class _$_Topic implements _Topic {
       const DeepCollectionEquality().hash(pinnedGlobally) ^
       const DeepCollectionEquality().hash(pinned) ^
       const DeepCollectionEquality().hash(posts) ^
-      const DeepCollectionEquality().hash(postIds);
+      const DeepCollectionEquality().hash(postIds) ^
+      const DeepCollectionEquality().hash(rawJson);
 
   @JsonKey(ignore: true)
   @override
@@ -502,7 +526,8 @@ abstract class _Topic implements Topic {
       @JsonKey(name: 'pinned_globally') required bool pinnedGlobally,
       required bool pinned,
       @JsonKey(ignore: true) List<Post>? posts,
-      @JsonKey(ignore: true) List<int>? postIds}) = _$_Topic;
+      @JsonKey(ignore: true) List<int>? postIds,
+      @JsonKey(ignore: true) Map<String, dynamic>? rawJson}) = _$_Topic;
 
   factory _Topic.fromJson(Map<String, dynamic> json) = _$_Topic.fromJson;
 
@@ -546,6 +571,9 @@ abstract class _Topic implements Topic {
   @override
   @JsonKey(ignore: true)
   List<int>? get postIds => throw _privateConstructorUsedError;
+  @override
+  @JsonKey(ignore: true)
+  Map<String, dynamic>? get rawJson => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   _$TopicCopyWith<_Topic> get copyWith => throw _privateConstructorUsedError;
