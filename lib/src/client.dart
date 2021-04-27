@@ -5,12 +5,19 @@ import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 import 'models/models.dart';
 
 class DiscourseApiClient {
+  static DiscourseApiClient? _singleton;
+
   static const topicPageSize = 30;
   static const postPageSize = 20;
   static const searchPageSize = 50;
 
   final String siteUrl;
   late final Dio _dio;
+
+  factory DiscourseApiClient.single(String siteUrl, {String? cookieDir}) {
+    _singleton ??= DiscourseApiClient(siteUrl, cookieDir: cookieDir);
+    return _singleton!;
+  }
 
   DiscourseApiClient(String siteUrl, {String? cookieDir})
       : siteUrl = _prepareUrl(siteUrl) {
