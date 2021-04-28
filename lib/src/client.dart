@@ -72,6 +72,11 @@ class DiscourseApiClient {
     result = result.copyWith(
       rawJson: json,
     );
+    if (json['excerpt'] != null) {
+      result = result.copyWith(
+        excerpt: json['excerpt'],
+      );
+    }
     if (json['post_stream'] != null && json['post_stream']['posts'] != null) {
       List postList = json['post_stream']['posts'];
       result = result.copyWith(

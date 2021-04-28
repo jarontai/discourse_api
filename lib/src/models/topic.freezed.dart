@@ -35,6 +35,7 @@ class _$TopicTearOff {
       required String slug,
       @JsonKey(name: 'pinned_globally') required bool pinnedGlobally,
       required bool pinned,
+      @JsonKey(ignore: true) String? excerpt,
       @JsonKey(ignore: true) List<Post>? posts,
       @JsonKey(ignore: true) List<int>? postIds,
       @JsonKey(ignore: true) Map<String, dynamic>? rawJson}) {
@@ -53,6 +54,7 @@ class _$TopicTearOff {
       slug: slug,
       pinnedGlobally: pinnedGlobally,
       pinned: pinned,
+      excerpt: excerpt,
       posts: posts,
       postIds: postIds,
       rawJson: rawJson,
@@ -90,6 +92,8 @@ mixin _$Topic {
   bool get pinnedGlobally => throw _privateConstructorUsedError;
   bool get pinned => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
+  String? get excerpt => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
   List<Post>? get posts => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   List<int>? get postIds => throw _privateConstructorUsedError;
@@ -120,6 +124,7 @@ abstract class $TopicCopyWith<$Res> {
       String slug,
       @JsonKey(name: 'pinned_globally') bool pinnedGlobally,
       bool pinned,
+      @JsonKey(ignore: true) String? excerpt,
       @JsonKey(ignore: true) List<Post>? posts,
       @JsonKey(ignore: true) List<int>? postIds,
       @JsonKey(ignore: true) Map<String, dynamic>? rawJson});
@@ -149,6 +154,7 @@ class _$TopicCopyWithImpl<$Res> implements $TopicCopyWith<$Res> {
     Object? slug = freezed,
     Object? pinnedGlobally = freezed,
     Object? pinned = freezed,
+    Object? excerpt = freezed,
     Object? posts = freezed,
     Object? postIds = freezed,
     Object? rawJson = freezed,
@@ -210,6 +216,10 @@ class _$TopicCopyWithImpl<$Res> implements $TopicCopyWith<$Res> {
           ? _value.pinned
           : pinned // ignore: cast_nullable_to_non_nullable
               as bool,
+      excerpt: excerpt == freezed
+          ? _value.excerpt
+          : excerpt // ignore: cast_nullable_to_non_nullable
+              as String?,
       posts: posts == freezed
           ? _value.posts
           : posts // ignore: cast_nullable_to_non_nullable
@@ -246,6 +256,7 @@ abstract class _$TopicCopyWith<$Res> implements $TopicCopyWith<$Res> {
       String slug,
       @JsonKey(name: 'pinned_globally') bool pinnedGlobally,
       bool pinned,
+      @JsonKey(ignore: true) String? excerpt,
       @JsonKey(ignore: true) List<Post>? posts,
       @JsonKey(ignore: true) List<int>? postIds,
       @JsonKey(ignore: true) Map<String, dynamic>? rawJson});
@@ -276,6 +287,7 @@ class __$TopicCopyWithImpl<$Res> extends _$TopicCopyWithImpl<$Res>
     Object? slug = freezed,
     Object? pinnedGlobally = freezed,
     Object? pinned = freezed,
+    Object? excerpt = freezed,
     Object? posts = freezed,
     Object? postIds = freezed,
     Object? rawJson = freezed,
@@ -337,6 +349,10 @@ class __$TopicCopyWithImpl<$Res> extends _$TopicCopyWithImpl<$Res>
           ? _value.pinned
           : pinned // ignore: cast_nullable_to_non_nullable
               as bool,
+      excerpt: excerpt == freezed
+          ? _value.excerpt
+          : excerpt // ignore: cast_nullable_to_non_nullable
+              as String?,
       posts: posts == freezed
           ? _value.posts
           : posts // ignore: cast_nullable_to_non_nullable
@@ -372,6 +388,7 @@ class _$_Topic implements _Topic {
       required this.slug,
       @JsonKey(name: 'pinned_globally') required this.pinnedGlobally,
       required this.pinned,
+      @JsonKey(ignore: true) this.excerpt,
       @JsonKey(ignore: true) this.posts,
       @JsonKey(ignore: true) this.postIds,
       @JsonKey(ignore: true) this.rawJson});
@@ -415,6 +432,9 @@ class _$_Topic implements _Topic {
   final bool pinned;
   @override
   @JsonKey(ignore: true)
+  final String? excerpt;
+  @override
+  @JsonKey(ignore: true)
   final List<Post>? posts;
   @override
   @JsonKey(ignore: true)
@@ -425,7 +445,7 @@ class _$_Topic implements _Topic {
 
   @override
   String toString() {
-    return 'Topic(id: $id, title: $title, postsCount: $postsCount, createdAt: $createdAt, views: $views, replyCount: $replyCount, likeCount: $likeCount, lastPostedAt: $lastPostedAt, visible: $visible, closed: $closed, archived: $archived, slug: $slug, pinnedGlobally: $pinnedGlobally, pinned: $pinned, posts: $posts, postIds: $postIds, rawJson: $rawJson)';
+    return 'Topic(id: $id, title: $title, postsCount: $postsCount, createdAt: $createdAt, views: $views, replyCount: $replyCount, likeCount: $likeCount, lastPostedAt: $lastPostedAt, visible: $visible, closed: $closed, archived: $archived, slug: $slug, pinnedGlobally: $pinnedGlobally, pinned: $pinned, excerpt: $excerpt, posts: $posts, postIds: $postIds, rawJson: $rawJson)';
   }
 
   @override
@@ -468,6 +488,9 @@ class _$_Topic implements _Topic {
                     .equals(other.pinnedGlobally, pinnedGlobally)) &&
             (identical(other.pinned, pinned) ||
                 const DeepCollectionEquality().equals(other.pinned, pinned)) &&
+            (identical(other.excerpt, excerpt) ||
+                const DeepCollectionEquality()
+                    .equals(other.excerpt, excerpt)) &&
             (identical(other.posts, posts) ||
                 const DeepCollectionEquality().equals(other.posts, posts)) &&
             (identical(other.postIds, postIds) ||
@@ -494,6 +517,7 @@ class _$_Topic implements _Topic {
       const DeepCollectionEquality().hash(slug) ^
       const DeepCollectionEquality().hash(pinnedGlobally) ^
       const DeepCollectionEquality().hash(pinned) ^
+      const DeepCollectionEquality().hash(excerpt) ^
       const DeepCollectionEquality().hash(posts) ^
       const DeepCollectionEquality().hash(postIds) ^
       const DeepCollectionEquality().hash(rawJson);
@@ -525,6 +549,7 @@ abstract class _Topic implements Topic {
       required String slug,
       @JsonKey(name: 'pinned_globally') required bool pinnedGlobally,
       required bool pinned,
+      @JsonKey(ignore: true) String? excerpt,
       @JsonKey(ignore: true) List<Post>? posts,
       @JsonKey(ignore: true) List<int>? postIds,
       @JsonKey(ignore: true) Map<String, dynamic>? rawJson}) = _$_Topic;
@@ -565,6 +590,9 @@ abstract class _Topic implements Topic {
   bool get pinnedGlobally => throw _privateConstructorUsedError;
   @override
   bool get pinned => throw _privateConstructorUsedError;
+  @override
+  @JsonKey(ignore: true)
+  String? get excerpt => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   List<Post>? get posts => throw _privateConstructorUsedError;

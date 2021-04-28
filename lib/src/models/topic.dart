@@ -22,6 +22,7 @@ class Topic with _$Topic {
     required String slug,
     @JsonKey(name: 'pinned_globally') required bool pinnedGlobally,
     required bool pinned,
+    @JsonKey(ignore: true) String? excerpt,
     @JsonKey(ignore: true) List<Post>? posts,
     @JsonKey(ignore: true) List<int>? postIds,
     @JsonKey(ignore: true) Map<String, dynamic>? rawJson,
