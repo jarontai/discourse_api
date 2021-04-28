@@ -34,7 +34,7 @@ void main() {
       expect(result.last.title, isNotEmpty);
       expect(result.last.id, greaterThan(0));
       expect(result.last.postsCount, greaterThanOrEqualTo(0));
-      expect(result.first.slug, isNotEmpty);
+      expect(result.first.categoryId, isNotNaN);
       expect(result.first.excerpt, isNotEmpty);
 
       var topic = await client.topicDetail(result.first.id);

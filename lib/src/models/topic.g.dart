@@ -19,9 +19,9 @@ _$_Topic _$_$_TopicFromJson(Map<String, dynamic> json) {
     visible: json['visible'] as bool,
     closed: json['closed'] as bool,
     archived: json['archived'] as bool,
-    slug: json['slug'] as String,
     pinnedGlobally: json['pinned_globally'] as bool,
     pinned: json['pinned'] as bool,
+    categoryId: json['category_id'] as int,
   );
 }
 
@@ -37,7 +37,7 @@ Map<String, dynamic> _$_$_TopicToJson(_$_Topic instance) => <String, dynamic>{
       'visible': instance.visible,
       'closed': instance.closed,
       'archived': instance.archived,
-      'slug': instance.slug,
       'pinned_globally': instance.pinnedGlobally,
       'pinned': instance.pinned,
+      'category_id': instance.categoryId,
     };
