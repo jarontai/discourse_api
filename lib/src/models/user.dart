@@ -10,14 +10,24 @@ class User with _$User {
     required String username,
     required String name,
     @JsonKey(name: 'avatar_template') required String avatarTemplate,
-    @JsonKey(name: 'badge_count') required int badgeCount,
-    @JsonKey(name: 'bio_excerpt') required String bioExcerpt,
-    @JsonKey(name: 'trust_level') required int trustLevel,
-    @JsonKey(name: 'card_background_upload_url')
-        required String cardBackgroundUploadUrl,
-    required bool moderator,
-    required bool admin,
+    @JsonKey(ignore: true) String? avatar,
+    // @JsonKey(name: 'badge_count') required int badgeCount,
+    // @JsonKey(name: 'bio_excerpt') required String bioExcerpt,
+    // @JsonKey(name: 'trust_level') required int trustLevel,
+    // @JsonKey(name: 'card_background_upload_url') required String cardBackgroundUploadUrl,
+    // required bool moderator,
+    // required bool admin,
   }) = _User;
 
+  User._(); // Added constructor
+
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
+
+  String genAvatar({int size = 25, String? cdn}) {
+    var result = avatarTemplate.replaceFirst('{size}', '$size');
+    if (cdn != null && !avatarTemplate.startsWith('http')) {
+      result = cdn + result;
+    }
+    return result;
+  }
 }

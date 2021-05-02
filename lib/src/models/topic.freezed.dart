@@ -24,11 +24,11 @@ class _$TopicTearOff {
       {required int id,
       required String title,
       @JsonKey(name: 'posts_count') required int postsCount,
-      @JsonKey(name: 'created_at') required String createdAt,
+      @JsonKey(name: 'created_at') required DateTime createdAt,
+      @JsonKey(name: 'last_posted_at') required DateTime lastPostedAt,
       required int views,
       @JsonKey(name: 'reply_count') required int replyCount,
       @JsonKey(name: 'like_count') required int likeCount,
-      @JsonKey(name: 'last_posted_at') required String lastPostedAt,
       required bool visible,
       required bool closed,
       required bool archived,
@@ -37,6 +37,9 @@ class _$TopicTearOff {
       @JsonKey(name: 'category_id') required int categoryId,
       @JsonKey(ignore: true) String? categorySlug,
       @JsonKey(ignore: true) String? excerpt,
+      @JsonKey(ignore: true) List<User>? users,
+      @JsonKey(ignore: true) List<int>? posterIds,
+      @JsonKey(ignore: true) User? poster,
       @JsonKey(ignore: true) List<Post>? posts,
       @JsonKey(ignore: true) List<int>? postIds,
       @JsonKey(ignore: true) Map<String, dynamic>? rawJson}) {
@@ -45,10 +48,10 @@ class _$TopicTearOff {
       title: title,
       postsCount: postsCount,
       createdAt: createdAt,
+      lastPostedAt: lastPostedAt,
       views: views,
       replyCount: replyCount,
       likeCount: likeCount,
-      lastPostedAt: lastPostedAt,
       visible: visible,
       closed: closed,
       archived: archived,
@@ -57,6 +60,9 @@ class _$TopicTearOff {
       categoryId: categoryId,
       categorySlug: categorySlug,
       excerpt: excerpt,
+      users: users,
+      posterIds: posterIds,
+      poster: poster,
       posts: posts,
       postIds: postIds,
       rawJson: rawJson,
@@ -78,14 +84,14 @@ mixin _$Topic {
   @JsonKey(name: 'posts_count')
   int get postsCount => throw _privateConstructorUsedError;
   @JsonKey(name: 'created_at')
-  String get createdAt => throw _privateConstructorUsedError;
+  DateTime get createdAt => throw _privateConstructorUsedError;
+  @JsonKey(name: 'last_posted_at')
+  DateTime get lastPostedAt => throw _privateConstructorUsedError;
   int get views => throw _privateConstructorUsedError;
   @JsonKey(name: 'reply_count')
   int get replyCount => throw _privateConstructorUsedError;
   @JsonKey(name: 'like_count')
   int get likeCount => throw _privateConstructorUsedError;
-  @JsonKey(name: 'last_posted_at')
-  String get lastPostedAt => throw _privateConstructorUsedError;
   bool get visible => throw _privateConstructorUsedError;
   bool get closed => throw _privateConstructorUsedError;
   bool get archived => throw _privateConstructorUsedError;
@@ -98,6 +104,12 @@ mixin _$Topic {
   String? get categorySlug => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   String? get excerpt => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  List<User>? get users => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  List<int>? get posterIds => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  User? get poster => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   List<Post>? get posts => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -118,11 +130,11 @@ abstract class $TopicCopyWith<$Res> {
       {int id,
       String title,
       @JsonKey(name: 'posts_count') int postsCount,
-      @JsonKey(name: 'created_at') String createdAt,
+      @JsonKey(name: 'created_at') DateTime createdAt,
+      @JsonKey(name: 'last_posted_at') DateTime lastPostedAt,
       int views,
       @JsonKey(name: 'reply_count') int replyCount,
       @JsonKey(name: 'like_count') int likeCount,
-      @JsonKey(name: 'last_posted_at') String lastPostedAt,
       bool visible,
       bool closed,
       bool archived,
@@ -131,9 +143,14 @@ abstract class $TopicCopyWith<$Res> {
       @JsonKey(name: 'category_id') int categoryId,
       @JsonKey(ignore: true) String? categorySlug,
       @JsonKey(ignore: true) String? excerpt,
+      @JsonKey(ignore: true) List<User>? users,
+      @JsonKey(ignore: true) List<int>? posterIds,
+      @JsonKey(ignore: true) User? poster,
       @JsonKey(ignore: true) List<Post>? posts,
       @JsonKey(ignore: true) List<int>? postIds,
       @JsonKey(ignore: true) Map<String, dynamic>? rawJson});
+
+  $UserCopyWith<$Res>? get poster;
 }
 
 /// @nodoc
@@ -150,10 +167,10 @@ class _$TopicCopyWithImpl<$Res> implements $TopicCopyWith<$Res> {
     Object? title = freezed,
     Object? postsCount = freezed,
     Object? createdAt = freezed,
+    Object? lastPostedAt = freezed,
     Object? views = freezed,
     Object? replyCount = freezed,
     Object? likeCount = freezed,
-    Object? lastPostedAt = freezed,
     Object? visible = freezed,
     Object? closed = freezed,
     Object? archived = freezed,
@@ -162,6 +179,9 @@ class _$TopicCopyWithImpl<$Res> implements $TopicCopyWith<$Res> {
     Object? categoryId = freezed,
     Object? categorySlug = freezed,
     Object? excerpt = freezed,
+    Object? users = freezed,
+    Object? posterIds = freezed,
+    Object? poster = freezed,
     Object? posts = freezed,
     Object? postIds = freezed,
     Object? rawJson = freezed,
@@ -182,7 +202,11 @@ class _$TopicCopyWithImpl<$Res> implements $TopicCopyWith<$Res> {
       createdAt: createdAt == freezed
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
-              as String,
+              as DateTime,
+      lastPostedAt: lastPostedAt == freezed
+          ? _value.lastPostedAt
+          : lastPostedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
       views: views == freezed
           ? _value.views
           : views // ignore: cast_nullable_to_non_nullable
@@ -195,10 +219,6 @@ class _$TopicCopyWithImpl<$Res> implements $TopicCopyWith<$Res> {
           ? _value.likeCount
           : likeCount // ignore: cast_nullable_to_non_nullable
               as int,
-      lastPostedAt: lastPostedAt == freezed
-          ? _value.lastPostedAt
-          : lastPostedAt // ignore: cast_nullable_to_non_nullable
-              as String,
       visible: visible == freezed
           ? _value.visible
           : visible // ignore: cast_nullable_to_non_nullable
@@ -231,6 +251,18 @@ class _$TopicCopyWithImpl<$Res> implements $TopicCopyWith<$Res> {
           ? _value.excerpt
           : excerpt // ignore: cast_nullable_to_non_nullable
               as String?,
+      users: users == freezed
+          ? _value.users
+          : users // ignore: cast_nullable_to_non_nullable
+              as List<User>?,
+      posterIds: posterIds == freezed
+          ? _value.posterIds
+          : posterIds // ignore: cast_nullable_to_non_nullable
+              as List<int>?,
+      poster: poster == freezed
+          ? _value.poster
+          : poster // ignore: cast_nullable_to_non_nullable
+              as User?,
       posts: posts == freezed
           ? _value.posts
           : posts // ignore: cast_nullable_to_non_nullable
@@ -245,6 +277,17 @@ class _$TopicCopyWithImpl<$Res> implements $TopicCopyWith<$Res> {
               as Map<String, dynamic>?,
     ));
   }
+
+  @override
+  $UserCopyWith<$Res>? get poster {
+    if (_value.poster == null) {
+      return null;
+    }
+
+    return $UserCopyWith<$Res>(_value.poster!, (value) {
+      return _then(_value.copyWith(poster: value));
+    });
+  }
 }
 
 /// @nodoc
@@ -256,11 +299,11 @@ abstract class _$TopicCopyWith<$Res> implements $TopicCopyWith<$Res> {
       {int id,
       String title,
       @JsonKey(name: 'posts_count') int postsCount,
-      @JsonKey(name: 'created_at') String createdAt,
+      @JsonKey(name: 'created_at') DateTime createdAt,
+      @JsonKey(name: 'last_posted_at') DateTime lastPostedAt,
       int views,
       @JsonKey(name: 'reply_count') int replyCount,
       @JsonKey(name: 'like_count') int likeCount,
-      @JsonKey(name: 'last_posted_at') String lastPostedAt,
       bool visible,
       bool closed,
       bool archived,
@@ -269,9 +312,15 @@ abstract class _$TopicCopyWith<$Res> implements $TopicCopyWith<$Res> {
       @JsonKey(name: 'category_id') int categoryId,
       @JsonKey(ignore: true) String? categorySlug,
       @JsonKey(ignore: true) String? excerpt,
+      @JsonKey(ignore: true) List<User>? users,
+      @JsonKey(ignore: true) List<int>? posterIds,
+      @JsonKey(ignore: true) User? poster,
       @JsonKey(ignore: true) List<Post>? posts,
       @JsonKey(ignore: true) List<int>? postIds,
       @JsonKey(ignore: true) Map<String, dynamic>? rawJson});
+
+  @override
+  $UserCopyWith<$Res>? get poster;
 }
 
 /// @nodoc
@@ -289,10 +338,10 @@ class __$TopicCopyWithImpl<$Res> extends _$TopicCopyWithImpl<$Res>
     Object? title = freezed,
     Object? postsCount = freezed,
     Object? createdAt = freezed,
+    Object? lastPostedAt = freezed,
     Object? views = freezed,
     Object? replyCount = freezed,
     Object? likeCount = freezed,
-    Object? lastPostedAt = freezed,
     Object? visible = freezed,
     Object? closed = freezed,
     Object? archived = freezed,
@@ -301,6 +350,9 @@ class __$TopicCopyWithImpl<$Res> extends _$TopicCopyWithImpl<$Res>
     Object? categoryId = freezed,
     Object? categorySlug = freezed,
     Object? excerpt = freezed,
+    Object? users = freezed,
+    Object? posterIds = freezed,
+    Object? poster = freezed,
     Object? posts = freezed,
     Object? postIds = freezed,
     Object? rawJson = freezed,
@@ -321,7 +373,11 @@ class __$TopicCopyWithImpl<$Res> extends _$TopicCopyWithImpl<$Res>
       createdAt: createdAt == freezed
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
-              as String,
+              as DateTime,
+      lastPostedAt: lastPostedAt == freezed
+          ? _value.lastPostedAt
+          : lastPostedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
       views: views == freezed
           ? _value.views
           : views // ignore: cast_nullable_to_non_nullable
@@ -334,10 +390,6 @@ class __$TopicCopyWithImpl<$Res> extends _$TopicCopyWithImpl<$Res>
           ? _value.likeCount
           : likeCount // ignore: cast_nullable_to_non_nullable
               as int,
-      lastPostedAt: lastPostedAt == freezed
-          ? _value.lastPostedAt
-          : lastPostedAt // ignore: cast_nullable_to_non_nullable
-              as String,
       visible: visible == freezed
           ? _value.visible
           : visible // ignore: cast_nullable_to_non_nullable
@@ -370,6 +422,18 @@ class __$TopicCopyWithImpl<$Res> extends _$TopicCopyWithImpl<$Res>
           ? _value.excerpt
           : excerpt // ignore: cast_nullable_to_non_nullable
               as String?,
+      users: users == freezed
+          ? _value.users
+          : users // ignore: cast_nullable_to_non_nullable
+              as List<User>?,
+      posterIds: posterIds == freezed
+          ? _value.posterIds
+          : posterIds // ignore: cast_nullable_to_non_nullable
+              as List<int>?,
+      poster: poster == freezed
+          ? _value.poster
+          : poster // ignore: cast_nullable_to_non_nullable
+              as User?,
       posts: posts == freezed
           ? _value.posts
           : posts // ignore: cast_nullable_to_non_nullable
@@ -395,10 +459,10 @@ class _$_Topic implements _Topic {
       required this.title,
       @JsonKey(name: 'posts_count') required this.postsCount,
       @JsonKey(name: 'created_at') required this.createdAt,
+      @JsonKey(name: 'last_posted_at') required this.lastPostedAt,
       required this.views,
       @JsonKey(name: 'reply_count') required this.replyCount,
       @JsonKey(name: 'like_count') required this.likeCount,
-      @JsonKey(name: 'last_posted_at') required this.lastPostedAt,
       required this.visible,
       required this.closed,
       required this.archived,
@@ -407,6 +471,9 @@ class _$_Topic implements _Topic {
       @JsonKey(name: 'category_id') required this.categoryId,
       @JsonKey(ignore: true) this.categorySlug,
       @JsonKey(ignore: true) this.excerpt,
+      @JsonKey(ignore: true) this.users,
+      @JsonKey(ignore: true) this.posterIds,
+      @JsonKey(ignore: true) this.poster,
       @JsonKey(ignore: true) this.posts,
       @JsonKey(ignore: true) this.postIds,
       @JsonKey(ignore: true) this.rawJson});
@@ -423,7 +490,10 @@ class _$_Topic implements _Topic {
   final int postsCount;
   @override
   @JsonKey(name: 'created_at')
-  final String createdAt;
+  final DateTime createdAt;
+  @override
+  @JsonKey(name: 'last_posted_at')
+  final DateTime lastPostedAt;
   @override
   final int views;
   @override
@@ -432,9 +502,6 @@ class _$_Topic implements _Topic {
   @override
   @JsonKey(name: 'like_count')
   final int likeCount;
-  @override
-  @JsonKey(name: 'last_posted_at')
-  final String lastPostedAt;
   @override
   final bool visible;
   @override
@@ -457,6 +524,15 @@ class _$_Topic implements _Topic {
   final String? excerpt;
   @override
   @JsonKey(ignore: true)
+  final List<User>? users;
+  @override
+  @JsonKey(ignore: true)
+  final List<int>? posterIds;
+  @override
+  @JsonKey(ignore: true)
+  final User? poster;
+  @override
+  @JsonKey(ignore: true)
   final List<Post>? posts;
   @override
   @JsonKey(ignore: true)
@@ -467,7 +543,7 @@ class _$_Topic implements _Topic {
 
   @override
   String toString() {
-    return 'Topic(id: $id, title: $title, postsCount: $postsCount, createdAt: $createdAt, views: $views, replyCount: $replyCount, likeCount: $likeCount, lastPostedAt: $lastPostedAt, visible: $visible, closed: $closed, archived: $archived, pinnedGlobally: $pinnedGlobally, pinned: $pinned, categoryId: $categoryId, categorySlug: $categorySlug, excerpt: $excerpt, posts: $posts, postIds: $postIds, rawJson: $rawJson)';
+    return 'Topic(id: $id, title: $title, postsCount: $postsCount, createdAt: $createdAt, lastPostedAt: $lastPostedAt, views: $views, replyCount: $replyCount, likeCount: $likeCount, visible: $visible, closed: $closed, archived: $archived, pinnedGlobally: $pinnedGlobally, pinned: $pinned, categoryId: $categoryId, categorySlug: $categorySlug, excerpt: $excerpt, users: $users, posterIds: $posterIds, poster: $poster, posts: $posts, postIds: $postIds, rawJson: $rawJson)';
   }
 
   @override
@@ -484,6 +560,9 @@ class _$_Topic implements _Topic {
             (identical(other.createdAt, createdAt) ||
                 const DeepCollectionEquality()
                     .equals(other.createdAt, createdAt)) &&
+            (identical(other.lastPostedAt, lastPostedAt) ||
+                const DeepCollectionEquality()
+                    .equals(other.lastPostedAt, lastPostedAt)) &&
             (identical(other.views, views) ||
                 const DeepCollectionEquality().equals(other.views, views)) &&
             (identical(other.replyCount, replyCount) ||
@@ -492,9 +571,6 @@ class _$_Topic implements _Topic {
             (identical(other.likeCount, likeCount) ||
                 const DeepCollectionEquality()
                     .equals(other.likeCount, likeCount)) &&
-            (identical(other.lastPostedAt, lastPostedAt) ||
-                const DeepCollectionEquality()
-                    .equals(other.lastPostedAt, lastPostedAt)) &&
             (identical(other.visible, visible) ||
                 const DeepCollectionEquality()
                     .equals(other.visible, visible)) &&
@@ -517,6 +593,13 @@ class _$_Topic implements _Topic {
             (identical(other.excerpt, excerpt) ||
                 const DeepCollectionEquality()
                     .equals(other.excerpt, excerpt)) &&
+            (identical(other.users, users) ||
+                const DeepCollectionEquality().equals(other.users, users)) &&
+            (identical(other.posterIds, posterIds) ||
+                const DeepCollectionEquality()
+                    .equals(other.posterIds, posterIds)) &&
+            (identical(other.poster, poster) ||
+                const DeepCollectionEquality().equals(other.poster, poster)) &&
             (identical(other.posts, posts) ||
                 const DeepCollectionEquality().equals(other.posts, posts)) &&
             (identical(other.postIds, postIds) ||
@@ -533,10 +616,10 @@ class _$_Topic implements _Topic {
       const DeepCollectionEquality().hash(title) ^
       const DeepCollectionEquality().hash(postsCount) ^
       const DeepCollectionEquality().hash(createdAt) ^
+      const DeepCollectionEquality().hash(lastPostedAt) ^
       const DeepCollectionEquality().hash(views) ^
       const DeepCollectionEquality().hash(replyCount) ^
       const DeepCollectionEquality().hash(likeCount) ^
-      const DeepCollectionEquality().hash(lastPostedAt) ^
       const DeepCollectionEquality().hash(visible) ^
       const DeepCollectionEquality().hash(closed) ^
       const DeepCollectionEquality().hash(archived) ^
@@ -545,6 +628,9 @@ class _$_Topic implements _Topic {
       const DeepCollectionEquality().hash(categoryId) ^
       const DeepCollectionEquality().hash(categorySlug) ^
       const DeepCollectionEquality().hash(excerpt) ^
+      const DeepCollectionEquality().hash(users) ^
+      const DeepCollectionEquality().hash(posterIds) ^
+      const DeepCollectionEquality().hash(poster) ^
       const DeepCollectionEquality().hash(posts) ^
       const DeepCollectionEquality().hash(postIds) ^
       const DeepCollectionEquality().hash(rawJson);
@@ -565,11 +651,11 @@ abstract class _Topic implements Topic {
       {required int id,
       required String title,
       @JsonKey(name: 'posts_count') required int postsCount,
-      @JsonKey(name: 'created_at') required String createdAt,
+      @JsonKey(name: 'created_at') required DateTime createdAt,
+      @JsonKey(name: 'last_posted_at') required DateTime lastPostedAt,
       required int views,
       @JsonKey(name: 'reply_count') required int replyCount,
       @JsonKey(name: 'like_count') required int likeCount,
-      @JsonKey(name: 'last_posted_at') required String lastPostedAt,
       required bool visible,
       required bool closed,
       required bool archived,
@@ -578,6 +664,9 @@ abstract class _Topic implements Topic {
       @JsonKey(name: 'category_id') required int categoryId,
       @JsonKey(ignore: true) String? categorySlug,
       @JsonKey(ignore: true) String? excerpt,
+      @JsonKey(ignore: true) List<User>? users,
+      @JsonKey(ignore: true) List<int>? posterIds,
+      @JsonKey(ignore: true) User? poster,
       @JsonKey(ignore: true) List<Post>? posts,
       @JsonKey(ignore: true) List<int>? postIds,
       @JsonKey(ignore: true) Map<String, dynamic>? rawJson}) = _$_Topic;
@@ -593,7 +682,10 @@ abstract class _Topic implements Topic {
   int get postsCount => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: 'created_at')
-  String get createdAt => throw _privateConstructorUsedError;
+  DateTime get createdAt => throw _privateConstructorUsedError;
+  @override
+  @JsonKey(name: 'last_posted_at')
+  DateTime get lastPostedAt => throw _privateConstructorUsedError;
   @override
   int get views => throw _privateConstructorUsedError;
   @override
@@ -602,9 +694,6 @@ abstract class _Topic implements Topic {
   @override
   @JsonKey(name: 'like_count')
   int get likeCount => throw _privateConstructorUsedError;
-  @override
-  @JsonKey(name: 'last_posted_at')
-  String get lastPostedAt => throw _privateConstructorUsedError;
   @override
   bool get visible => throw _privateConstructorUsedError;
   @override
@@ -625,6 +714,15 @@ abstract class _Topic implements Topic {
   @override
   @JsonKey(ignore: true)
   String? get excerpt => throw _privateConstructorUsedError;
+  @override
+  @JsonKey(ignore: true)
+  List<User>? get users => throw _privateConstructorUsedError;
+  @override
+  @JsonKey(ignore: true)
+  List<int>? get posterIds => throw _privateConstructorUsedError;
+  @override
+  @JsonKey(ignore: true)
+  User? get poster => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   List<Post>? get posts => throw _privateConstructorUsedError;

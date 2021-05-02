@@ -12,14 +12,19 @@ class DiscourseApiClient {
   static const searchPageSize = 50;
 
   final String siteUrl;
+  final String? cdnUrl;
   late final Dio _dio;
 
-  factory DiscourseApiClient.single(String siteUrl, {String? cookieDir}) {
-    _singleton ??= DiscourseApiClient(siteUrl, cookieDir: cookieDir);
+  String? _csrfToken;
+
+  factory DiscourseApiClient.single(String siteUrl,
+      {String? cookieDir, String? cdnUrl}) {
+    _singleton ??=
+        DiscourseApiClient(siteUrl, cookieDir: cookieDir, cdnUrl: cdnUrl);
     return _singleton!;
   }
 
-  DiscourseApiClient(String siteUrl, {String? cookieDir})
+  DiscourseApiClient(String siteUrl, {String? cookieDir, this.cdnUrl})
       : siteUrl = _prepareUrl(siteUrl) {
     var cookieJar;
     if (cookieDir != null) {
@@ -39,6 +44,8 @@ class DiscourseApiClient {
     });
     dio.interceptors.add(CookieManager(cookieJar));
     _dio = dio;
+
+    _csrf();
   }
 
   static String _prepareUrl(String url) {
@@ -49,12 +56,15 @@ class DiscourseApiClient {
   }
 
   Future<String> _csrf() async {
-    var res = await _dio.get('$siteUrl/session/csrf',
-        options: Options(headers: {
-          'X-CSRF-Token': 'undefined',
-          'Referer': siteUrl,
-        }));
-    return res.data['csrf'];
+    if (_csrfToken == null) {
+      var res = await _dio.get('$siteUrl/session/csrf',
+          options: Options(headers: {
+            'X-CSRF-Token': 'undefined',
+            'Referer': siteUrl,
+          }));
+      _csrfToken = res.data['csrf'];
+    }
+    return _csrfToken!;
   }
 
   Future<Options> _csrfOptions() async {
@@ -67,7 +77,7 @@ class DiscourseApiClient {
     return options;
   }
 
-  Topic _buildTopic(Map<String, dynamic> json) {
+  Topic _buildTopic(Map<String, dynamic> json, {List<dynamic>? users}) {
     var result = Topic.fromJson(json);
     result = result.copyWith(
       rawJson: json,
@@ -87,6 +97,25 @@ class DiscourseApiClient {
       List postIdList = json['post_stream']['stream'];
       result = result.copyWith(
         postIds: postIdList.map((e) => int.parse((e.toString()))).toList(),
+      );
+    }
+    if (json['posters'] != null) {
+      List posters = json['posters'];
+      result = result.copyWith(
+        posterIds: posters.map((e) => e['user_id'] as int).toList(),
+      );
+    }
+    if (users != null) {
+      result = result.copyWith(
+        users: users.map((e) {
+          var user = User.fromJson(e);
+          if (cdnUrl != null) {
+            user = user.copyWith(
+              avatar: user.genAvatar(size: 120, cdn: cdnUrl),
+            );
+          }
+          return user;
+        }).toList(),
       );
     }
     return result;
@@ -142,7 +171,8 @@ class DiscourseApiClient {
     if (latest) {
       var res = await _dio.get('$siteUrl/latest');
       List list = res.data['topic_list']['topics'];
-      result.addAll(list.map((map) => _buildTopic(map)));
+      result.addAll(
+          list.map((json) => _buildTopic(json, users: res.data['users'])));
     }
     // TODO: More
     return result;

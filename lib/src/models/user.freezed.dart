@@ -24,29 +24,14 @@ class _$UserTearOff {
       {required int id,
       required String username,
       required String name,
-      @JsonKey(name: 'avatar_template')
-          required String avatarTemplate,
-      @JsonKey(name: 'badge_count')
-          required int badgeCount,
-      @JsonKey(name: 'bio_excerpt')
-          required String bioExcerpt,
-      @JsonKey(name: 'trust_level')
-          required int trustLevel,
-      @JsonKey(name: 'card_background_upload_url')
-          required String cardBackgroundUploadUrl,
-      required bool moderator,
-      required bool admin}) {
+      @JsonKey(name: 'avatar_template') required String avatarTemplate,
+      @JsonKey(ignore: true) String? avatar}) {
     return _User(
       id: id,
       username: username,
       name: name,
       avatarTemplate: avatarTemplate,
-      badgeCount: badgeCount,
-      bioExcerpt: bioExcerpt,
-      trustLevel: trustLevel,
-      cardBackgroundUploadUrl: cardBackgroundUploadUrl,
-      moderator: moderator,
-      admin: admin,
+      avatar: avatar,
     );
   }
 
@@ -65,16 +50,8 @@ mixin _$User {
   String get name => throw _privateConstructorUsedError;
   @JsonKey(name: 'avatar_template')
   String get avatarTemplate => throw _privateConstructorUsedError;
-  @JsonKey(name: 'badge_count')
-  int get badgeCount => throw _privateConstructorUsedError;
-  @JsonKey(name: 'bio_excerpt')
-  String get bioExcerpt => throw _privateConstructorUsedError;
-  @JsonKey(name: 'trust_level')
-  int get trustLevel => throw _privateConstructorUsedError;
-  @JsonKey(name: 'card_background_upload_url')
-  String get cardBackgroundUploadUrl => throw _privateConstructorUsedError;
-  bool get moderator => throw _privateConstructorUsedError;
-  bool get admin => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  String? get avatar => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -89,18 +66,8 @@ abstract class $UserCopyWith<$Res> {
       {int id,
       String username,
       String name,
-      @JsonKey(name: 'avatar_template')
-          String avatarTemplate,
-      @JsonKey(name: 'badge_count')
-          int badgeCount,
-      @JsonKey(name: 'bio_excerpt')
-          String bioExcerpt,
-      @JsonKey(name: 'trust_level')
-          int trustLevel,
-      @JsonKey(name: 'card_background_upload_url')
-          String cardBackgroundUploadUrl,
-      bool moderator,
-      bool admin});
+      @JsonKey(name: 'avatar_template') String avatarTemplate,
+      @JsonKey(ignore: true) String? avatar});
 }
 
 /// @nodoc
@@ -117,12 +84,7 @@ class _$UserCopyWithImpl<$Res> implements $UserCopyWith<$Res> {
     Object? username = freezed,
     Object? name = freezed,
     Object? avatarTemplate = freezed,
-    Object? badgeCount = freezed,
-    Object? bioExcerpt = freezed,
-    Object? trustLevel = freezed,
-    Object? cardBackgroundUploadUrl = freezed,
-    Object? moderator = freezed,
-    Object? admin = freezed,
+    Object? avatar = freezed,
   }) {
     return _then(_value.copyWith(
       id: id == freezed
@@ -141,30 +103,10 @@ class _$UserCopyWithImpl<$Res> implements $UserCopyWith<$Res> {
           ? _value.avatarTemplate
           : avatarTemplate // ignore: cast_nullable_to_non_nullable
               as String,
-      badgeCount: badgeCount == freezed
-          ? _value.badgeCount
-          : badgeCount // ignore: cast_nullable_to_non_nullable
-              as int,
-      bioExcerpt: bioExcerpt == freezed
-          ? _value.bioExcerpt
-          : bioExcerpt // ignore: cast_nullable_to_non_nullable
-              as String,
-      trustLevel: trustLevel == freezed
-          ? _value.trustLevel
-          : trustLevel // ignore: cast_nullable_to_non_nullable
-              as int,
-      cardBackgroundUploadUrl: cardBackgroundUploadUrl == freezed
-          ? _value.cardBackgroundUploadUrl
-          : cardBackgroundUploadUrl // ignore: cast_nullable_to_non_nullable
-              as String,
-      moderator: moderator == freezed
-          ? _value.moderator
-          : moderator // ignore: cast_nullable_to_non_nullable
-              as bool,
-      admin: admin == freezed
-          ? _value.admin
-          : admin // ignore: cast_nullable_to_non_nullable
-              as bool,
+      avatar: avatar == freezed
+          ? _value.avatar
+          : avatar // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -178,18 +120,8 @@ abstract class _$UserCopyWith<$Res> implements $UserCopyWith<$Res> {
       {int id,
       String username,
       String name,
-      @JsonKey(name: 'avatar_template')
-          String avatarTemplate,
-      @JsonKey(name: 'badge_count')
-          int badgeCount,
-      @JsonKey(name: 'bio_excerpt')
-          String bioExcerpt,
-      @JsonKey(name: 'trust_level')
-          int trustLevel,
-      @JsonKey(name: 'card_background_upload_url')
-          String cardBackgroundUploadUrl,
-      bool moderator,
-      bool admin});
+      @JsonKey(name: 'avatar_template') String avatarTemplate,
+      @JsonKey(ignore: true) String? avatar});
 }
 
 /// @nodoc
@@ -207,12 +139,7 @@ class __$UserCopyWithImpl<$Res> extends _$UserCopyWithImpl<$Res>
     Object? username = freezed,
     Object? name = freezed,
     Object? avatarTemplate = freezed,
-    Object? badgeCount = freezed,
-    Object? bioExcerpt = freezed,
-    Object? trustLevel = freezed,
-    Object? cardBackgroundUploadUrl = freezed,
-    Object? moderator = freezed,
-    Object? admin = freezed,
+    Object? avatar = freezed,
   }) {
     return _then(_User(
       id: id == freezed
@@ -231,30 +158,10 @@ class __$UserCopyWithImpl<$Res> extends _$UserCopyWithImpl<$Res>
           ? _value.avatarTemplate
           : avatarTemplate // ignore: cast_nullable_to_non_nullable
               as String,
-      badgeCount: badgeCount == freezed
-          ? _value.badgeCount
-          : badgeCount // ignore: cast_nullable_to_non_nullable
-              as int,
-      bioExcerpt: bioExcerpt == freezed
-          ? _value.bioExcerpt
-          : bioExcerpt // ignore: cast_nullable_to_non_nullable
-              as String,
-      trustLevel: trustLevel == freezed
-          ? _value.trustLevel
-          : trustLevel // ignore: cast_nullable_to_non_nullable
-              as int,
-      cardBackgroundUploadUrl: cardBackgroundUploadUrl == freezed
-          ? _value.cardBackgroundUploadUrl
-          : cardBackgroundUploadUrl // ignore: cast_nullable_to_non_nullable
-              as String,
-      moderator: moderator == freezed
-          ? _value.moderator
-          : moderator // ignore: cast_nullable_to_non_nullable
-              as bool,
-      admin: admin == freezed
-          ? _value.admin
-          : admin // ignore: cast_nullable_to_non_nullable
-              as bool,
+      avatar: avatar == freezed
+          ? _value.avatar
+          : avatar // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -262,23 +169,14 @@ class __$UserCopyWithImpl<$Res> extends _$UserCopyWithImpl<$Res>
 @JsonSerializable()
 
 /// @nodoc
-class _$_User implements _User {
+class _$_User extends _User {
   _$_User(
       {required this.id,
       required this.username,
       required this.name,
-      @JsonKey(name: 'avatar_template')
-          required this.avatarTemplate,
-      @JsonKey(name: 'badge_count')
-          required this.badgeCount,
-      @JsonKey(name: 'bio_excerpt')
-          required this.bioExcerpt,
-      @JsonKey(name: 'trust_level')
-          required this.trustLevel,
-      @JsonKey(name: 'card_background_upload_url')
-          required this.cardBackgroundUploadUrl,
-      required this.moderator,
-      required this.admin});
+      @JsonKey(name: 'avatar_template') required this.avatarTemplate,
+      @JsonKey(ignore: true) this.avatar})
+      : super._();
 
   factory _$_User.fromJson(Map<String, dynamic> json) =>
       _$_$_UserFromJson(json);
@@ -293,25 +191,12 @@ class _$_User implements _User {
   @JsonKey(name: 'avatar_template')
   final String avatarTemplate;
   @override
-  @JsonKey(name: 'badge_count')
-  final int badgeCount;
-  @override
-  @JsonKey(name: 'bio_excerpt')
-  final String bioExcerpt;
-  @override
-  @JsonKey(name: 'trust_level')
-  final int trustLevel;
-  @override
-  @JsonKey(name: 'card_background_upload_url')
-  final String cardBackgroundUploadUrl;
-  @override
-  final bool moderator;
-  @override
-  final bool admin;
+  @JsonKey(ignore: true)
+  final String? avatar;
 
   @override
   String toString() {
-    return 'User(id: $id, username: $username, name: $name, avatarTemplate: $avatarTemplate, badgeCount: $badgeCount, bioExcerpt: $bioExcerpt, trustLevel: $trustLevel, cardBackgroundUploadUrl: $cardBackgroundUploadUrl, moderator: $moderator, admin: $admin)';
+    return 'User(id: $id, username: $username, name: $name, avatarTemplate: $avatarTemplate, avatar: $avatar)';
   }
 
   @override
@@ -328,24 +213,8 @@ class _$_User implements _User {
             (identical(other.avatarTemplate, avatarTemplate) ||
                 const DeepCollectionEquality()
                     .equals(other.avatarTemplate, avatarTemplate)) &&
-            (identical(other.badgeCount, badgeCount) ||
-                const DeepCollectionEquality()
-                    .equals(other.badgeCount, badgeCount)) &&
-            (identical(other.bioExcerpt, bioExcerpt) ||
-                const DeepCollectionEquality()
-                    .equals(other.bioExcerpt, bioExcerpt)) &&
-            (identical(other.trustLevel, trustLevel) ||
-                const DeepCollectionEquality()
-                    .equals(other.trustLevel, trustLevel)) &&
-            (identical(
-                    other.cardBackgroundUploadUrl, cardBackgroundUploadUrl) ||
-                const DeepCollectionEquality().equals(
-                    other.cardBackgroundUploadUrl, cardBackgroundUploadUrl)) &&
-            (identical(other.moderator, moderator) ||
-                const DeepCollectionEquality()
-                    .equals(other.moderator, moderator)) &&
-            (identical(other.admin, admin) ||
-                const DeepCollectionEquality().equals(other.admin, admin)));
+            (identical(other.avatar, avatar) ||
+                const DeepCollectionEquality().equals(other.avatar, avatar)));
   }
 
   @override
@@ -355,12 +224,7 @@ class _$_User implements _User {
       const DeepCollectionEquality().hash(username) ^
       const DeepCollectionEquality().hash(name) ^
       const DeepCollectionEquality().hash(avatarTemplate) ^
-      const DeepCollectionEquality().hash(badgeCount) ^
-      const DeepCollectionEquality().hash(bioExcerpt) ^
-      const DeepCollectionEquality().hash(trustLevel) ^
-      const DeepCollectionEquality().hash(cardBackgroundUploadUrl) ^
-      const DeepCollectionEquality().hash(moderator) ^
-      const DeepCollectionEquality().hash(admin);
+      const DeepCollectionEquality().hash(avatar);
 
   @JsonKey(ignore: true)
   @override
@@ -373,23 +237,14 @@ class _$_User implements _User {
   }
 }
 
-abstract class _User implements User {
+abstract class _User extends User {
   factory _User(
       {required int id,
       required String username,
       required String name,
-      @JsonKey(name: 'avatar_template')
-          required String avatarTemplate,
-      @JsonKey(name: 'badge_count')
-          required int badgeCount,
-      @JsonKey(name: 'bio_excerpt')
-          required String bioExcerpt,
-      @JsonKey(name: 'trust_level')
-          required int trustLevel,
-      @JsonKey(name: 'card_background_upload_url')
-          required String cardBackgroundUploadUrl,
-      required bool moderator,
-      required bool admin}) = _$_User;
+      @JsonKey(name: 'avatar_template') required String avatarTemplate,
+      @JsonKey(ignore: true) String? avatar}) = _$_User;
+  _User._() : super._();
 
   factory _User.fromJson(Map<String, dynamic> json) = _$_User.fromJson;
 
@@ -403,21 +258,8 @@ abstract class _User implements User {
   @JsonKey(name: 'avatar_template')
   String get avatarTemplate => throw _privateConstructorUsedError;
   @override
-  @JsonKey(name: 'badge_count')
-  int get badgeCount => throw _privateConstructorUsedError;
-  @override
-  @JsonKey(name: 'bio_excerpt')
-  String get bioExcerpt => throw _privateConstructorUsedError;
-  @override
-  @JsonKey(name: 'trust_level')
-  int get trustLevel => throw _privateConstructorUsedError;
-  @override
-  @JsonKey(name: 'card_background_upload_url')
-  String get cardBackgroundUploadUrl => throw _privateConstructorUsedError;
-  @override
-  bool get moderator => throw _privateConstructorUsedError;
-  @override
-  bool get admin => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  String? get avatar => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   _$UserCopyWith<_User> get copyWith => throw _privateConstructorUsedError;
