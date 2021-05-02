@@ -93,6 +93,15 @@ void main() {
       await client.topicDelete(updateTopicId);
     });
 
+    test('Poll', () async {
+      var result = await client.pollLatest();
+      expect(result, equals(false));
+      result = await client.pollLatest();
+      expect(result, equals(false));
+      result = await client.pollLatest();
+      expect(result, equals(false));
+    });
+
     test('Search', () async {
       var result = await client.search('flutter');
       expect(result.posts, isNotNull);

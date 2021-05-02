@@ -1,8 +1,13 @@
+import 'dart:math';
+
 import 'package:cookie_jar/cookie_jar.dart';
 import 'package:dio/dio.dart';
 import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 
 import 'models/models.dart';
+
+const kStatusChannel = '/__status';
+const kLatestChannel = '/latest';
 
 class DiscourseApiClient {
   static DiscourseApiClient? _singleton;
@@ -16,6 +21,9 @@ class DiscourseApiClient {
   late final Dio _dio;
 
   String? _csrfToken;
+  late final String _clientId;
+  int _pollCount = 0;
+  int _latestId = -1;
 
   factory DiscourseApiClient.single(String siteUrl,
       {String? cookieDir, String? cdnUrl}) {
@@ -45,7 +53,14 @@ class DiscourseApiClient {
     dio.interceptors.add(CookieManager(cookieJar));
     _dio = dio;
 
+    _clientId = _buildClientId();
     _csrf();
+  }
+
+  static String _buildClientId() {
+    var random = Random();
+    return random.nextDouble().toStringAsFixed(20).substring(2, 15) +
+        random.nextDouble().toStringAsFixed(20).substring(2, 15);
   }
 
   static String _prepareUrl(String url) {
@@ -126,6 +141,17 @@ class DiscourseApiClient {
     result = result.copyWith(
       rawJson: json,
     );
+    return result;
+  }
+
+  PollMessage _buildPollMessage(Map<String, dynamic> json) {
+    var result = PollMessage.fromJson(json);
+    var data = json['data'] ?? {};
+    if (result.channel == kStatusChannel && data[kLatestChannel] >= 0) {
+      result = result.copyWith(
+        latestId: data[kLatestChannel],
+      );
+    }
     return result;
   }
 
@@ -286,6 +312,31 @@ class DiscourseApiClient {
       '$siteUrl/posts/$postId',
       options: options,
     );
+  }
+
+  Future<bool> pollLatest({bool check = true}) async {
+    if (check && _latestId < 0) {
+      await pollLatest(check: false);
+    }
+
+    _pollCount++;
+    var data = {
+      '/latest': _latestId,
+      '__seq': _pollCount,
+    };
+    var res = await _dio.post('$siteUrl/message-bus/$_clientId/poll?dlp=t',
+        options: Options(), data: data);
+
+    var result = false;
+    if (res.data is List && res.data.length > 0) {
+      var pollMessage = _buildPollMessage(res.data[0]);
+      if (pollMessage.latestId > _latestId) {
+        _latestId = pollMessage.latestId;
+        result = true;
+      }
+    }
+
+    return result;
   }
 
   Future<SearchResult> search(String q, {int page = 0}) async {
