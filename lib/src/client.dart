@@ -73,8 +73,8 @@ class DiscourseApiClient {
     return url;
   }
 
-  Future<String> _csrf() async {
-    if (_csrfToken == null) {
+  Future<String> _csrf({bool refresh = false}) async {
+    if (_csrfToken == null || refresh) {
       var res = await _dio.get('$siteUrl/session/csrf',
           options: Options(headers: {
             'X-CSRF-Token': 'undefined',
@@ -85,8 +85,8 @@ class DiscourseApiClient {
     return _csrfToken!;
   }
 
-  Future<Options> _csrfOptions() async {
-    var csrfToken = await _csrf();
+  Future<Options> _csrfOptions({bool refresh = false}) async {
+    var csrfToken = await _csrf(refresh: refresh);
     var options = Options(
       headers: {
         'x-csrf-token': csrfToken,
@@ -113,7 +113,7 @@ class DiscourseApiClient {
   }
 
   Future<User> login(String username, String password) async {
-    var csrfToken = await _csrf();
+    var csrfToken = await _csrf(refresh: true);
     assert(csrfToken.length >= 80, 'csrf token error');
     var res = await _dio.post('$siteUrl/session',
         options: Options(

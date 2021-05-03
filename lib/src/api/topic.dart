@@ -47,13 +47,14 @@ extension TopicClient on DiscourseApiClient {
     return result;
   }
 
-  Future<Pager<Topic>> topicList({
+  Future<List<Topic>> topicList({
     bool latest = true,
     bool top = false,
     int? page,
   }) async {
-    var result = Pager<Topic>();
+    var result = <Topic>[];
 
+    // TODO: Top list
     if (latest) {
       var url;
       if (page != null && page > 0) {
@@ -64,15 +65,11 @@ extension TopicClient on DiscourseApiClient {
 
       var res = await _dio.get(url);
       List list = res.data['topic_list']['topics'];
-      result = result.copyWith(
-        data: list
-            .map((json) => _buildTopic(json, users: res.data['users']))
-            .toList(),
-        page: page,
-        pageSize: kTopicPageSize,
-      );
+      result.addAll(list
+          .map((json) => _buildTopic(json, users: res.data['users']))
+          .toList());
     }
-    // TODO: More
+
     return result;
   }
 
@@ -87,7 +84,7 @@ extension TopicClient on DiscourseApiClient {
       'raw': raw,
       if (categoryId != null) 'category': categoryId,
     };
-    var options = await _csrfOptions();
+    var options = await _csrfOptions(refresh: true);
     var res = await _dio.post('$siteUrl/posts', options: options, data: data);
     var topicId = res.data['topic_id'];
     return topicDetail(topicId);
