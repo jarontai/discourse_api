@@ -56,7 +56,7 @@ extension TopicClient on DiscourseApiClient {
 
     if (latest) {
       var url;
-      if (page != null) {
+      if (page != null && page > 0) {
         url = '$siteUrl/latest?page=$page';
       } else {
         url = '$siteUrl/latest';
