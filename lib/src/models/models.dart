@@ -1,3 +1,4 @@
+export './pager.dart';
 export './about.dart';
 export './category.dart';
 export './post.dart';

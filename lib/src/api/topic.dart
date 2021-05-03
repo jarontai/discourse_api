@@ -1,5 +1,7 @@
 part of '../client.dart';
 
+const kTopicPageSize = 30;
+
 extension TopicClient on DiscourseApiClient {
   Topic _buildTopic(Map<String, dynamic> json, {List<dynamic>? users}) {
     var result = Topic.fromJson(json);
@@ -45,18 +47,30 @@ extension TopicClient on DiscourseApiClient {
     return result;
   }
 
-  Future<List<Topic>> topicList({
+  Future<Pager<Topic>> topicList({
     bool latest = true,
     bool top = false,
     int? page,
   }) async {
-    var result = <Topic>[];
+    var result = Pager<Topic>();
 
     if (latest) {
-      var res = await _dio.get('$siteUrl/latest');
+      var url;
+      if (page != null) {
+        url = '$siteUrl/latest?page=$page';
+      } else {
+        url = '$siteUrl/latest';
+      }
+
+      var res = await _dio.get(url);
       List list = res.data['topic_list']['topics'];
-      result.addAll(
-          list.map((json) => _buildTopic(json, users: res.data['users'])));
+      result = result.copyWith(
+        data: list
+            .map((json) => _buildTopic(json, users: res.data['users']))
+            .toList(),
+        page: page,
+        pageSize: kTopicPageSize,
+      );
     }
     // TODO: More
     return result;

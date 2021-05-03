@@ -29,22 +29,29 @@ void main() {
     });
 
     test('Topics / Posts', () async {
-      var result = await client.topicList(latest: true);
-      expect(result.length, greaterThan(1));
-      expect(result.last.title, isNotEmpty);
-      expect(result.last.id, greaterThan(0));
-      expect(result.last.postsCount, greaterThanOrEqualTo(0));
-      expect(result.first.categoryId, isNotNaN);
-      expect(result.first.excerpt, isNotEmpty);
+      var result = await client.topicList();
+      expect(result.data.length, greaterThan(1));
+      expect(result.data.last.title, isNotEmpty);
+      expect(result.data.last.id, greaterThan(0));
+      expect(result.data.last.postsCount, greaterThanOrEqualTo(0));
+      expect(result.data.first.categoryId, isNotNaN);
+      expect(result.data.first.excerpt, isNotEmpty);
+      expect(result.page, equals(0));
+      expect(result.pageSize, equals(30));
 
-      var topic = await client.topicDetail(result.first.id);
+      result = await client.topicList(page: 1);
+      expect(result.page, equals(1));
+      expect(result.pageSize, equals(30));
+
+      var topic = await client.topicDetail(result.data.first.id);
       expect(topic.title, isNotEmpty);
       expect(topic.posts, isNotEmpty);
       expect(topic.postIds, isNotEmpty);
 
-      var posts = await client.topicPosts(topic);
-      expect(posts.length, lessThanOrEqualTo(topic.posts!.length));
-      expect(posts.first.id, isNot(equals(topic.postIds!.first)));
+      // TODO:
+      // var posts = await client.topicPosts(topic);
+      // expect(posts.length, lessThanOrEqualTo(topic.posts!.length));
+      // expect(posts.first.id, isNot(equals(topic.postIds!.first)));
     });
 
     test('Topic & Post Create/Update/Delete', () async {
