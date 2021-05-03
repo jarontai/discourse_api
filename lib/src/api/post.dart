@@ -1,11 +1,48 @@
 part of '../client.dart';
 
+const kPostPageSize = 20;
+
 extension PostClient on DiscourseApiClient {
   Post _buildPost(Map<String, dynamic> json) {
     var result = Post.fromJson(json);
     result = result.copyWith(
       rawJson: json,
     );
+    return result;
+  }
+
+  Future<List<Post>> topicPosts(Topic topic, {int page = 0}) async {
+    var result = <Post>[];
+
+    if (topic.postIds != null && topic.posts != null) {
+      if (page == 0) {
+        result.addAll(topic.posts!.toList());
+      } else if (page > 0) {
+        var postIds = topic.postIds;
+        var topicId = topic.id;
+        if (postIds != null &&
+            postIds.isNotEmpty &&
+            postIds.length > kPostPageSize) {
+          var start = page * kPostPageSize;
+          var end = (page + 1) * kPostPageSize - 1;
+          var last = postIds.length - 1;
+          if (end > last) {
+            end = last;
+          }
+
+          if (start <= last && start <= end) {
+            var ids = postIds.getRange(start, end);
+            var res =
+                await _dio.get('$siteUrl/t/$topicId/posts', queryParameters: {
+              'post_ids[]': ids.toList(),
+            });
+            List postList = res.data['post_stream']['posts'];
+            result.addAll(postList.map((e) => _buildPost(e)));
+          }
+        }
+      }
+    }
+
     return result;
   }
 

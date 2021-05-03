@@ -30,6 +30,8 @@ void main() {
 
     test('Topics / Posts', () async {
       var result = await client.topicList();
+      var firstTopic = await client.topicDetail(result.first.id);
+
       expect(result.length, greaterThan(1));
       expect(result.last.title, isNotEmpty);
       expect(result.last.id, greaterThan(0));
@@ -46,10 +48,12 @@ void main() {
       expect(topic.posts, isNotEmpty);
       expect(topic.postIds, isNotEmpty);
 
-      // TODO:
-      // var posts = await client.topicPosts(topic);
-      // expect(posts.length, lessThanOrEqualTo(topic.posts!.length));
-      // expect(posts.first.id, isNot(equals(topic.postIds!.first)));
+      var posts = await client.topicPosts(firstTopic);
+      expect(posts.length, lessThanOrEqualTo(firstTopic.posts!.length));
+      expect(posts.first.id, equals(firstTopic.postIds!.first));
+
+      posts = await client.topicPosts(firstTopic, page: 1);
+      expect(posts.length, lessThanOrEqualTo(firstTopic.posts!.length));
     });
 
     test('Topic & Post Create/Update/Delete', () async {

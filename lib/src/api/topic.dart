@@ -119,34 +119,4 @@ extension TopicClient on DiscourseApiClient {
       options: options,
     );
   }
-
-  Future<List<Post>> topicPosts(Topic topic,
-      {int page = 1, int pageSize = DiscourseApiClient.postPageSize}) async {
-    var postIds = topic.postIds;
-    var topicId = topic.id;
-
-    var result = <Post>[];
-    if (postIds != null &&
-        postIds.isNotEmpty &&
-        postIds.length > DiscourseApiClient.postPageSize) {
-      var start = page * pageSize;
-      var end = (page + 1) * pageSize;
-      if (start > postIds.length) {
-        start = postIds.length;
-      } else if (end > postIds.length) {
-        end = postIds.length - 1;
-      }
-
-      if (start <= end) {
-        var ids = postIds.getRange(start, end);
-        var res = await _dio.get('$siteUrl/t/$topicId/posts', queryParameters: {
-          'post_ids[]': ids.toList(),
-        });
-        List postList = res.data['post_stream']['posts'];
-        result.addAll(postList.map((e) => _buildPost(e)));
-      }
-    }
-
-    return result;
-  }
 }
