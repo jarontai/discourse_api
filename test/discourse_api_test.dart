@@ -43,6 +43,10 @@ void main() {
       expect(result.length, greaterThan(1));
       expect(result.last.title, isNotEmpty);
 
+      result = await client.topicList(categoryId: 3, categorySlug: 'meta');
+      expect(result.length, greaterThan(1));
+      expect(result.last.title, isNotEmpty);
+
       var topic = await client.topicDetail(result.first.id);
       expect(topic.title, isNotEmpty);
       expect(topic.posts, isNotEmpty);

@@ -50,6 +50,8 @@ extension TopicClient on DiscourseApiClient {
   Future<List<Topic>> topicList({
     bool latest = true,
     bool top = false,
+    String? categorySlug,
+    int? categoryId,
     int? page,
   }) async {
     var result = <Topic>[];
@@ -57,16 +59,21 @@ extension TopicClient on DiscourseApiClient {
     // TODO: Top list
     if (latest) {
       var url;
-      if (page != null && page > 0) {
-        url = '$siteUrl/latest?page=$page';
+      if (categoryId != null && categorySlug != null) {
+        url = '$siteUrl/c/$categorySlug/$categoryId/l/latest';
       } else {
         url = '$siteUrl/latest';
+      }
+
+      if (page != null && page > 0) {
+        url = '$url?page=$page';
       }
 
       var res = await _dio.get(url);
       List list = res.data['topic_list']['topics'];
       result.addAll(list
           .map((json) => _buildTopic(json, users: res.data['users']))
+          .where((element) => element.visible)
           .toList());
     }
 
