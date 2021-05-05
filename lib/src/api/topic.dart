@@ -31,6 +31,11 @@ extension TopicClient on DiscourseApiClient {
         posterIds: posters.map((e) => e['user_id'] as int).toList(),
       );
     }
+    if (json['last_posted_at'] != null) {
+      result = result.copyWith(
+        lastPostedAt: DateTime.tryParse(json['last_posted_at']),
+      );
+    }
     if (users != null) {
       result = result.copyWith(
         users: users.map((e) {
@@ -60,7 +65,7 @@ extension TopicClient on DiscourseApiClient {
     if (latest) {
       var url;
       if (categoryId != null && categorySlug != null) {
-        url = '$siteUrl/c/$categorySlug/$categoryId/l/latest';
+        url = '$siteUrl/c/$categorySlug/$categoryId/l/latest.json';
       } else {
         url = '$siteUrl/latest';
       }
