@@ -27,6 +27,7 @@ class _$PostTearOff {
       required String cooked,
       @JsonKey(ignore: true) String? markdown,
       @JsonKey(name: 'post_number') required int postNumber,
+      @JsonKey(name: 'post_type') required int postType,
       @JsonKey(name: 'created_at') required String createdAt,
       @JsonKey(name: 'updated_at') required String updatedAt,
       @JsonKey(name: 'reply_count') required int replyCount,
@@ -40,6 +41,7 @@ class _$PostTearOff {
       cooked: cooked,
       markdown: markdown,
       postNumber: postNumber,
+      postType: postType,
       createdAt: createdAt,
       updatedAt: updatedAt,
       replyCount: replyCount,
@@ -67,6 +69,8 @@ mixin _$Post {
   String? get markdown => throw _privateConstructorUsedError;
   @JsonKey(name: 'post_number')
   int get postNumber => throw _privateConstructorUsedError;
+  @JsonKey(name: 'post_type')
+  int get postType => throw _privateConstructorUsedError;
   @JsonKey(name: 'created_at')
   String get createdAt => throw _privateConstructorUsedError;
   @JsonKey(name: 'updated_at')
@@ -96,6 +100,7 @@ abstract class $PostCopyWith<$Res> {
       String cooked,
       @JsonKey(ignore: true) String? markdown,
       @JsonKey(name: 'post_number') int postNumber,
+      @JsonKey(name: 'post_type') int postType,
       @JsonKey(name: 'created_at') String createdAt,
       @JsonKey(name: 'updated_at') String updatedAt,
       @JsonKey(name: 'reply_count') int replyCount,
@@ -120,6 +125,7 @@ class _$PostCopyWithImpl<$Res> implements $PostCopyWith<$Res> {
     Object? cooked = freezed,
     Object? markdown = freezed,
     Object? postNumber = freezed,
+    Object? postType = freezed,
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
     Object? replyCount = freezed,
@@ -151,6 +157,10 @@ class _$PostCopyWithImpl<$Res> implements $PostCopyWith<$Res> {
       postNumber: postNumber == freezed
           ? _value.postNumber
           : postNumber // ignore: cast_nullable_to_non_nullable
+              as int,
+      postType: postType == freezed
+          ? _value.postType
+          : postType // ignore: cast_nullable_to_non_nullable
               as int,
       createdAt: createdAt == freezed
           ? _value.createdAt
@@ -192,6 +202,7 @@ abstract class _$PostCopyWith<$Res> implements $PostCopyWith<$Res> {
       String cooked,
       @JsonKey(ignore: true) String? markdown,
       @JsonKey(name: 'post_number') int postNumber,
+      @JsonKey(name: 'post_type') int postType,
       @JsonKey(name: 'created_at') String createdAt,
       @JsonKey(name: 'updated_at') String updatedAt,
       @JsonKey(name: 'reply_count') int replyCount,
@@ -217,6 +228,7 @@ class __$PostCopyWithImpl<$Res> extends _$PostCopyWithImpl<$Res>
     Object? cooked = freezed,
     Object? markdown = freezed,
     Object? postNumber = freezed,
+    Object? postType = freezed,
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
     Object? replyCount = freezed,
@@ -248,6 +260,10 @@ class __$PostCopyWithImpl<$Res> extends _$PostCopyWithImpl<$Res>
       postNumber: postNumber == freezed
           ? _value.postNumber
           : postNumber // ignore: cast_nullable_to_non_nullable
+              as int,
+      postType: postType == freezed
+          ? _value.postType
+          : postType // ignore: cast_nullable_to_non_nullable
               as int,
       createdAt: createdAt == freezed
           ? _value.createdAt
@@ -288,6 +304,7 @@ class _$_Post implements _Post {
       required this.cooked,
       @JsonKey(ignore: true) this.markdown,
       @JsonKey(name: 'post_number') required this.postNumber,
+      @JsonKey(name: 'post_type') required this.postType,
       @JsonKey(name: 'created_at') required this.createdAt,
       @JsonKey(name: 'updated_at') required this.updatedAt,
       @JsonKey(name: 'reply_count') required this.replyCount,
@@ -313,6 +330,9 @@ class _$_Post implements _Post {
   @JsonKey(name: 'post_number')
   final int postNumber;
   @override
+  @JsonKey(name: 'post_type')
+  final int postType;
+  @override
   @JsonKey(name: 'created_at')
   final String createdAt;
   @override
@@ -333,7 +353,7 @@ class _$_Post implements _Post {
 
   @override
   String toString() {
-    return 'Post(id: $id, name: $name, username: $username, cooked: $cooked, markdown: $markdown, postNumber: $postNumber, createdAt: $createdAt, updatedAt: $updatedAt, replyCount: $replyCount, topicId: $topicId, topicSlug: $topicSlug, rawJson: $rawJson)';
+    return 'Post(id: $id, name: $name, username: $username, cooked: $cooked, markdown: $markdown, postNumber: $postNumber, postType: $postType, createdAt: $createdAt, updatedAt: $updatedAt, replyCount: $replyCount, topicId: $topicId, topicSlug: $topicSlug, rawJson: $rawJson)';
   }
 
   @override
@@ -355,6 +375,9 @@ class _$_Post implements _Post {
             (identical(other.postNumber, postNumber) ||
                 const DeepCollectionEquality()
                     .equals(other.postNumber, postNumber)) &&
+            (identical(other.postType, postType) ||
+                const DeepCollectionEquality()
+                    .equals(other.postType, postType)) &&
             (identical(other.createdAt, createdAt) ||
                 const DeepCollectionEquality()
                     .equals(other.createdAt, createdAt)) &&
@@ -383,6 +406,7 @@ class _$_Post implements _Post {
       const DeepCollectionEquality().hash(cooked) ^
       const DeepCollectionEquality().hash(markdown) ^
       const DeepCollectionEquality().hash(postNumber) ^
+      const DeepCollectionEquality().hash(postType) ^
       const DeepCollectionEquality().hash(createdAt) ^
       const DeepCollectionEquality().hash(updatedAt) ^
       const DeepCollectionEquality().hash(replyCount) ^
@@ -409,6 +433,7 @@ abstract class _Post implements Post {
       required String cooked,
       @JsonKey(ignore: true) String? markdown,
       @JsonKey(name: 'post_number') required int postNumber,
+      @JsonKey(name: 'post_type') required int postType,
       @JsonKey(name: 'created_at') required String createdAt,
       @JsonKey(name: 'updated_at') required String updatedAt,
       @JsonKey(name: 'reply_count') required int replyCount,
@@ -432,6 +457,9 @@ abstract class _Post implements Post {
   @override
   @JsonKey(name: 'post_number')
   int get postNumber => throw _privateConstructorUsedError;
+  @override
+  @JsonKey(name: 'post_type')
+  int get postType => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: 'created_at')
   String get createdAt => throw _privateConstructorUsedError;
