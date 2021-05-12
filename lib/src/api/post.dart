@@ -1,5 +1,6 @@
 part of '../client.dart';
 
+const kPostType = 1;
 const kPostPageSize = 20;
 
 extension PostClient on DiscourseApiClient {
@@ -42,7 +43,9 @@ extension PostClient on DiscourseApiClient {
               'post_ids[]': ids.toList(),
             });
             List postList = res.data['post_stream']['posts'];
-            result.addAll(postList.map((e) => _buildPost(e, cooked2md: true)));
+            result.addAll(postList
+                .map((e) => _buildPost(e, cooked2md: true))
+                .where((element) => element.postType == kPostType));
           }
         }
       }

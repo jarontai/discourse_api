@@ -1,5 +1,6 @@
 part of '../client.dart';
 
+const kDefaultPostType = 1;
 const kTopicPageSize = 30;
 
 extension TopicClient on DiscourseApiClient {
@@ -17,7 +18,10 @@ extension TopicClient on DiscourseApiClient {
     if (json['post_stream'] != null && json['post_stream']['posts'] != null) {
       List postList = json['post_stream']['posts'];
       result = result.copyWith(
-        posts: postList.map((e) => _buildPost(e, cooked2md: true)).toList(),
+        posts: postList
+            .map((e) => _buildPost(e, cooked2md: true))
+            .where((element) => element.postType == 1)
+            .toList(),
       );
     }
     if (json['post_stream'] != null && json['post_stream']['stream'] != null) {
