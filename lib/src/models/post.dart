@@ -10,6 +10,7 @@ class Post with _$Post {
     required String name,
     required String username,
     required String cooked,
+    @JsonKey(ignore: true) String? markdown,
     @JsonKey(name: 'post_number') required int postNumber,
     @JsonKey(name: 'created_at') required String createdAt,
     @JsonKey(name: 'updated_at') required String updatedAt,

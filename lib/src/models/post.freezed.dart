@@ -25,6 +25,7 @@ class _$PostTearOff {
       required String name,
       required String username,
       required String cooked,
+      @JsonKey(ignore: true) String? markdown,
       @JsonKey(name: 'post_number') required int postNumber,
       @JsonKey(name: 'created_at') required String createdAt,
       @JsonKey(name: 'updated_at') required String updatedAt,
@@ -37,6 +38,7 @@ class _$PostTearOff {
       name: name,
       username: username,
       cooked: cooked,
+      markdown: markdown,
       postNumber: postNumber,
       createdAt: createdAt,
       updatedAt: updatedAt,
@@ -61,6 +63,8 @@ mixin _$Post {
   String get name => throw _privateConstructorUsedError;
   String get username => throw _privateConstructorUsedError;
   String get cooked => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  String? get markdown => throw _privateConstructorUsedError;
   @JsonKey(name: 'post_number')
   int get postNumber => throw _privateConstructorUsedError;
   @JsonKey(name: 'created_at')
@@ -90,6 +94,7 @@ abstract class $PostCopyWith<$Res> {
       String name,
       String username,
       String cooked,
+      @JsonKey(ignore: true) String? markdown,
       @JsonKey(name: 'post_number') int postNumber,
       @JsonKey(name: 'created_at') String createdAt,
       @JsonKey(name: 'updated_at') String updatedAt,
@@ -113,6 +118,7 @@ class _$PostCopyWithImpl<$Res> implements $PostCopyWith<$Res> {
     Object? name = freezed,
     Object? username = freezed,
     Object? cooked = freezed,
+    Object? markdown = freezed,
     Object? postNumber = freezed,
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
@@ -138,6 +144,10 @@ class _$PostCopyWithImpl<$Res> implements $PostCopyWith<$Res> {
           ? _value.cooked
           : cooked // ignore: cast_nullable_to_non_nullable
               as String,
+      markdown: markdown == freezed
+          ? _value.markdown
+          : markdown // ignore: cast_nullable_to_non_nullable
+              as String?,
       postNumber: postNumber == freezed
           ? _value.postNumber
           : postNumber // ignore: cast_nullable_to_non_nullable
@@ -180,6 +190,7 @@ abstract class _$PostCopyWith<$Res> implements $PostCopyWith<$Res> {
       String name,
       String username,
       String cooked,
+      @JsonKey(ignore: true) String? markdown,
       @JsonKey(name: 'post_number') int postNumber,
       @JsonKey(name: 'created_at') String createdAt,
       @JsonKey(name: 'updated_at') String updatedAt,
@@ -204,6 +215,7 @@ class __$PostCopyWithImpl<$Res> extends _$PostCopyWithImpl<$Res>
     Object? name = freezed,
     Object? username = freezed,
     Object? cooked = freezed,
+    Object? markdown = freezed,
     Object? postNumber = freezed,
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
@@ -229,6 +241,10 @@ class __$PostCopyWithImpl<$Res> extends _$PostCopyWithImpl<$Res>
           ? _value.cooked
           : cooked // ignore: cast_nullable_to_non_nullable
               as String,
+      markdown: markdown == freezed
+          ? _value.markdown
+          : markdown // ignore: cast_nullable_to_non_nullable
+              as String?,
       postNumber: postNumber == freezed
           ? _value.postNumber
           : postNumber // ignore: cast_nullable_to_non_nullable
@@ -270,6 +286,7 @@ class _$_Post implements _Post {
       required this.name,
       required this.username,
       required this.cooked,
+      @JsonKey(ignore: true) this.markdown,
       @JsonKey(name: 'post_number') required this.postNumber,
       @JsonKey(name: 'created_at') required this.createdAt,
       @JsonKey(name: 'updated_at') required this.updatedAt,
@@ -289,6 +306,9 @@ class _$_Post implements _Post {
   final String username;
   @override
   final String cooked;
+  @override
+  @JsonKey(ignore: true)
+  final String? markdown;
   @override
   @JsonKey(name: 'post_number')
   final int postNumber;
@@ -313,7 +333,7 @@ class _$_Post implements _Post {
 
   @override
   String toString() {
-    return 'Post(id: $id, name: $name, username: $username, cooked: $cooked, postNumber: $postNumber, createdAt: $createdAt, updatedAt: $updatedAt, replyCount: $replyCount, topicId: $topicId, topicSlug: $topicSlug, rawJson: $rawJson)';
+    return 'Post(id: $id, name: $name, username: $username, cooked: $cooked, markdown: $markdown, postNumber: $postNumber, createdAt: $createdAt, updatedAt: $updatedAt, replyCount: $replyCount, topicId: $topicId, topicSlug: $topicSlug, rawJson: $rawJson)';
   }
 
   @override
@@ -329,6 +349,9 @@ class _$_Post implements _Post {
                     .equals(other.username, username)) &&
             (identical(other.cooked, cooked) ||
                 const DeepCollectionEquality().equals(other.cooked, cooked)) &&
+            (identical(other.markdown, markdown) ||
+                const DeepCollectionEquality()
+                    .equals(other.markdown, markdown)) &&
             (identical(other.postNumber, postNumber) ||
                 const DeepCollectionEquality()
                     .equals(other.postNumber, postNumber)) &&
@@ -358,6 +381,7 @@ class _$_Post implements _Post {
       const DeepCollectionEquality().hash(name) ^
       const DeepCollectionEquality().hash(username) ^
       const DeepCollectionEquality().hash(cooked) ^
+      const DeepCollectionEquality().hash(markdown) ^
       const DeepCollectionEquality().hash(postNumber) ^
       const DeepCollectionEquality().hash(createdAt) ^
       const DeepCollectionEquality().hash(updatedAt) ^
@@ -383,6 +407,7 @@ abstract class _Post implements Post {
       required String name,
       required String username,
       required String cooked,
+      @JsonKey(ignore: true) String? markdown,
       @JsonKey(name: 'post_number') required int postNumber,
       @JsonKey(name: 'created_at') required String createdAt,
       @JsonKey(name: 'updated_at') required String updatedAt,
@@ -401,6 +426,9 @@ abstract class _Post implements Post {
   String get username => throw _privateConstructorUsedError;
   @override
   String get cooked => throw _privateConstructorUsedError;
+  @override
+  @JsonKey(ignore: true)
+  String? get markdown => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: 'post_number')
   int get postNumber => throw _privateConstructorUsedError;

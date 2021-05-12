@@ -3,11 +3,16 @@ part of '../client.dart';
 const kPostPageSize = 20;
 
 extension PostClient on DiscourseApiClient {
-  Post _buildPost(Map<String, dynamic> json) {
+  Post _buildPost(Map<String, dynamic> json, {bool cooked2md = false}) {
     var result = Post.fromJson(json);
     result = result.copyWith(
       rawJson: json,
     );
+    if (cooked2md) {
+      result = result.copyWith(
+        markdown: h2m.convert(result.cooked),
+      );
+    }
     return result;
   }
 
@@ -37,7 +42,7 @@ extension PostClient on DiscourseApiClient {
               'post_ids[]': ids.toList(),
             });
             List postList = res.data['post_stream']['posts'];
-            result.addAll(postList.map((e) => _buildPost(e)));
+            result.addAll(postList.map((e) => _buildPost(e, cooked2md: true)));
           }
         }
       }

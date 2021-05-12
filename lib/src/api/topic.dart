@@ -3,7 +3,8 @@ part of '../client.dart';
 const kTopicPageSize = 30;
 
 extension TopicClient on DiscourseApiClient {
-  Topic _buildTopic(Map<String, dynamic> json, {List<dynamic>? users}) {
+  Topic _buildTopic(Map<String, dynamic> json,
+      {List<dynamic>? users, List<dynamic>? postersJson}) {
     var result = Topic.fromJson(json);
     result = result.copyWith(
       rawJson: json,
@@ -16,7 +17,7 @@ extension TopicClient on DiscourseApiClient {
     if (json['post_stream'] != null && json['post_stream']['posts'] != null) {
       List postList = json['post_stream']['posts'];
       result = result.copyWith(
-        posts: postList.map((e) => _buildPost(e)).toList(),
+        posts: postList.map((e) => _buildPost(e, cooked2md: true)).toList(),
       );
     }
     if (json['post_stream'] != null && json['post_stream']['stream'] != null) {
@@ -25,8 +26,8 @@ extension TopicClient on DiscourseApiClient {
         postIds: postIdList.map((e) => int.parse((e.toString()))).toList(),
       );
     }
-    if (json['posters'] != null) {
-      List posters = json['posters'];
+    if (json['posters'] != null || postersJson != null) {
+      List posters = postersJson ?? json['posters'];
       result = result.copyWith(
         posterIds: posters.map((e) => e['user_id'] as int).toList(),
       );

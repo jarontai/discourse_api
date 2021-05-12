@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:cookie_jar/cookie_jar.dart';
 import 'package:dio/dio.dart';
 import 'package:dio_cookie_manager/dio_cookie_manager.dart';
+import 'package:html2md/html2md.dart' as h2m;
 
 import 'models/models.dart';
 
