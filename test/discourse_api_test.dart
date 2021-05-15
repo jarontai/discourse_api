@@ -55,6 +55,8 @@ void main() {
       var posts = await client.topicPosts(firstTopic);
       expect(posts.length, lessThanOrEqualTo(firstTopic.posts!.length));
       expect(posts.first.id, equals(firstTopic.postIds!.first));
+      expect(posts.first.avatarTemplate, isNotEmpty);
+      expect(posts.first.createdAt, isNotEmpty);
 
       posts = await client.topicPosts(firstTopic, page: 1);
       expect(posts.length, lessThanOrEqualTo(firstTopic.posts!.length));

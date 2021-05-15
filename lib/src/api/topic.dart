@@ -1,6 +1,5 @@
 part of '../client.dart';
 
-const kDefaultPostType = 1;
 const kTopicPageSize = 30;
 
 extension TopicClient on DiscourseApiClient {

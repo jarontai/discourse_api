@@ -1,7 +1,27 @@
 part of '../client.dart';
 
-const kPostType = 1;
 const kPostPageSize = 20;
+
+final asideRule = h2m.Rule(
+  'aside-onebox',
+  filterFn: (node) {
+    if (node.nodeName == 'aside' && node.className.contains('onebox')) {
+      return true;
+    }
+    return false;
+  },
+  replacement: (content, node) {
+    // Find the link under header
+    var header = node.firstChild;
+    var link =
+        header!.childNodes().firstWhere((element) => element.nodeName == 'a');
+    var href = link.getAttribute('href');
+    if (href != null && href.isNotEmpty) {
+      return '[$href]($href)';
+    }
+    return '';
+  },
+);
 
 extension PostClient on DiscourseApiClient {
   Post _buildPost(Map<String, dynamic> json, {bool cooked2md = false}) {
@@ -11,7 +31,15 @@ extension PostClient on DiscourseApiClient {
     );
     if (cooked2md) {
       result = result.copyWith(
-        markdown: h2m.convert(result.cooked),
+        markdown: h2m.convert(
+          result.cooked,
+          rules: [asideRule],
+        ),
+      );
+    }
+    if (cdnUrl != null) {
+      result = result.copyWith(
+        avatar: result.genAvatar(size: 120, cdn: cdnUrl),
       );
     }
     return result;
@@ -30,8 +58,8 @@ extension PostClient on DiscourseApiClient {
             postIds.isNotEmpty &&
             postIds.length > kPostPageSize) {
           var start = page * kPostPageSize;
-          var end = (page + 1) * kPostPageSize - 1;
-          var last = postIds.length - 1;
+          var end = (page + 1) * kPostPageSize;
+          var last = postIds.length;
           if (end > last) {
             end = last;
           }
@@ -43,9 +71,7 @@ extension PostClient on DiscourseApiClient {
               'post_ids[]': ids.toList(),
             });
             List postList = res.data['post_stream']['posts'];
-            result.addAll(postList
-                .map((e) => _buildPost(e, cooked2md: true))
-                .where((element) => element.postType == kPostType));
+            result.addAll(postList.map((e) => _buildPost(e, cooked2md: true)));
           }
         }
       }

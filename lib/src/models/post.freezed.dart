@@ -25,6 +25,8 @@ class _$PostTearOff {
       required String name,
       required String username,
       required String cooked,
+      @JsonKey(name: 'avatar_template') required String avatarTemplate,
+      @JsonKey(ignore: true) String? avatar,
       @JsonKey(ignore: true) String? markdown,
       @JsonKey(name: 'post_number') required int postNumber,
       @JsonKey(name: 'post_type') required int postType,
@@ -39,6 +41,8 @@ class _$PostTearOff {
       name: name,
       username: username,
       cooked: cooked,
+      avatarTemplate: avatarTemplate,
+      avatar: avatar,
       markdown: markdown,
       postNumber: postNumber,
       postType: postType,
@@ -65,6 +69,10 @@ mixin _$Post {
   String get name => throw _privateConstructorUsedError;
   String get username => throw _privateConstructorUsedError;
   String get cooked => throw _privateConstructorUsedError;
+  @JsonKey(name: 'avatar_template')
+  String get avatarTemplate => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  String? get avatar => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   String? get markdown => throw _privateConstructorUsedError;
   @JsonKey(name: 'post_number')
@@ -98,6 +106,8 @@ abstract class $PostCopyWith<$Res> {
       String name,
       String username,
       String cooked,
+      @JsonKey(name: 'avatar_template') String avatarTemplate,
+      @JsonKey(ignore: true) String? avatar,
       @JsonKey(ignore: true) String? markdown,
       @JsonKey(name: 'post_number') int postNumber,
       @JsonKey(name: 'post_type') int postType,
@@ -123,6 +133,8 @@ class _$PostCopyWithImpl<$Res> implements $PostCopyWith<$Res> {
     Object? name = freezed,
     Object? username = freezed,
     Object? cooked = freezed,
+    Object? avatarTemplate = freezed,
+    Object? avatar = freezed,
     Object? markdown = freezed,
     Object? postNumber = freezed,
     Object? postType = freezed,
@@ -150,6 +162,14 @@ class _$PostCopyWithImpl<$Res> implements $PostCopyWith<$Res> {
           ? _value.cooked
           : cooked // ignore: cast_nullable_to_non_nullable
               as String,
+      avatarTemplate: avatarTemplate == freezed
+          ? _value.avatarTemplate
+          : avatarTemplate // ignore: cast_nullable_to_non_nullable
+              as String,
+      avatar: avatar == freezed
+          ? _value.avatar
+          : avatar // ignore: cast_nullable_to_non_nullable
+              as String?,
       markdown: markdown == freezed
           ? _value.markdown
           : markdown // ignore: cast_nullable_to_non_nullable
@@ -200,6 +220,8 @@ abstract class _$PostCopyWith<$Res> implements $PostCopyWith<$Res> {
       String name,
       String username,
       String cooked,
+      @JsonKey(name: 'avatar_template') String avatarTemplate,
+      @JsonKey(ignore: true) String? avatar,
       @JsonKey(ignore: true) String? markdown,
       @JsonKey(name: 'post_number') int postNumber,
       @JsonKey(name: 'post_type') int postType,
@@ -226,6 +248,8 @@ class __$PostCopyWithImpl<$Res> extends _$PostCopyWithImpl<$Res>
     Object? name = freezed,
     Object? username = freezed,
     Object? cooked = freezed,
+    Object? avatarTemplate = freezed,
+    Object? avatar = freezed,
     Object? markdown = freezed,
     Object? postNumber = freezed,
     Object? postType = freezed,
@@ -253,6 +277,14 @@ class __$PostCopyWithImpl<$Res> extends _$PostCopyWithImpl<$Res>
           ? _value.cooked
           : cooked // ignore: cast_nullable_to_non_nullable
               as String,
+      avatarTemplate: avatarTemplate == freezed
+          ? _value.avatarTemplate
+          : avatarTemplate // ignore: cast_nullable_to_non_nullable
+              as String,
+      avatar: avatar == freezed
+          ? _value.avatar
+          : avatar // ignore: cast_nullable_to_non_nullable
+              as String?,
       markdown: markdown == freezed
           ? _value.markdown
           : markdown // ignore: cast_nullable_to_non_nullable
@@ -296,12 +328,14 @@ class __$PostCopyWithImpl<$Res> extends _$PostCopyWithImpl<$Res>
 @JsonSerializable()
 
 /// @nodoc
-class _$_Post implements _Post {
+class _$_Post extends _Post {
   _$_Post(
       {required this.id,
       required this.name,
       required this.username,
       required this.cooked,
+      @JsonKey(name: 'avatar_template') required this.avatarTemplate,
+      @JsonKey(ignore: true) this.avatar,
       @JsonKey(ignore: true) this.markdown,
       @JsonKey(name: 'post_number') required this.postNumber,
       @JsonKey(name: 'post_type') required this.postType,
@@ -310,7 +344,8 @@ class _$_Post implements _Post {
       @JsonKey(name: 'reply_count') required this.replyCount,
       @JsonKey(name: 'topic_id') required this.topicId,
       @JsonKey(name: 'topic_slug') required this.topicSlug,
-      @JsonKey(ignore: true) this.rawJson});
+      @JsonKey(ignore: true) this.rawJson})
+      : super._();
 
   factory _$_Post.fromJson(Map<String, dynamic> json) =>
       _$_$_PostFromJson(json);
@@ -323,6 +358,12 @@ class _$_Post implements _Post {
   final String username;
   @override
   final String cooked;
+  @override
+  @JsonKey(name: 'avatar_template')
+  final String avatarTemplate;
+  @override
+  @JsonKey(ignore: true)
+  final String? avatar;
   @override
   @JsonKey(ignore: true)
   final String? markdown;
@@ -353,7 +394,7 @@ class _$_Post implements _Post {
 
   @override
   String toString() {
-    return 'Post(id: $id, name: $name, username: $username, cooked: $cooked, markdown: $markdown, postNumber: $postNumber, postType: $postType, createdAt: $createdAt, updatedAt: $updatedAt, replyCount: $replyCount, topicId: $topicId, topicSlug: $topicSlug, rawJson: $rawJson)';
+    return 'Post(id: $id, name: $name, username: $username, cooked: $cooked, avatarTemplate: $avatarTemplate, avatar: $avatar, markdown: $markdown, postNumber: $postNumber, postType: $postType, createdAt: $createdAt, updatedAt: $updatedAt, replyCount: $replyCount, topicId: $topicId, topicSlug: $topicSlug, rawJson: $rawJson)';
   }
 
   @override
@@ -369,6 +410,11 @@ class _$_Post implements _Post {
                     .equals(other.username, username)) &&
             (identical(other.cooked, cooked) ||
                 const DeepCollectionEquality().equals(other.cooked, cooked)) &&
+            (identical(other.avatarTemplate, avatarTemplate) ||
+                const DeepCollectionEquality()
+                    .equals(other.avatarTemplate, avatarTemplate)) &&
+            (identical(other.avatar, avatar) ||
+                const DeepCollectionEquality().equals(other.avatar, avatar)) &&
             (identical(other.markdown, markdown) ||
                 const DeepCollectionEquality()
                     .equals(other.markdown, markdown)) &&
@@ -404,6 +450,8 @@ class _$_Post implements _Post {
       const DeepCollectionEquality().hash(name) ^
       const DeepCollectionEquality().hash(username) ^
       const DeepCollectionEquality().hash(cooked) ^
+      const DeepCollectionEquality().hash(avatarTemplate) ^
+      const DeepCollectionEquality().hash(avatar) ^
       const DeepCollectionEquality().hash(markdown) ^
       const DeepCollectionEquality().hash(postNumber) ^
       const DeepCollectionEquality().hash(postType) ^
@@ -425,12 +473,14 @@ class _$_Post implements _Post {
   }
 }
 
-abstract class _Post implements Post {
+abstract class _Post extends Post {
   factory _Post(
       {required int id,
       required String name,
       required String username,
       required String cooked,
+      @JsonKey(name: 'avatar_template') required String avatarTemplate,
+      @JsonKey(ignore: true) String? avatar,
       @JsonKey(ignore: true) String? markdown,
       @JsonKey(name: 'post_number') required int postNumber,
       @JsonKey(name: 'post_type') required int postType,
@@ -440,6 +490,7 @@ abstract class _Post implements Post {
       @JsonKey(name: 'topic_id') required int topicId,
       @JsonKey(name: 'topic_slug') required String topicSlug,
       @JsonKey(ignore: true) Map<String, dynamic>? rawJson}) = _$_Post;
+  _Post._() : super._();
 
   factory _Post.fromJson(Map<String, dynamic> json) = _$_Post.fromJson;
 
@@ -451,6 +502,12 @@ abstract class _Post implements Post {
   String get username => throw _privateConstructorUsedError;
   @override
   String get cooked => throw _privateConstructorUsedError;
+  @override
+  @JsonKey(name: 'avatar_template')
+  String get avatarTemplate => throw _privateConstructorUsedError;
+  @override
+  @JsonKey(ignore: true)
+  String? get avatar => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   String? get markdown => throw _privateConstructorUsedError;

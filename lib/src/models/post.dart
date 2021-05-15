@@ -10,6 +10,8 @@ class Post with _$Post {
     required String name,
     required String username,
     required String cooked,
+    @JsonKey(name: 'avatar_template') required String avatarTemplate,
+    @JsonKey(ignore: true) String? avatar,
     @JsonKey(ignore: true) String? markdown,
     @JsonKey(name: 'post_number') required int postNumber,
     @JsonKey(name: 'post_type') required int postType,
@@ -22,4 +24,14 @@ class Post with _$Post {
   }) = _Post;
 
   factory Post.fromJson(Map<String, dynamic> json) => _$PostFromJson(json);
+
+  Post._(); // Added constructor
+
+  String genAvatar({int size = 25, String? cdn}) {
+    var result = avatarTemplate.replaceFirst('{size}', '$size');
+    if (cdn != null && !avatarTemplate.startsWith('http')) {
+      result = cdn + result;
+    }
+    return result;
+  }
 }
