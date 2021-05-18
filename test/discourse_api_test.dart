@@ -106,6 +106,8 @@ void main() {
       expect(topic.id, equals(updateTopicId));
 
       await client.topicDelete(updateTopicId);
+
+      await client.logout(username);
     });
 
     test('Poll', () async {
