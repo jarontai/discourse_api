@@ -69,6 +69,9 @@ void main() {
       var user = await client.login(username!, password!);
       expect(user.username, username);
 
+      var login = await client.checkLogin();
+      expect(login, true);
+
       var categories = await client.categories();
       var staffCategory =
           categories.firstWhere((element) => element.slug == 'staff');

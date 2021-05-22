@@ -2,7 +2,7 @@ part of '../client.dart';
 
 const kPostPageSize = 20;
 
-final asideRule = h2m.Rule(
+final asideRule = html2md.Rule(
   'aside-onebox',
   filterFn: (node) {
     if (node.nodeName == 'aside' && node.className.contains('onebox')) {
@@ -31,7 +31,7 @@ extension PostClient on DiscourseApiClient {
     );
     if (cooked2md) {
       result = result.copyWith(
-        markdown: h2m.convert(
+        markdown: html2md.convert(
           result.cooked,
           rules: [asideRule],
         ),

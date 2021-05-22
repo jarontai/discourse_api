@@ -7,7 +7,8 @@ extension AuthClient on DiscourseApiClient {
     var res = await _dio.post('$siteUrl/session',
         options: Options(
           headers: {
-            'x-csrf-token': csrfToken,
+            'Origin': siteUrl,
+            'Referer': siteUrl,
           },
           contentType: Headers.formUrlEncodedContentType,
         ),
@@ -33,5 +34,21 @@ extension AuthClient on DiscourseApiClient {
         contentType: Headers.formUrlEncodedContentType,
       ),
     );
+  }
+
+  Future<bool> checkLogin() async {
+    var login = false;
+    try {
+      await _dio.get(
+        '$siteUrl/notifications.json',
+        options: Options(
+          contentType: Headers.formUrlEncodedContentType,
+        ),
+      );
+      login = true;
+    } on DioError catch (_) {
+      login = false;
+    }
+    return login;
   }
 }
