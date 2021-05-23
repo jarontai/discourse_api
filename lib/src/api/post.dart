@@ -3,22 +3,48 @@ part of '../client.dart';
 const kPostPageSize = 20;
 
 final asideRule = html2md.Rule(
-  'aside-onebox',
+  'discourse-onebox',
   filterFn: (node) {
+    if (node.className.contains('onebox') &&
+        node.className.contains('lazyYT')) {
+      return true;
+    }
     if (node.nodeName == 'aside' && node.className.contains('onebox')) {
       return true;
     }
     return false;
   },
   replacement: (content, node) {
-    // Find the link under header
-    var header = node.firstChild;
-    var link =
-        header!.childNodes().firstWhere((element) => element.nodeName == 'a');
-    var href = link.getAttribute('href');
-    if (href != null && href.isNotEmpty) {
-      return '[$href]($href)';
+    // Find the html5 video
+    var first = node.firstChild;
+    var last = node.childNodes().last;
+    if (first != null && first.nodeName == 'a') {
+      var href = first.getAttribute('href');
+      var img = first.firstChild;
+      if (href != null && img != null && img.nodeName == 'img') {
+        return '[${img.getAttribute('title') ?? href}]($href)';
+      }
     }
+    if (last.className.contains('html5-info-bar')) {
+      var link = last.firstChild?.firstChild?.firstChild;
+      if (link != null) {
+        var href = link.getAttribute('href');
+        if (href != null && href.isNotEmpty) {
+          return '[${link.textContent}]($href)';
+        }
+      }
+    }
+
+    // Find the link under header
+    if (first != null && first.nodeName == 'header') {
+      var link =
+          first.childNodes().firstWhere((element) => element.nodeName == 'a');
+      var href = link.getAttribute('href');
+      if (href != null && href.isNotEmpty) {
+        return '[$href]($href)';
+      }
+    }
+
     return '';
   },
 );

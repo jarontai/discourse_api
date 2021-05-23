@@ -40,15 +40,23 @@ extension AuthClient on DiscourseApiClient {
     var login = false;
     try {
       await _dio.get(
-        '$siteUrl/notifications.json',
+        '$siteUrl/notifications.json?recent=1&limit=1',
         options: Options(
-          contentType: Headers.formUrlEncodedContentType,
-        ),
+            contentType: Headers.formUrlEncodedContentType,
+            validateStatus: (code) {
+              return code != null && code < 500;
+            }),
       );
       login = true;
-    } on DioError catch (_) {
+    } catch (error) {
       login = false;
     }
     return login;
+  }
+
+  Future<User> userInfo(String username) async {
+    var res = await _dio.get('$siteUrl/u/$username.json');
+    var jsonMap = res.data['user'];
+    return User.fromJson(jsonMap);
   }
 }
