@@ -2,7 +2,7 @@ part of '../client.dart';
 
 const kPostPageSize = 20;
 
-final asideRule = html2md.Rule(
+final oneboxRule = html2md.Rule(
   'discourse-onebox',
   filterFn: (node) {
     if (node.className.contains('onebox') &&
@@ -49,6 +49,21 @@ final asideRule = html2md.Rule(
   },
 );
 
+final emojiRule = html2md.Rule(
+  'discourse-emoji',
+  filterFn: (node) {
+    if (node.className.contains('emoji') && node.nodeName == 'img') {
+      return true;
+    }
+    return false;
+  },
+  replacement: (content, node) {
+    var result = node.getAttribute('title');
+    result ??= node.getAttribute('alt');
+    return result ?? '';
+  },
+);
+
 extension PostClient on DiscourseApiClient {
   Post _buildPost(Map<String, dynamic> json, {bool cooked2md = false}) {
     var result = Post.fromJson(json);
@@ -59,7 +74,7 @@ extension PostClient on DiscourseApiClient {
       result = result.copyWith(
         markdown: html2md.convert(
           result.cooked,
-          rules: [asideRule],
+          rules: [emojiRule, oneboxRule],
         ),
       );
     }
