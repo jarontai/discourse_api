@@ -46,7 +46,8 @@ extension TopicClient on DiscourseApiClient {
           var user = User.fromJson(e);
           if (cdnUrl != null) {
             user = user.copyWith(
-              avatar: user.genAvatar(size: 120, cdn: cdnUrl),
+              avatar: DiscourseApiClient.genAvatar(user.avatarTemplate,
+                  size: 120, cdn: cdnUrl),
             );
           }
           return user;

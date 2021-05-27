@@ -64,8 +64,42 @@ final emojiRule = html2md.Rule(
   },
 );
 
+final lighboxRule = html2md.Rule(
+  'discourse-lightbox',
+  filterFn: (node) {
+    if (node.className.contains('lightbox') && node.nodeName == 'a') {
+      return true;
+    }
+    return false;
+  },
+  replacement: (content, node) {
+    var first = node.firstChild;
+    if (first != null && first.nodeName == 'img') {
+      var alt = first.getAttribute('alt') ?? '';
+      var src = first.getAttribute('src') ?? '';
+      var title = first.getAttribute('title') ?? '';
+      var titlePart = title.isNotEmpty ? ' "' + title + '"' : '';
+
+      var size = '';
+      var width = first.getAttribute('width') ?? '';
+      var height = first.getAttribute('height') ?? '';
+      if (width.isNotEmpty && height.isNotEmpty) {
+        size = '#${width}x$height';
+      }
+
+      // TODO:
+      size = '#200x200';
+
+      return src.isNotEmpty
+          ? '![' + alt + ']' + '(' + src + titlePart + size + ')'
+          : '';
+    }
+    return '';
+  },
+);
+
 extension PostClient on DiscourseApiClient {
-  Post _buildPost(Map<String, dynamic> json, {bool cooked2md = false}) {
+  Post _buildPost(Map<String, dynamic> json, {bool cooked2md = true}) {
     var result = Post.fromJson(json);
     result = result.copyWith(
       rawJson: json,
@@ -74,13 +108,14 @@ extension PostClient on DiscourseApiClient {
       result = result.copyWith(
         markdown: html2md.convert(
           result.cooked,
-          rules: [emojiRule, oneboxRule],
+          rules: [emojiRule, oneboxRule, lighboxRule],
         ),
       );
     }
     if (cdnUrl != null) {
       result = result.copyWith(
-        avatar: result.genAvatar(size: 120, cdn: cdnUrl),
+        avatar: DiscourseApiClient.genAvatar(result.avatarTemplate,
+            size: 120, cdn: cdnUrl),
       );
     }
     return result;

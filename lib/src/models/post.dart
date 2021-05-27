@@ -26,12 +26,4 @@ class Post with _$Post {
   factory Post.fromJson(Map<String, dynamic> json) => _$PostFromJson(json);
 
   Post._(); // Added constructor
-
-  String genAvatar({int size = 25, String? cdn}) {
-    var result = avatarTemplate.replaceFirst('{size}', '$size');
-    if (cdn != null && !avatarTemplate.startsWith('http')) {
-      result = cdn + result;
-    }
-    return result;
-  }
 }

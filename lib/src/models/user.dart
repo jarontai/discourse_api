@@ -22,12 +22,4 @@ class User with _$User {
   User._(); // Added constructor
 
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
-
-  String genAvatar({int size = 25, String? cdn}) {
-    var result = avatarTemplate.replaceFirst('{size}', '$size');
-    if (cdn != null && !avatarTemplate.startsWith('http')) {
-      result = cdn + result;
-    }
-    return result;
-  }
 }

@@ -3,13 +3,14 @@ import 'dart:math';
 import 'package:cookie_jar/cookie_jar.dart';
 import 'package:dio/dio.dart';
 import 'package:dio_cookie_manager/dio_cookie_manager.dart';
+import 'package:discourse_api/src/models/user_action.dart';
 import 'package:html2md/html2md.dart' as html2md;
 
 import 'models/models.dart';
 
 part 'api/topic.dart';
 part 'api/post.dart';
-part 'api/auth.dart';
+part 'api/user.dart';
 
 const kStatusChannel = '/__status';
 const kLatestChannel = '/latest';
@@ -73,6 +74,14 @@ class DiscourseApiClient {
       return url.substring(0, url.length - 2);
     }
     return url;
+  }
+
+  static String genAvatar(String avatarTemplate, {int size = 25, String? cdn}) {
+    var result = avatarTemplate.replaceFirst('{size}', '$size');
+    if (cdn != null && !avatarTemplate.startsWith('http')) {
+      result = cdn + result;
+    }
+    return result;
   }
 
   Future<String> _csrf({bool refresh = false}) async {

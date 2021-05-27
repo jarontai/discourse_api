@@ -1,6 +1,17 @@
 part of '../client.dart';
 
-extension AuthClient on DiscourseApiClient {
+extension UserClient on DiscourseApiClient {
+  User _buildUser(dynamic json) {
+    var user = User.fromJson(json);
+    if (cdnUrl != null) {
+      user = user.copyWith(
+        avatar: DiscourseApiClient.genAvatar(user.avatarTemplate,
+            size: 120, cdn: cdnUrl),
+      );
+    }
+    return user;
+  }
+
   Future<User> login(String username, String password) async {
     var csrfToken = await _csrf(refresh: true);
     assert(csrfToken.length >= 80, 'csrf token error');
@@ -19,7 +30,7 @@ extension AuthClient on DiscourseApiClient {
         });
 
     var jsonMap = res.data['user'];
-    return User.fromJson(jsonMap);
+    return _buildUser(jsonMap);
   }
 
   Future<void> logout(String username) async {
@@ -57,6 +68,13 @@ extension AuthClient on DiscourseApiClient {
   Future<User> userInfo(String username) async {
     var res = await _dio.get('$siteUrl/u/$username.json');
     var jsonMap = res.data['user'];
-    return User.fromJson(jsonMap);
+    return _buildUser(jsonMap);
   }
+
+  // https://www.dart-china.org/user_actions.json?offset=0&username=jarontai&filter=4,5&no_results_help_key=user_activity.no_default
+
+  // Future<List<UserAction>> userActions(String username) {
+  //   //
+  //   return null;
+  // }
 }
