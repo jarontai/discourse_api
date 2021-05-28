@@ -29,7 +29,7 @@ void main() {
     });
 
     test('Topics / Posts', () async {
-      var result = await client.topicList();
+      var result = (await client.topicList()).data;
       var firstTopic = await client.topicDetail(result.first.id);
 
       expect(result.length, greaterThan(1));
@@ -39,11 +39,12 @@ void main() {
       expect(result.first.categoryId, isNotNaN);
       expect(result.first.excerpt, isNotEmpty);
 
-      result = await client.topicList(page: 1);
+      result = (await client.topicList(page: 1)).data;
       expect(result.length, greaterThan(1));
       expect(result.last.title, isNotEmpty);
 
-      result = await client.topicList(categoryId: 3, categorySlug: 'meta');
+      result =
+          (await client.topicList(categoryId: 3, categorySlug: 'meta')).data;
       expect(result.length, greaterThan(1));
       expect(result.last.title, isNotEmpty);
 
@@ -52,13 +53,13 @@ void main() {
       expect(topic.posts, isNotEmpty);
       expect(topic.postIds, isNotEmpty);
 
-      var posts = await client.topicPosts(firstTopic);
+      var posts = (await client.topicPosts(firstTopic)).data;
       expect(posts.length, lessThanOrEqualTo(firstTopic.posts!.length));
       expect(posts.first.id, equals(firstTopic.postIds!.first));
       expect(posts.first.avatarTemplate, isNotEmpty);
       expect(posts.first.createdAt, isNotEmpty);
 
-      posts = await client.topicPosts(firstTopic, page: 1);
+      posts = (await client.topicPosts(firstTopic, page: 1)).data;
       expect(posts.length, lessThanOrEqualTo(firstTopic.posts!.length));
     });
 

@@ -1,6 +1,7 @@
 part of '../client.dart';
 
 const kPostPageSize = 20;
+const kDefaultPostType = 1;
 
 final oneboxRule = html2md.Rule(
   'discourse-onebox',
@@ -87,9 +88,6 @@ final lighboxRule = html2md.Rule(
         size = '#${width}x$height';
       }
 
-      // TODO:
-      size = '#200x200';
-
       return src.isNotEmpty
           ? '![' + alt + ']' + '(' + src + titlePart + size + ')'
           : '';
@@ -121,7 +119,8 @@ extension PostClient on DiscourseApiClient {
     return result;
   }
 
-  Future<List<Post>> topicPosts(Topic topic, {int page = 0}) async {
+  Future<PageModel<Post>> topicPosts(Topic topic,
+      {int page = 0, bool filterPost = true}) async {
     var result = <Post>[];
 
     if (topic.postIds != null && topic.posts != null) {
@@ -153,7 +152,13 @@ extension PostClient on DiscourseApiClient {
       }
     }
 
-    return result;
+    if (filterPost) {
+      result = result
+          .where((element) => element.postType == kDefaultPostType)
+          .toList();
+    }
+
+    return PageModel(data: result, page: page, pageSize: kPostPageSize);
   }
 
   Future<Post> postCreate(int topicId, String raw) async {

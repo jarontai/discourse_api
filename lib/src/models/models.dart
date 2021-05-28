@@ -1,4 +1,4 @@
-export './pager.dart';
+export './page_model.dart';
 export './about.dart';
 export './category.dart';
 export './post.dart';

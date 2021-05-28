@@ -57,12 +57,12 @@ extension TopicClient on DiscourseApiClient {
     return result;
   }
 
-  Future<List<Topic>> topicList({
+  Future<PageModel<Topic>> topicList({
     bool latest = true,
     bool top = false,
+    int page = 0,
     String? categorySlug,
     int? categoryId,
-    int? page,
   }) async {
     var result = <Topic>[];
 
@@ -75,7 +75,7 @@ extension TopicClient on DiscourseApiClient {
         url = '$siteUrl/latest';
       }
 
-      if (page != null && page > 0) {
+      if (page > 0) {
         url = '$url?page=$page';
       }
 
@@ -87,7 +87,7 @@ extension TopicClient on DiscourseApiClient {
           .toList());
     }
 
-    return result;
+    return PageModel(pageSize: kTopicPageSize, data: result, page: page);
   }
 
   Future<Topic> topicDetail(int topicId) async {
