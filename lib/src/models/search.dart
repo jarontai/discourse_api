@@ -4,12 +4,12 @@ part 'search.freezed.dart';
 part 'search.g.dart';
 
 class SearchResult {
-  final List<SearchPost> posts;
-  final List<SearchTopic> topics;
+  final SearchPost post;
+  final SearchTopic topic;
 
   SearchResult({
-    required this.posts,
-    required this.topics,
+    required this.post,
+    required this.topic,
   });
 }
 
@@ -17,7 +17,10 @@ class SearchResult {
 class SearchPost with _$SearchPost {
   factory SearchPost({
     required final int id,
+    @JsonKey(name: 'topic_id') required final int topicId,
+    @JsonKey(name: 'avatar_template') required final String avatarTemplate,
     required final String name,
+    required final String username,
     @JsonKey(name: 'created_at') required final String createdAt,
     required final String blurb,
   }) = _SearchPost;

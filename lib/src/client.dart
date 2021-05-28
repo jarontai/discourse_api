@@ -155,20 +155,48 @@ class DiscourseApiClient {
     return result;
   }
 
-  Future<SearchResult> search(String q, {int page = 0}) async {
+  Future<PageModel<SearchResult>> search(String token,
+      {int page = 1,
+      String? categorySlug,
+      DateTime? startDate,
+      DateTime? endDate}) async {
     var options = await _csrfOptions();
+    var tokens = [
+      token,
+      if (categorySlug != null && categorySlug.isNotEmpty) '#$categorySlug',
+      if (startDate != null)
+        'after:${startDate.toIso8601String().substring(0, 10)}',
+      if (endDate != null)
+        'before:${(endDate.toIso8601String().substring(0, 10))}',
+    ];
+
     var res = await _dio.get(
       '$siteUrl/search',
       options: options,
       queryParameters: {
-        'q': q,
+        'q': tokens.join(' '),
+        if (page > 1) 'page': page,
       },
     );
 
-    List postList = res.data['posts'];
-    List topicList = res.data['topics'];
-    var searchPosts = postList.map((e) => SearchPost.fromJson(e)).toList();
-    var searchTopics = topicList.map((e) => SearchTopic.fromJson(e)).toList();
-    return SearchResult(posts: searchPosts, topics: searchTopics);
+    var data = <SearchResult>[];
+
+    if (res.data['posts'] != null && res.data['topics'] != null) {
+      List postList = res.data['posts'];
+      List topicList = res.data['topics'];
+      var searchPosts = postList.map((e) => SearchPost.fromJson(e)).toList();
+      var searchTopics = topicList.map((e) => SearchTopic.fromJson(e)).toList();
+
+      assert(searchTopics.length == searchPosts.length);
+
+      for (var index = 0; index < searchPosts.length; index++) {
+        data.add(SearchResult(
+          post: searchPosts[index],
+          topic: searchTopics[index],
+        ));
+      }
+    }
+
+    return PageModel(data: data, page: page, pageSize: searchPageSize);
   }
 }

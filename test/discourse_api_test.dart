@@ -127,13 +127,15 @@ void main() {
     });
 
     test('Search', () async {
-      var result = await client.search('flutter');
-      expect(result.posts, isNotNull);
-      expect(result.posts, isNotEmpty);
-      expect(result.posts.last.blurb, isNotEmpty);
-      expect(result.topics, isNotNull);
-      expect(result.topics, isNotEmpty);
-      expect(result.topics.last.title, isNotEmpty);
+      var result = (await client.search('flutter',
+              endDate: DateTime.now(), categorySlug: 'question'))
+          .data;
+      expect(result, isNotNull);
+      expect(result, isNotEmpty);
+      expect(result.first.post, isNotNull);
+      expect(result.first.topic, isNotNull);
+      expect(result.last.post, isNotNull);
+      expect(result.last.topic, isNotNull);
     });
   });
 }

@@ -9,7 +9,10 @@ part of 'search.dart';
 _$_SearchPost _$_$_SearchPostFromJson(Map<String, dynamic> json) {
   return _$_SearchPost(
     id: json['id'] as int,
+    topicId: json['topic_id'] as int,
+    avatarTemplate: json['avatar_template'] as String,
     name: json['name'] as String,
+    username: json['username'] as String,
     createdAt: json['created_at'] as String,
     blurb: json['blurb'] as String,
   );
@@ -18,7 +21,10 @@ _$_SearchPost _$_$_SearchPostFromJson(Map<String, dynamic> json) {
 Map<String, dynamic> _$_$_SearchPostToJson(_$_SearchPost instance) =>
     <String, dynamic>{
       'id': instance.id,
+      'topic_id': instance.topicId,
+      'avatar_template': instance.avatarTemplate,
       'name': instance.name,
+      'username': instance.username,
       'created_at': instance.createdAt,
       'blurb': instance.blurb,
     };
