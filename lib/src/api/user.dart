@@ -71,6 +71,29 @@ extension UserClient on DiscourseApiClient {
     return _buildUser(jsonMap);
   }
 
+  Future<String> OAuth({String provider = 'github'}) async {
+    var csrfToken = await _csrf(refresh: true);
+    assert(csrfToken.length >= 80, 'csrf token error');
+    var res = await _dio.post(
+      '$siteUrl/auth/$provider',
+      options: Options(
+        contentType: Headers.formUrlEncodedContentType,
+        validateStatus: (status) {
+          return status != null && status < 500;
+        },
+      ),
+      data: {
+        'authenticity_token': csrfToken,
+      },
+    );
+
+    var result;
+    if (res.statusCode == 302) {
+      result = res.headers.value('location');
+    }
+    return result ?? '';
+  }
+
   // https://www.dart-china.org/user_actions.json?offset=0&username=jarontai&filter=4,5&no_results_help_key=user_activity.no_default
 
   // Future<List<UserAction>> userActions(String username) {

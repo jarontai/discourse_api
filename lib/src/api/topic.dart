@@ -9,6 +9,11 @@ extension TopicClient on DiscourseApiClient {
     result = result.copyWith(
       rawJson: json,
     );
+    if (json['details'] != null && json['details']['created_by'] != null) {
+      result = result.copyWith(
+        poster: User.fromJson(json['details']['created_by']),
+      );
+    }
     if (json['excerpt'] != null) {
       result = result.copyWith(
         excerpt: json['excerpt'],

@@ -137,5 +137,12 @@ void main() {
       expect(result.last.post, isNotNull);
       expect(result.last.topic, isNotNull);
     });
+
+    test('OAuth', () async {
+      var result = await client.OAuth();
+      expect(result, isNotNull);
+      expect(result, isNotEmpty);
+      expect(result, contains('github'));
+    });
   });
 }
