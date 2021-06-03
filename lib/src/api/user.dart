@@ -71,47 +71,91 @@ extension UserClient on DiscourseApiClient {
     return _buildUser(jsonMap);
   }
 
-  Future<String> oAuth({String provider = 'github'}) async {
-    var csrfToken = await _csrf(refresh: true);
-    assert(csrfToken.length >= 80, 'csrf token error');
+  Future<bool> register(String username, String email, String password) async {
     var res = await _dio.post(
-      '$siteUrl/auth/$provider',
+      '${siteUrl.replaceFirst('https', 'http')}:9080/user',
       options: Options(
-        contentType: Headers.formUrlEncodedContentType,
-        validateStatus: (status) {
-          return status != null && status < 500;
-        },
+        contentType: Headers.jsonContentType,
       ),
       data: {
-        'authenticity_token': csrfToken,
+        'username': username,
+        'email': email,
+        'password': password,
       },
     );
-
-    var result;
-    if (res.statusCode == 302) {
-      result = res.headers.value('location');
+    var body = res.data.toString();
+    if (body.contains('true')) {
+      return true;
     }
-    return result ?? '';
+    return false;
   }
 
-  Future<String> oAuthUrl({String provider = 'github'}) async {
-    return '$siteUrl/auth/$provider';
+  Future<bool> checkEmail(String email) async {
+    var res = await _dio.get(
+      '$siteUrl/u/check_email.json',
+      options: Options(
+        contentType: Headers.jsonContentType,
+      ),
+      queryParameters: {
+        'email': email,
+      },
+    );
+    var success = res.data['success'];
+    if (success != null && success.toString().toUpperCase() == 'OK') {
+      return true;
+    }
+    return false;
   }
 
-  // Future<List<String>> oAuthData({String provider = 'github'}) async {
-  //   var csrfToken = await _csrf(refresh: true, takeCookie: true);
+  Future<bool> checkUsername(String username) async {
+    var res = await _dio.get(
+      '$siteUrl/u/check_username.json',
+      options: Options(
+        contentType: Headers.jsonContentType,
+      ),
+      queryParameters: {
+        'username': username,
+      },
+    );
+    var success = res.data['success'];
+    var available = res.data['available'];
+    if (success != null && success.toString().toUpperCase() == 'OK') {
+      return true;
+    }
+    if (available != null && available == true) {
+      return true;
+    }
+    return false;
+  }
+
+// https://www.dart-china.org/u/check_email?email=daiqiu%40wohuaauto.com.cn
+// https://www.dart-china.org/u/check_username?username=test&email=daiqiu%40wohuaauto.com.cn
+
+  // Future<String> oAuth({String provider = 'github'}) async {
+  //   var csrfToken = await _csrf(refresh: true);
   //   assert(csrfToken.length >= 80, 'csrf token error');
-  //   return [
+  //   var res = await _dio.post(
   //     '$siteUrl/auth/$provider',
-  //     'authenticity_token=$csrfToken',
-  //     _cookie!
-  //   ];
+  //     options: Options(
+  //       contentType: Headers.formUrlEncodedContentType,
+  //       validateStatus: (status) {
+  //         return status != null && status < 500;
+  //       },
+  //     ),
+  //     data: {
+  //       'authenticity_token': csrfToken,
+  //     },
+  //   );
+
+  //   var result;
+  //   if (res.statusCode == 302) {
+  //     result = res.headers.value('location');
+  //   }
+  //   return result ?? '';
   // }
 
-  // https://www.dart-china.org/user_actions.json?offset=0&username=jarontai&filter=4,5&no_results_help_key=user_activity.no_default
-
-  // Future<List<UserAction>> userActions(String username) {
-  //   //
-  //   return null;
+  // Future<String> oAuthUrl({String provider = 'github'}) async {
+  //   return '$siteUrl/auth/$provider';
   // }
+
 }

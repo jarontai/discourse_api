@@ -138,11 +138,29 @@ void main() {
       expect(result.last.topic, isNotNull);
     });
 
-    test('OAuth', () async {
-      var result = await client.oAuth();
+    test('Register', () async {
+      var result = await client.register('jarotnai', '', '');
       expect(result, isNotNull);
-      expect(result, isNotEmpty);
-      expect(result, contains('github'));
+      expect(result, false);
+
+      result = await client.checkEmail('jarontai@126.com');
+      expect(result, false);
+
+      result = await client.checkEmail('jarontai1@126.com');
+      expect(result, true);
+
+      result = await client.checkUsername('jarontai');
+      expect(result, false);
+
+      result = await client.checkUsername('jarontai1');
+      expect(result, true);
     });
+
+    // test('OAuth', () async {
+    //   var result = await client.oAuth();
+    //   expect(result, isNotNull);
+    //   expect(result, isNotEmpty);
+    //   expect(result, contains('github'));
+    // });
   });
 }
