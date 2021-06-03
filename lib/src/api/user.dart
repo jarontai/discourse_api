@@ -71,7 +71,7 @@ extension UserClient on DiscourseApiClient {
     return _buildUser(jsonMap);
   }
 
-  Future<String> OAuth({String provider = 'github'}) async {
+  Future<String> oAuth({String provider = 'github'}) async {
     var csrfToken = await _csrf(refresh: true);
     assert(csrfToken.length >= 80, 'csrf token error');
     var res = await _dio.post(
@@ -93,6 +93,20 @@ extension UserClient on DiscourseApiClient {
     }
     return result ?? '';
   }
+
+  Future<String> oAuthUrl({String provider = 'github'}) async {
+    return '$siteUrl/auth/$provider';
+  }
+
+  // Future<List<String>> oAuthData({String provider = 'github'}) async {
+  //   var csrfToken = await _csrf(refresh: true, takeCookie: true);
+  //   assert(csrfToken.length >= 80, 'csrf token error');
+  //   return [
+  //     '$siteUrl/auth/$provider',
+  //     'authenticity_token=$csrfToken',
+  //     _cookie!
+  //   ];
+  // }
 
   // https://www.dart-china.org/user_actions.json?offset=0&username=jarontai&filter=4,5&no_results_help_key=user_activity.no_default
 

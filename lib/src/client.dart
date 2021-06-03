@@ -27,6 +27,7 @@ class DiscourseApiClient {
   final String? cdnUrl;
   late final Dio _dio;
 
+  String? _cookie;
   String? _csrfToken;
   late final String _clientId;
   int _pollCount = 0;
@@ -85,7 +86,7 @@ class DiscourseApiClient {
     return result;
   }
 
-  Future<String> _csrf({bool refresh = false}) async {
+  Future<String> _csrf({bool refresh = false, bool takeCookie = false}) async {
     if (_csrfToken == null || refresh) {
       var res = await _dio.get('$siteUrl/session/csrf',
           options: Options(headers: {
@@ -93,6 +94,10 @@ class DiscourseApiClient {
             'Referer': siteUrl,
           }));
       _csrfToken = res.data['csrf'];
+
+      if (takeCookie) {
+        _cookie = res.headers['set-cookie']!.first;
+      }
     }
     return _csrfToken!;
   }

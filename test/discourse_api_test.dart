@@ -139,7 +139,7 @@ void main() {
     });
 
     test('OAuth', () async {
-      var result = await client.OAuth();
+      var result = await client.oAuth();
       expect(result, isNotNull);
       expect(result, isNotEmpty);
       expect(result, contains('github'));
