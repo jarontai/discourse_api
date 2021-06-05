@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:crypto/crypto.dart';
 import 'package:http/http.dart' as http;
 import 'package:shelf/shelf.dart';
 import 'package:shelf/shelf_io.dart' as shelf_io;
@@ -12,11 +13,13 @@ class ApiServer {
     required this.siteUrl,
     required this.apiKey,
     this.apiUsername = 'system',
+    required this.signKey,
   });
 
   final String siteUrl;
   final String apiKey;
   final String apiUsername;
+  final String signKey;
 
   Future<bool> start(int port) async {
     var result = true;
@@ -33,7 +36,36 @@ class ApiServer {
     return result;
   }
 
+  bool checkSign(Map<String, String> headers) {
+    var sign = headers['sign'];
+    var ts = headers['ts'];
+    var nonce = headers['nonce'];
+    if (sign == null || ts == null || nonce == null) {
+      return false;
+    }
+
+    var now = DateTime.now();
+    var time = DateTime.fromMillisecondsSinceEpoch(int.parse(ts));
+    var diff = now.difference(time);
+    if (time.isAfter(now) || diff.inSeconds > 30) {
+      return false;
+    }
+
+    var mySign =
+        md5.convert(utf8.encode('$signKey$nonce$ts$signKey')).toString();
+    if (mySign == sign) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   Future<Response> _userCreateHandler(Request request) async {
+    if (checkSign(request.headers)) {
+    } else {
+      return Response.ok(json.encode({'sign': false}));
+    }
+
     var body = request.read();
     var list = <int>[];
     await for (var data in body) {
@@ -45,12 +77,12 @@ class ApiServer {
 
     final email = jsonData['email'] ?? '';
     final username = jsonData['username'] ?? '';
-    // final name = jsonData['name'];
     final password = jsonData['password'] ?? '';
+    // final name = jsonData['name'];
     // final active = jsonData['active'];
     // final approved = jsonData['approved'];
-    var url = Uri.parse('$siteUrl/users.json');
 
+    var url = Uri.parse('$siteUrl/users.json');
     var res = await http.post(
       url,
       headers: {

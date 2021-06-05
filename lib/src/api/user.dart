@@ -12,7 +12,7 @@ extension UserClient on DiscourseApiClient {
     return user;
   }
 
-  Future<User> login(String username, String password) async {
+  Future<User?> login(String username, String password) async {
     var csrfToken = await _csrf(refresh: true);
     assert(csrfToken.length >= 80, 'csrf token error');
     var res = await _dio.post('$siteUrl/session',
@@ -30,6 +30,9 @@ extension UserClient on DiscourseApiClient {
         });
 
     var jsonMap = res.data['user'];
+    if (jsonMap == null) {
+      return null;
+    }
     return _buildUser(jsonMap);
   }
 
@@ -71,7 +74,7 @@ extension UserClient on DiscourseApiClient {
     return _buildUser(jsonMap);
   }
 
-  Future<bool> register(String username, String email, String password) async {
+  Future<bool> register(String email, String username, String password) async {
     var res = await _dio.post(
       '${siteUrl.replaceFirst('https', 'http')}:9080/user',
       options: Options(

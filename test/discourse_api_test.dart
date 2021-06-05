@@ -68,7 +68,7 @@ void main() {
       var password = dot_env.env['password'];
 
       var user = await client.login(username!, password!);
-      expect(user.username, username);
+      expect(user!.username, username);
 
       var login = await client.checkLogin();
       expect(login, true);

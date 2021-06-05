@@ -8,10 +8,13 @@ void main(List<String> arguments) async {
   final siteUrl = dot.env['site_url'];
   final apiKey = dot.env['api_key'];
   final apiUsername = dot.env['api_Username'] ?? 'system';
+  final signKey = dot.env['sign_key'];
+
   assert(siteUrl != null);
   assert(apiKey != null);
 
   final server = ApiServer(
+      signKey: signKey ?? 'dc_di',
       siteUrl: 'https://www.dart-china.org',
       apiKey: apiKey!,
       apiUsername: apiUsername);
