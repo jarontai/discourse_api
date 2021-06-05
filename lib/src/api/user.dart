@@ -75,11 +75,11 @@ extension UserClient on DiscourseApiClient {
   }
 
   Future<bool> register(String email, String username, String password) async {
+    var signMap = _apiSignMap();
     var res = await _dio.post(
       '${siteUrl.replaceFirst('https', 'http')}:9080/user',
-      options: Options(
-        contentType: Headers.jsonContentType,
-      ),
+      options:
+          Options(contentType: Headers.jsonContentType, headers: {...signMap}),
       data: {
         'username': username,
         'email': email,
@@ -87,7 +87,8 @@ extension UserClient on DiscourseApiClient {
       },
     );
     var body = res.data.toString();
-    if (body.contains('true')) {
+    var data = json.decode(body);
+    if (data['success'] != null && data['success'] == true) {
       return true;
     }
     return false;

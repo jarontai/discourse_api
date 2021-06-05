@@ -1,6 +1,8 @@
+import 'dart:convert';
 import 'dart:math';
 
 import 'package:cookie_jar/cookie_jar.dart';
+import 'package:crypto/crypto.dart';
 import 'package:dio/dio.dart';
 import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 import 'package:discourse_api/discourse_api.dart';
@@ -110,6 +112,17 @@ class DiscourseApiClient {
       },
     );
     return options;
+  }
+
+  Map<String, String> _apiSignMap() {
+    final ts = DateTime.now().millisecondsSinceEpoch;
+    final nonce = DateTime.now().millisecond;
+    final signKey = 'dc_di';
+    return {
+      'ts': ts.toString(),
+      'nonce': nonce.toString(),
+      'sign': md5.convert(utf8.encode('$signKey$nonce$ts$signKey')).toString(),
+    };
   }
 
   PollMessage _buildPollMessage(Map<String, dynamic> json) {

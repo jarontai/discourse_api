@@ -1,6 +1,6 @@
 name: discourse_api
 description: A starting point for Dart libraries or applications.
-version: 0.2.53
+version: 0.2.55
 # homepage: https://www.example.com
 environment:
   sdk: '>=2.12.0 <3.0.0'
@@ -14,6 +14,7 @@ dev_dependencies:
   test: ^1.14.4
 dependencies:
   cookie_jar: ^3.0.1
+  crypto: ^3.0.1
   dio: ^4.0.0
   dio_cookie_manager: ^2.0.0
   dotenv: ^3.0.0-nullsafety.0
