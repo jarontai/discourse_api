@@ -1,7 +1,6 @@
-#POST http://www.dart-china.org:9080/user
-POST http://localhost:9080/user
+POST http://www.dart-china.org:9080/user
 sign:f6d7ada020aa0a518de487725516080a
 nonce:12345
 ts:1351441456747
 
-{"email": "you@email.com"}
+{"email": "you@email.com","username": "jarnotai1","password": "0987654321"}

@@ -100,10 +100,22 @@ class ApiServer {
       }),
     );
 
+    // body:"{"success":false,"message":"该用户名不可被使用。"}"
+    var message = '';
+    var result = false;
     if (res.statusCode == 200) {
+      var jsonMap = json.decode(res.body);
+      var success = jsonMap['success'];
+      message = jsonMap['message'] ?? '';
+      if (success == true) {
+        result = true;
+      }
+    }
+
+    if (result) {
       return Response.ok(json.encode({'success': true}));
     } else {
-      return Response.ok(json.encode({'success': false}));
+      return Response.ok(json.encode({'success': false, 'message': message}));
     }
   }
 }
