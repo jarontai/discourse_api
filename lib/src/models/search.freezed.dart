@@ -360,10 +360,12 @@ class _$SearchTopicTearOff {
   _SearchTopic call(
       {required int id,
       required String title,
+      @JsonKey(name: 'category_id') required int categoryId,
       @JsonKey(name: 'created_at') required String createdAt}) {
     return _SearchTopic(
       id: id,
       title: title,
+      categoryId: categoryId,
       createdAt: createdAt,
     );
   }
@@ -380,6 +382,8 @@ const $SearchTopic = _$SearchTopicTearOff();
 mixin _$SearchTopic {
   int get id => throw _privateConstructorUsedError;
   String get title => throw _privateConstructorUsedError;
+  @JsonKey(name: 'category_id')
+  int get categoryId => throw _privateConstructorUsedError;
   @JsonKey(name: 'created_at')
   String get createdAt => throw _privateConstructorUsedError;
 
@@ -395,7 +399,10 @@ abstract class $SearchTopicCopyWith<$Res> {
           SearchTopic value, $Res Function(SearchTopic) then) =
       _$SearchTopicCopyWithImpl<$Res>;
   $Res call(
-      {int id, String title, @JsonKey(name: 'created_at') String createdAt});
+      {int id,
+      String title,
+      @JsonKey(name: 'category_id') int categoryId,
+      @JsonKey(name: 'created_at') String createdAt});
 }
 
 /// @nodoc
@@ -410,6 +417,7 @@ class _$SearchTopicCopyWithImpl<$Res> implements $SearchTopicCopyWith<$Res> {
   $Res call({
     Object? id = freezed,
     Object? title = freezed,
+    Object? categoryId = freezed,
     Object? createdAt = freezed,
   }) {
     return _then(_value.copyWith(
@@ -421,6 +429,10 @@ class _$SearchTopicCopyWithImpl<$Res> implements $SearchTopicCopyWith<$Res> {
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
               as String,
+      categoryId: categoryId == freezed
+          ? _value.categoryId
+          : categoryId // ignore: cast_nullable_to_non_nullable
+              as int,
       createdAt: createdAt == freezed
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -437,7 +449,10 @@ abstract class _$SearchTopicCopyWith<$Res>
       __$SearchTopicCopyWithImpl<$Res>;
   @override
   $Res call(
-      {int id, String title, @JsonKey(name: 'created_at') String createdAt});
+      {int id,
+      String title,
+      @JsonKey(name: 'category_id') int categoryId,
+      @JsonKey(name: 'created_at') String createdAt});
 }
 
 /// @nodoc
@@ -454,6 +469,7 @@ class __$SearchTopicCopyWithImpl<$Res> extends _$SearchTopicCopyWithImpl<$Res>
   $Res call({
     Object? id = freezed,
     Object? title = freezed,
+    Object? categoryId = freezed,
     Object? createdAt = freezed,
   }) {
     return _then(_SearchTopic(
@@ -465,6 +481,10 @@ class __$SearchTopicCopyWithImpl<$Res> extends _$SearchTopicCopyWithImpl<$Res>
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
               as String,
+      categoryId: categoryId == freezed
+          ? _value.categoryId
+          : categoryId // ignore: cast_nullable_to_non_nullable
+              as int,
       createdAt: createdAt == freezed
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -480,6 +500,7 @@ class _$_SearchTopic implements _SearchTopic {
   _$_SearchTopic(
       {required this.id,
       required this.title,
+      @JsonKey(name: 'category_id') required this.categoryId,
       @JsonKey(name: 'created_at') required this.createdAt});
 
   factory _$_SearchTopic.fromJson(Map<String, dynamic> json) =>
@@ -490,12 +511,15 @@ class _$_SearchTopic implements _SearchTopic {
   @override
   final String title;
   @override
+  @JsonKey(name: 'category_id')
+  final int categoryId;
+  @override
   @JsonKey(name: 'created_at')
   final String createdAt;
 
   @override
   String toString() {
-    return 'SearchTopic(id: $id, title: $title, createdAt: $createdAt)';
+    return 'SearchTopic(id: $id, title: $title, categoryId: $categoryId, createdAt: $createdAt)';
   }
 
   @override
@@ -506,6 +530,9 @@ class _$_SearchTopic implements _SearchTopic {
                 const DeepCollectionEquality().equals(other.id, id)) &&
             (identical(other.title, title) ||
                 const DeepCollectionEquality().equals(other.title, title)) &&
+            (identical(other.categoryId, categoryId) ||
+                const DeepCollectionEquality()
+                    .equals(other.categoryId, categoryId)) &&
             (identical(other.createdAt, createdAt) ||
                 const DeepCollectionEquality()
                     .equals(other.createdAt, createdAt)));
@@ -516,6 +543,7 @@ class _$_SearchTopic implements _SearchTopic {
       runtimeType.hashCode ^
       const DeepCollectionEquality().hash(id) ^
       const DeepCollectionEquality().hash(title) ^
+      const DeepCollectionEquality().hash(categoryId) ^
       const DeepCollectionEquality().hash(createdAt);
 
   @JsonKey(ignore: true)
@@ -533,6 +561,7 @@ abstract class _SearchTopic implements SearchTopic {
   factory _SearchTopic(
       {required int id,
       required String title,
+      @JsonKey(name: 'category_id') required int categoryId,
       @JsonKey(name: 'created_at') required String createdAt}) = _$_SearchTopic;
 
   factory _SearchTopic.fromJson(Map<String, dynamic> json) =
@@ -542,6 +571,9 @@ abstract class _SearchTopic implements SearchTopic {
   int get id => throw _privateConstructorUsedError;
   @override
   String get title => throw _privateConstructorUsedError;
+  @override
+  @JsonKey(name: 'category_id')
+  int get categoryId => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: 'created_at')
   String get createdAt => throw _privateConstructorUsedError;

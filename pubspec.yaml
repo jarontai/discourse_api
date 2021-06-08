@@ -1,6 +1,6 @@
 name: discourse_api
 description: Minimal discourse api for discourse.
-version: 0.2.1
+version: 0.2.2
 # homepage: https://www.example.com
 environment:
   sdk: '>=2.12.0 <3.0.0'

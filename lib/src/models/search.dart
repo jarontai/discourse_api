@@ -35,6 +35,7 @@ class SearchTopic with _$SearchTopic {
   factory SearchTopic({
     required final int id,
     required final String title,
+    @JsonKey(name: 'category_id') required final int categoryId,
     @JsonKey(name: 'created_at') required final String createdAt,
   }) = _SearchTopic;
 

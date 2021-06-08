@@ -33,6 +33,7 @@ _$_SearchTopic _$_$_SearchTopicFromJson(Map<String, dynamic> json) {
   return _$_SearchTopic(
     id: json['id'] as int,
     title: json['title'] as String,
+    categoryId: json['category_id'] as int,
     createdAt: json['created_at'] as String,
   );
 }
@@ -41,5 +42,6 @@ Map<String, dynamic> _$_$_SearchTopicToJson(_$_SearchTopic instance) =>
     <String, dynamic>{
       'id': instance.id,
       'title': instance.title,
+      'category_id': instance.categoryId,
       'created_at': instance.createdAt,
     };
