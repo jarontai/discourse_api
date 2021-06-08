@@ -52,7 +52,7 @@ extension TopicClient on DiscourseApiClient {
           if (cdnUrl != null) {
             user = user.copyWith(
               avatar: DiscourseApiClient.genAvatar(user.avatarTemplate,
-                  size: 120, cdn: cdnUrl),
+                  cdn: cdnUrl),
             );
           }
           return user;

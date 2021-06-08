@@ -27,7 +27,8 @@ class _$SearchPostTearOff {
       required String name,
       required String username,
       @JsonKey(name: 'created_at') required String createdAt,
-      required String blurb}) {
+      required String blurb,
+      @JsonKey(ignore: true) String? avatar}) {
     return _SearchPost(
       id: id,
       topicId: topicId,
@@ -36,6 +37,7 @@ class _$SearchPostTearOff {
       username: username,
       createdAt: createdAt,
       blurb: blurb,
+      avatar: avatar,
     );
   }
 
@@ -59,6 +61,8 @@ mixin _$SearchPost {
   @JsonKey(name: 'created_at')
   String get createdAt => throw _privateConstructorUsedError;
   String get blurb => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  String? get avatar => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -78,7 +82,8 @@ abstract class $SearchPostCopyWith<$Res> {
       String name,
       String username,
       @JsonKey(name: 'created_at') String createdAt,
-      String blurb});
+      String blurb,
+      @JsonKey(ignore: true) String? avatar});
 }
 
 /// @nodoc
@@ -98,6 +103,7 @@ class _$SearchPostCopyWithImpl<$Res> implements $SearchPostCopyWith<$Res> {
     Object? username = freezed,
     Object? createdAt = freezed,
     Object? blurb = freezed,
+    Object? avatar = freezed,
   }) {
     return _then(_value.copyWith(
       id: id == freezed
@@ -128,6 +134,10 @@ class _$SearchPostCopyWithImpl<$Res> implements $SearchPostCopyWith<$Res> {
           ? _value.blurb
           : blurb // ignore: cast_nullable_to_non_nullable
               as String,
+      avatar: avatar == freezed
+          ? _value.avatar
+          : avatar // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -145,7 +155,8 @@ abstract class _$SearchPostCopyWith<$Res> implements $SearchPostCopyWith<$Res> {
       String name,
       String username,
       @JsonKey(name: 'created_at') String createdAt,
-      String blurb});
+      String blurb,
+      @JsonKey(ignore: true) String? avatar});
 }
 
 /// @nodoc
@@ -167,6 +178,7 @@ class __$SearchPostCopyWithImpl<$Res> extends _$SearchPostCopyWithImpl<$Res>
     Object? username = freezed,
     Object? createdAt = freezed,
     Object? blurb = freezed,
+    Object? avatar = freezed,
   }) {
     return _then(_SearchPost(
       id: id == freezed
@@ -197,6 +209,10 @@ class __$SearchPostCopyWithImpl<$Res> extends _$SearchPostCopyWithImpl<$Res>
           ? _value.blurb
           : blurb // ignore: cast_nullable_to_non_nullable
               as String,
+      avatar: avatar == freezed
+          ? _value.avatar
+          : avatar // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -212,7 +228,8 @@ class _$_SearchPost implements _SearchPost {
       required this.name,
       required this.username,
       @JsonKey(name: 'created_at') required this.createdAt,
-      required this.blurb});
+      required this.blurb,
+      @JsonKey(ignore: true) this.avatar});
 
   factory _$_SearchPost.fromJson(Map<String, dynamic> json) =>
       _$_$_SearchPostFromJson(json);
@@ -234,10 +251,13 @@ class _$_SearchPost implements _SearchPost {
   final String createdAt;
   @override
   final String blurb;
+  @override
+  @JsonKey(ignore: true)
+  final String? avatar;
 
   @override
   String toString() {
-    return 'SearchPost(id: $id, topicId: $topicId, avatarTemplate: $avatarTemplate, name: $name, username: $username, createdAt: $createdAt, blurb: $blurb)';
+    return 'SearchPost(id: $id, topicId: $topicId, avatarTemplate: $avatarTemplate, name: $name, username: $username, createdAt: $createdAt, blurb: $blurb, avatar: $avatar)';
   }
 
   @override
@@ -261,7 +281,9 @@ class _$_SearchPost implements _SearchPost {
                 const DeepCollectionEquality()
                     .equals(other.createdAt, createdAt)) &&
             (identical(other.blurb, blurb) ||
-                const DeepCollectionEquality().equals(other.blurb, blurb)));
+                const DeepCollectionEquality().equals(other.blurb, blurb)) &&
+            (identical(other.avatar, avatar) ||
+                const DeepCollectionEquality().equals(other.avatar, avatar)));
   }
 
   @override
@@ -273,7 +295,8 @@ class _$_SearchPost implements _SearchPost {
       const DeepCollectionEquality().hash(name) ^
       const DeepCollectionEquality().hash(username) ^
       const DeepCollectionEquality().hash(createdAt) ^
-      const DeepCollectionEquality().hash(blurb);
+      const DeepCollectionEquality().hash(blurb) ^
+      const DeepCollectionEquality().hash(avatar);
 
   @JsonKey(ignore: true)
   @override
@@ -294,7 +317,8 @@ abstract class _SearchPost implements SearchPost {
       required String name,
       required String username,
       @JsonKey(name: 'created_at') required String createdAt,
-      required String blurb}) = _$_SearchPost;
+      required String blurb,
+      @JsonKey(ignore: true) String? avatar}) = _$_SearchPost;
 
   factory _SearchPost.fromJson(Map<String, dynamic> json) =
       _$_SearchPost.fromJson;
@@ -316,6 +340,9 @@ abstract class _SearchPost implements SearchPost {
   String get createdAt => throw _privateConstructorUsedError;
   @override
   String get blurb => throw _privateConstructorUsedError;
+  @override
+  @JsonKey(ignore: true)
+  String? get avatar => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   _$SearchPostCopyWith<_SearchPost> get copyWith =>

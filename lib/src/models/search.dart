@@ -23,6 +23,7 @@ class SearchPost with _$SearchPost {
     required final String username,
     @JsonKey(name: 'created_at') required final String createdAt,
     required final String blurb,
+    @JsonKey(ignore: true) String? avatar,
   }) = _SearchPost;
 
   factory SearchPost.fromJson(Map<String, dynamic> json) =>

@@ -80,7 +80,8 @@ class DiscourseApiClient {
     return url;
   }
 
-  static String genAvatar(String avatarTemplate, {int size = 25, String? cdn}) {
+  static String genAvatar(String avatarTemplate,
+      {int size = 120, String? cdn}) {
     var result = avatarTemplate.replaceFirst('{size}', '$size');
     if (cdn != null && !avatarTemplate.startsWith('http')) {
       result = cdn + result;
@@ -202,8 +203,20 @@ class DiscourseApiClient {
     if (res.data['posts'] != null && res.data['topics'] != null) {
       List postList = res.data['posts'];
       List topicList = res.data['topics'];
-      var searchPosts = postList.map((e) => SearchPost.fromJson(e)).toList();
-      var searchTopics = topicList.map((e) => SearchTopic.fromJson(e)).toList();
+      var searchPosts = postList.map((e) {
+        var data = SearchPost.fromJson(e);
+        if (cdnUrl != null) {
+          data = data.copyWith(
+            avatar:
+                DiscourseApiClient.genAvatar(data.avatarTemplate, cdn: cdnUrl),
+          );
+        }
+        return data;
+      }).toList();
+      var searchTopics = topicList.map((e) {
+        var data = SearchTopic.fromJson(e);
+        return data;
+      }).toList();
 
       assert(searchTopics.length == searchPosts.length);
 

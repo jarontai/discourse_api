@@ -112,8 +112,8 @@ extension PostClient on DiscourseApiClient {
     }
     if (cdnUrl != null) {
       result = result.copyWith(
-        avatar: DiscourseApiClient.genAvatar(result.avatarTemplate,
-            size: 120, cdn: cdnUrl),
+        avatar:
+            DiscourseApiClient.genAvatar(result.avatarTemplate, cdn: cdnUrl),
       );
     }
     return result;
