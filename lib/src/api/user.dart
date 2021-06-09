@@ -170,34 +170,19 @@ extension UserClient on DiscourseApiClient {
     return res.statusCode == 200;
   }
 
-// https://www.dart-china.org/u/check_email?email=daiqiu%40wohuaauto.com.cn
-// https://www.dart-china.org/u/check_username?username=test&email=daiqiu%40wohuaauto.com.cn
+  Future<bool> updateUserInfo(String username, {String? bio}) async {
+    var csrfToken = await _csrf(refresh: true);
+    assert(csrfToken.length >= 80, 'csrf token error');
 
-  // Future<String> oAuth({String provider = 'github'}) async {
-  //   var csrfToken = await _csrf(refresh: true);
-  //   assert(csrfToken.length >= 80, 'csrf token error');
-  //   var res = await _dio.post(
-  //     '$siteUrl/auth/$provider',
-  //     options: Options(
-  //       contentType: Headers.formUrlEncodedContentType,
-  //       validateStatus: (status) {
-  //         return status != null && status < 500;
-  //       },
-  //     ),
-  //     data: {
-  //       'authenticity_token': csrfToken,
-  //     },
-  //   );
-
-  //   var result;
-  //   if (res.statusCode == 302) {
-  //     result = res.headers.value('location');
-  //   }
-  //   return result ?? '';
-  // }
-
-  // Future<String> oAuthUrl({String provider = 'github'}) async {
-  //   return '$siteUrl/auth/$provider';
-  // }
-
+    final res = await _dio.put('$siteUrl/u/$username.json',
+        data: {
+          if (bio != null) 'bio_raw': bio,
+        },
+        options: Options(
+          headers: {
+            'x-csrf-token': csrfToken,
+          },
+        ));
+    return res.statusCode == 200;
+  }
 }

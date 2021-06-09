@@ -158,7 +158,7 @@ void main() {
       expect(result, true);
     });
 
-    test('Uploads', () async {
+    test('User Profile', () async {
       var username = dot_env.env['username'];
       var password = dot_env.env['password'];
 
@@ -173,6 +173,9 @@ void main() {
       if (uploadId != null) {
         await client.updateAvatar(user.username, uploadId);
       }
+
+      await client.updateUserInfo(user.username,
+          bio: 'Dart & Flutter & Fuchsia');
     });
   });
 }
