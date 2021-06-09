@@ -64,7 +64,7 @@ class DiscourseApiClient {
     _dio = dio;
 
     _clientId = _buildClientId();
-    _csrf();
+    // _csrf();
   }
 
   static String _buildClientId() {
@@ -93,7 +93,6 @@ class DiscourseApiClient {
     if (_csrfToken == null || refresh) {
       var res = await _dio.get('$siteUrl/session/csrf',
           options: Options(headers: {
-            'X-CSRF-Token': 'undefined',
             'Referer': siteUrl,
           }));
       _csrfToken = res.data['csrf'];

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:discourse_api/discourse_api.dart';
 import 'package:test/test.dart';
 import 'package:dotenv/dotenv.dart' as dot_env;
@@ -156,11 +158,21 @@ void main() {
       expect(result, true);
     });
 
-    // test('OAuth', () async {
-    //   var result = await client.oAuth();
-    //   expect(result, isNotNull);
-    //   expect(result, isNotEmpty);
-    //   expect(result, contains('github'));
-    // });
+    test('Uploads', () async {
+      var username = dot_env.env['username'];
+      var password = dot_env.env['password'];
+
+      var user = await client.login(username!, password!);
+      expect(user!.username, username);
+
+      var login = await client.checkLogin();
+      expect(login, true);
+
+      var bytes = File('avatar.png').readAsBytesSync();
+      var uploadId = await client.uploads(user.id, bytes);
+      if (uploadId != null) {
+        await client.updateAvatar(user.username, uploadId);
+      }
+    });
   });
 }

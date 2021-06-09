@@ -17,8 +17,7 @@ extension UserClient on DiscourseApiClient {
     var res = await _dio.post('$siteUrl/session',
         options: Options(
           headers: {
-            'Origin': siteUrl,
-            'Referer': siteUrl,
+            'x-csrf-token': csrfToken,
           },
           contentType: Headers.formUrlEncodedContentType,
         ),
@@ -129,6 +128,46 @@ extension UserClient on DiscourseApiClient {
       return true;
     }
     return false;
+  }
+
+  Future<int?> uploads(int userId, List<int> bytes,
+      {String type = 'avatar'}) async {
+    final formData = FormData.fromMap({
+      'type': type,
+      'user_id': userId,
+      'synchronous': true,
+      'files[]': MultipartFile.fromBytes(bytes, filename: '${userId}_avatar'),
+    });
+
+    var csrfToken = await _csrf(refresh: true);
+    assert(csrfToken.length >= 80, 'csrf token error');
+
+    final res = await _dio.post('$siteUrl/uploads.json?client_id=$_clientId',
+        data: formData,
+        options: Options(
+          headers: {
+            'x-csrf-token': csrfToken,
+          },
+        ));
+    return res.data['id'];
+  }
+
+  Future<bool> updateAvatar(String username, int uploadId) async {
+    var csrfToken = await _csrf(refresh: true);
+    assert(csrfToken.length >= 80, 'csrf token error');
+
+    final res =
+        await _dio.put('$siteUrl/u/$username/preferences/avatar/pick.json',
+            data: {
+              'type': 'custom',
+              'upload_id': uploadId,
+            },
+            options: Options(
+              headers: {
+                'x-csrf-token': csrfToken,
+              },
+            ));
+    return res.statusCode == 200;
   }
 
 // https://www.dart-china.org/u/check_email?email=daiqiu%40wohuaauto.com.cn
