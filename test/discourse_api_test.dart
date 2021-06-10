@@ -168,6 +168,14 @@ void main() {
       var login = await client.checkLogin();
       expect(login, true);
 
+      var info = await client.userInfo(user.username,
+          withSummary: true, withActions: true);
+      expect(info.bio, isNotNull);
+      expect(info.bio, isNotEmpty);
+      expect(info.summary, isNotNull);
+      expect(info.recentActions, isNotNull);
+      expect(info.summary!.topicCount, greaterThanOrEqualTo(1));
+
       var bytes = File('avatar.png').readAsBytesSync();
       var uploadId = await client.uploads(user.id, bytes);
       if (uploadId != null) {

@@ -6,3 +6,4 @@ export './search.dart';
 export './topic.dart';
 export './user.dart';
 export './poll_message.dart';
+export './user_summary.dart';

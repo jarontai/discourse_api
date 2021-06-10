@@ -1,3 +1,5 @@
+import 'package:discourse_api/discourse_api.dart';
+import 'package:discourse_api/src/models/user_action.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'user.freezed.dart';
@@ -10,13 +12,12 @@ class User with _$User {
     required String username,
     required String name,
     @JsonKey(name: 'avatar_template') required String avatarTemplate,
+    @JsonKey(ignore: true) String? createdAt,
+    @JsonKey(ignore: true) bool? moderator,
+    @JsonKey(ignore: true) String? bio,
     @JsonKey(ignore: true) String? avatar,
-    // @JsonKey(name: 'badge_count') required int badgeCount,
-    // @JsonKey(name: 'bio_excerpt') required String bioExcerpt,
-    // @JsonKey(name: 'trust_level') required int trustLevel,
-    // @JsonKey(name: 'card_background_upload_url') required String cardBackgroundUploadUrl,
-    // required bool moderator,
-    // required bool admin,
+    @JsonKey(ignore: true) UserSummary? summary,
+    @JsonKey(ignore: true) List<UserAction>? recentActions,
   }) = _User;
 
   User._(); // Added constructor

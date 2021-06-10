@@ -10,6 +10,8 @@ _$_UserAction _$_$_UserActionFromJson(Map<String, dynamic> json) {
   return _$_UserAction(
     userId: json['user_id'] as int,
     username: json['username'] as String,
+    actingAvatarTemplate: json['acting_avatar_template'] as String,
+    actionType: json['action_type'] as int,
     categoryId: json['category_id'] as int,
     topicId: json['topic_id'] as int,
     createdAt: DateTime.parse(json['created_at'] as String),
@@ -23,6 +25,8 @@ Map<String, dynamic> _$_$_UserActionToJson(_$_UserAction instance) =>
     <String, dynamic>{
       'user_id': instance.userId,
       'username': instance.username,
+      'acting_avatar_template': instance.actingAvatarTemplate,
+      'action_type': instance.actionType,
       'category_id': instance.categoryId,
       'topic_id': instance.topicId,
       'created_at': instance.createdAt.toIso8601String(),
