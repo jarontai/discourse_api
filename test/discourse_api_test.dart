@@ -168,6 +168,9 @@ void main() {
       var login = await client.checkLogin();
       expect(login, true);
 
+      var topics = await client.recentRead();
+      expect(topics, isNotEmpty);
+
       var info = await client.userInfo(user.username,
           withSummary: true, withActions: true);
       expect(info.bio, isNotNull);

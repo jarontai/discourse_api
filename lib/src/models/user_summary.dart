@@ -6,6 +6,7 @@ part 'user_summary.g.dart';
 @freezed
 class UserSummary with _$UserSummary {
   factory UserSummary({
+    @JsonKey(name: 'days_visited') required int daysVisited,
     @JsonKey(name: 'likes_given') required int likesGiven,
     @JsonKey(name: 'likes_received') required int likesReceived,
     @JsonKey(name: 'post_count') required int postCount,

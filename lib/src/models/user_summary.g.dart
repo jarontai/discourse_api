@@ -8,6 +8,7 @@ part of 'user_summary.dart';
 
 _$_UserSummary _$_$_UserSummaryFromJson(Map<String, dynamic> json) {
   return _$_UserSummary(
+    daysVisited: json['days_visited'] as int,
     likesGiven: json['likes_given'] as int,
     likesReceived: json['likes_received'] as int,
     postCount: json['post_count'] as int,
@@ -20,6 +21,7 @@ _$_UserSummary _$_$_UserSummaryFromJson(Map<String, dynamic> json) {
 
 Map<String, dynamic> _$_$_UserSummaryToJson(_$_UserSummary instance) =>
     <String, dynamic>{
+      'days_visited': instance.daysVisited,
       'likes_given': instance.likesGiven,
       'likes_received': instance.likesReceived,
       'post_count': instance.postCount,

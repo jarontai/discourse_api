@@ -21,7 +21,8 @@ class _$UserSummaryTearOff {
   const _$UserSummaryTearOff();
 
   _UserSummary call(
-      {@JsonKey(name: 'likes_given') required int likesGiven,
+      {@JsonKey(name: 'days_visited') required int daysVisited,
+      @JsonKey(name: 'likes_given') required int likesGiven,
       @JsonKey(name: 'likes_received') required int likesReceived,
       @JsonKey(name: 'post_count') required int postCount,
       @JsonKey(name: 'posts_read_count') required int postsReadCount,
@@ -29,6 +30,7 @@ class _$UserSummaryTearOff {
       @JsonKey(name: 'topic_count') required int topicCount,
       @JsonKey(name: 'topics_entered') required int topicsEntered}) {
     return _UserSummary(
+      daysVisited: daysVisited,
       likesGiven: likesGiven,
       likesReceived: likesReceived,
       postCount: postCount,
@@ -49,6 +51,8 @@ const $UserSummary = _$UserSummaryTearOff();
 
 /// @nodoc
 mixin _$UserSummary {
+  @JsonKey(name: 'days_visited')
+  int get daysVisited => throw _privateConstructorUsedError;
   @JsonKey(name: 'likes_given')
   int get likesGiven => throw _privateConstructorUsedError;
   @JsonKey(name: 'likes_received')
@@ -76,7 +80,8 @@ abstract class $UserSummaryCopyWith<$Res> {
           UserSummary value, $Res Function(UserSummary) then) =
       _$UserSummaryCopyWithImpl<$Res>;
   $Res call(
-      {@JsonKey(name: 'likes_given') int likesGiven,
+      {@JsonKey(name: 'days_visited') int daysVisited,
+      @JsonKey(name: 'likes_given') int likesGiven,
       @JsonKey(name: 'likes_received') int likesReceived,
       @JsonKey(name: 'post_count') int postCount,
       @JsonKey(name: 'posts_read_count') int postsReadCount,
@@ -95,6 +100,7 @@ class _$UserSummaryCopyWithImpl<$Res> implements $UserSummaryCopyWith<$Res> {
 
   @override
   $Res call({
+    Object? daysVisited = freezed,
     Object? likesGiven = freezed,
     Object? likesReceived = freezed,
     Object? postCount = freezed,
@@ -104,6 +110,10 @@ class _$UserSummaryCopyWithImpl<$Res> implements $UserSummaryCopyWith<$Res> {
     Object? topicsEntered = freezed,
   }) {
     return _then(_value.copyWith(
+      daysVisited: daysVisited == freezed
+          ? _value.daysVisited
+          : daysVisited // ignore: cast_nullable_to_non_nullable
+              as int,
       likesGiven: likesGiven == freezed
           ? _value.likesGiven
           : likesGiven // ignore: cast_nullable_to_non_nullable
@@ -144,7 +154,8 @@ abstract class _$UserSummaryCopyWith<$Res>
       __$UserSummaryCopyWithImpl<$Res>;
   @override
   $Res call(
-      {@JsonKey(name: 'likes_given') int likesGiven,
+      {@JsonKey(name: 'days_visited') int daysVisited,
+      @JsonKey(name: 'likes_given') int likesGiven,
       @JsonKey(name: 'likes_received') int likesReceived,
       @JsonKey(name: 'post_count') int postCount,
       @JsonKey(name: 'posts_read_count') int postsReadCount,
@@ -165,6 +176,7 @@ class __$UserSummaryCopyWithImpl<$Res> extends _$UserSummaryCopyWithImpl<$Res>
 
   @override
   $Res call({
+    Object? daysVisited = freezed,
     Object? likesGiven = freezed,
     Object? likesReceived = freezed,
     Object? postCount = freezed,
@@ -174,6 +186,10 @@ class __$UserSummaryCopyWithImpl<$Res> extends _$UserSummaryCopyWithImpl<$Res>
     Object? topicsEntered = freezed,
   }) {
     return _then(_UserSummary(
+      daysVisited: daysVisited == freezed
+          ? _value.daysVisited
+          : daysVisited // ignore: cast_nullable_to_non_nullable
+              as int,
       likesGiven: likesGiven == freezed
           ? _value.likesGiven
           : likesGiven // ignore: cast_nullable_to_non_nullable
@@ -211,7 +227,8 @@ class __$UserSummaryCopyWithImpl<$Res> extends _$UserSummaryCopyWithImpl<$Res>
 /// @nodoc
 class _$_UserSummary extends _UserSummary {
   _$_UserSummary(
-      {@JsonKey(name: 'likes_given') required this.likesGiven,
+      {@JsonKey(name: 'days_visited') required this.daysVisited,
+      @JsonKey(name: 'likes_given') required this.likesGiven,
       @JsonKey(name: 'likes_received') required this.likesReceived,
       @JsonKey(name: 'post_count') required this.postCount,
       @JsonKey(name: 'posts_read_count') required this.postsReadCount,
@@ -223,6 +240,9 @@ class _$_UserSummary extends _UserSummary {
   factory _$_UserSummary.fromJson(Map<String, dynamic> json) =>
       _$_$_UserSummaryFromJson(json);
 
+  @override
+  @JsonKey(name: 'days_visited')
+  final int daysVisited;
   @override
   @JsonKey(name: 'likes_given')
   final int likesGiven;
@@ -247,13 +267,16 @@ class _$_UserSummary extends _UserSummary {
 
   @override
   String toString() {
-    return 'UserSummary(likesGiven: $likesGiven, likesReceived: $likesReceived, postCount: $postCount, postsReadCount: $postsReadCount, timeRead: $timeRead, topicCount: $topicCount, topicsEntered: $topicsEntered)';
+    return 'UserSummary(daysVisited: $daysVisited, likesGiven: $likesGiven, likesReceived: $likesReceived, postCount: $postCount, postsReadCount: $postsReadCount, timeRead: $timeRead, topicCount: $topicCount, topicsEntered: $topicsEntered)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other is _UserSummary &&
+            (identical(other.daysVisited, daysVisited) ||
+                const DeepCollectionEquality()
+                    .equals(other.daysVisited, daysVisited)) &&
             (identical(other.likesGiven, likesGiven) ||
                 const DeepCollectionEquality()
                     .equals(other.likesGiven, likesGiven)) &&
@@ -280,6 +303,7 @@ class _$_UserSummary extends _UserSummary {
   @override
   int get hashCode =>
       runtimeType.hashCode ^
+      const DeepCollectionEquality().hash(daysVisited) ^
       const DeepCollectionEquality().hash(likesGiven) ^
       const DeepCollectionEquality().hash(likesReceived) ^
       const DeepCollectionEquality().hash(postCount) ^
@@ -301,7 +325,8 @@ class _$_UserSummary extends _UserSummary {
 
 abstract class _UserSummary extends UserSummary {
   factory _UserSummary(
-          {@JsonKey(name: 'likes_given') required int likesGiven,
+          {@JsonKey(name: 'days_visited') required int daysVisited,
+          @JsonKey(name: 'likes_given') required int likesGiven,
           @JsonKey(name: 'likes_received') required int likesReceived,
           @JsonKey(name: 'post_count') required int postCount,
           @JsonKey(name: 'posts_read_count') required int postsReadCount,
@@ -314,6 +339,9 @@ abstract class _UserSummary extends UserSummary {
   factory _UserSummary.fromJson(Map<String, dynamic> json) =
       _$_UserSummary.fromJson;
 
+  @override
+  @JsonKey(name: 'days_visited')
+  int get daysVisited => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: 'likes_given')
   int get likesGiven => throw _privateConstructorUsedError;

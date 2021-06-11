@@ -77,7 +77,7 @@ extension TopicClient on DiscourseApiClient {
       if (categoryId != null && categorySlug != null) {
         url = '$siteUrl/c/$categorySlug/$categoryId/l/latest.json';
       } else {
-        url = '$siteUrl/latest';
+        url = '$siteUrl/latest.json';
       }
 
       if (page > 0) {
@@ -140,5 +140,18 @@ extension TopicClient on DiscourseApiClient {
       '$siteUrl/t/$topicId',
       options: options,
     );
+  }
+
+  Future<List<Topic>> recentRead({int limit = 10}) async {
+    var result = <Topic>[];
+    var url = '$siteUrl/read.json';
+    var res = await _dio.get(url);
+    List list = res.data['topic_list']['topics'];
+    result.addAll(list
+        .getRange(0, min(list.length, limit))
+        .map((json) => _buildTopic(json, users: res.data['users']))
+        .where((element) => element.visible)
+        .toList());
+    return result;
   }
 }
