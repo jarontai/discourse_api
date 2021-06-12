@@ -80,7 +80,7 @@ extension UserClient on DiscourseApiClient {
   Future<bool> checkLogin() async {
     var login = false;
     try {
-      await _dio.get(
+      var res = await _dio.get(
         '$siteUrl/notifications.json?recent=1&limit=1',
         options: Options(
             contentType: Headers.formUrlEncodedContentType,
@@ -88,7 +88,13 @@ extension UserClient on DiscourseApiClient {
               return code != null && code < 500;
             }),
       );
-      login = true;
+      if (res.statusCode != 200 ||
+          res.data == null ||
+          res.data['errors'] != null) {
+        login = false;
+      } else {
+        login = true;
+      }
     } catch (error) {
       login = false;
     }

@@ -3,6 +3,7 @@ import 'dart:math';
 
 import 'package:cookie_jar/cookie_jar.dart';
 import 'package:crypto/crypto.dart';
+import 'package:dio/adapter.dart';
 import 'package:dio/dio.dart';
 import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 import 'package:discourse_api/discourse_api.dart';
@@ -36,13 +37,14 @@ class DiscourseApiClient {
   int _latestId = -1;
 
   factory DiscourseApiClient.single(String siteUrl,
-      {String? cookieDir, String? cdnUrl}) {
-    _singleton ??=
-        DiscourseApiClient(siteUrl, cookieDir: cookieDir, cdnUrl: cdnUrl);
+      {String? cookieDir, String? cdnUrl, String? proxyAddress}) {
+    _singleton ??= DiscourseApiClient(siteUrl,
+        cookieDir: cookieDir, cdnUrl: cdnUrl, proxyAddress: proxyAddress);
     return _singleton!;
   }
 
-  DiscourseApiClient(String siteUrl, {String? cookieDir, this.cdnUrl})
+  DiscourseApiClient(String siteUrl,
+      {String? cookieDir, this.cdnUrl, String? proxyAddress})
       : siteUrl = _prepareUrl(siteUrl) {
     var cookieJar;
     if (cookieDir != null) {
@@ -62,6 +64,14 @@ class DiscourseApiClient {
     });
     dio.interceptors.add(CookieManager(cookieJar));
     _dio = dio;
+
+    if (proxyAddress != null && proxyAddress.isNotEmpty) {
+      (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
+          (client) {
+        client.findProxy = (uri) => 'PROXY $proxyAddress;';
+        client.badCertificateCallback = (_, __, ___) => true;
+      };
+    }
 
     _clientId = _buildClientId();
     // _csrf();

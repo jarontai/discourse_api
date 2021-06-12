@@ -143,9 +143,10 @@ extension TopicClient on DiscourseApiClient {
   }
 
   Future<List<Topic>> recentRead({int limit = 10}) async {
+    var options = await _csrfOptions();
     var result = <Topic>[];
     var url = '$siteUrl/read.json';
-    var res = await _dio.get(url);
+    var res = await _dio.get(url, options: options);
     List list = res.data['topic_list']['topics'];
     result.addAll(list
         .getRange(0, min(list.length, limit))
