@@ -1,5 +1,7 @@
 part of '../client.dart';
 
+const kNoticePageSize = 60;
+
 extension UserClient on DiscourseApiClient {
   User _buildUser(dynamic json,
       {Map<String, dynamic>? summary, List<dynamic>? actions}) {
@@ -245,5 +247,62 @@ extension UserClient on DiscourseApiClient {
           },
         ));
     return res.statusCode == 200;
+  }
+
+  Future<PageModel<Notification>> notifications(String username,
+      {int page = 0}) async {
+    var offset = '';
+    if (page > 0) {
+      offset = '&offset=${page * kNoticePageSize}';
+    }
+    var res = await _dio.get(
+      '$siteUrl/notifications.json?username=$username&filter=all$offset',
+      options: Options(
+          contentType: Headers.formUrlEncodedContentType,
+          validateStatus: (code) {
+            return code != null && code < 500;
+          }),
+    );
+    List list = res.data['notifications'];
+
+    var result = <Notification>[];
+    result.addAll(list.map((json) {
+      var notification = Notification.fromJson(json);
+      var data = NotificationData.fromJson(json['data']);
+      notification = notification.copyWith(
+        data: data,
+        type: NotificationTypeValue.from(notification.notificationType),
+      );
+      return notification;
+    }).toList());
+    return PageModel(data: result, page: page, pageSize: kNoticePageSize);
+  }
+
+  Future<bool> notificationRead(String username, int id) async {
+    var options = await _csrfOptions();
+    var res = await _dio.put(
+      '$siteUrl/notifications/mark-read.json?username=$username',
+      options: options,
+      data: {
+        'id': id,
+      },
+    );
+    if (res.statusCode == 200 && res.data['success'] != null) {
+      return true;
+    }
+    return false;
+  }
+
+  Future<bool> notificationReadAll(String username) async {
+    var options = await _csrfOptions();
+    var res = await _dio.put(
+      '$siteUrl/notifications/mark-read.json?username=$username',
+      options: options,
+      data: {},
+    );
+    if (res.statusCode == 200 && res.data['success'] != null) {
+      return true;
+    }
+    return false;
   }
 }

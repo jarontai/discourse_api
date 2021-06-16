@@ -8,3 +8,5 @@ export './user.dart';
 export './poll_message.dart';
 export './user_summary.dart';
 export './user_action.dart';
+export './notification.dart';
+export './notification_data.dart';

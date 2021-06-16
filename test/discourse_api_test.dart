@@ -179,6 +179,12 @@ void main() {
       expect(info.recentActions, isNotNull);
       expect(info.summary!.topicCount, greaterThanOrEqualTo(1));
 
+      var notifications = await client.notifications(username);
+      expect(notifications, isNotNull);
+
+      var read = await client.notificationRead(username, 0);
+      expect(read, true);
+
       var bytes = File('avatar.png').readAsBytesSync();
       var uploadId = await client.uploads(user.id, bytes);
       if (uploadId != null) {
