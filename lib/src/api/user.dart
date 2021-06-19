@@ -250,13 +250,17 @@ extension UserClient on DiscourseApiClient {
   }
 
   Future<PageModel<Notification>> notifications(String username,
-      {int page = 0}) async {
+      {int page = 0, bool unread = false}) async {
     var offset = '';
+    var filter = '&filter=all';
+    if (unread) {
+      filter = '&filter=unread';
+    }
     if (page > 0) {
       offset = '&offset=${page * kNoticePageSize}';
     }
     var res = await _dio.get(
-      '$siteUrl/notifications.json?username=$username&filter=all$offset',
+      '$siteUrl/notifications.json?username=$username$filter$offset',
       options: Options(
           contentType: Headers.formUrlEncodedContentType,
           validateStatus: (code) {

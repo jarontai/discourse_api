@@ -25,30 +25,48 @@ class Notification with _$Notification {
 }
 
 enum NotificationType {
-  Badge, // 12
-  Modify, // 4
-  Audit, // 1
-  Mail, // 16
-  Reply, // 2
-  Like, // 5
+  Mentioned, // 1
+  Replied, // 2
+  Quoted, // 3
+  Edited, // 4
+  Liked, // 5
+  PrivateMessage, // 6
+  Posted, // 9
+  MovePosted, // 10
+  Linked, // 11
+  GrantedBadge, // 12
+  GroupMessageSummary, // 16
+  PostApproved, // 20
   Unknown
 }
 
 extension NotificationTypeValue on NotificationType {
   int get value {
     switch (this) {
-      case NotificationType.Badge:
-        return 12;
-      case NotificationType.Modify:
-        return 4;
-      case NotificationType.Audit:
+      case NotificationType.Mentioned:
         return 1;
-      case NotificationType.Mail:
-        return 16;
-      case NotificationType.Reply:
+      case NotificationType.Replied:
         return 2;
-      case NotificationType.Like:
+      case NotificationType.Quoted:
+        return 3;
+      case NotificationType.Edited:
+        return 4;
+      case NotificationType.Liked:
         return 5;
+      case NotificationType.PrivateMessage:
+        return 6;
+      case NotificationType.Posted:
+        return 9;
+      case NotificationType.MovePosted:
+        return 10;
+      case NotificationType.Linked:
+        return 11;
+      case NotificationType.GrantedBadge:
+        return 12;
+      case NotificationType.GroupMessageSummary:
+        return 16;
+      case NotificationType.PostApproved:
+        return 20;
 
       case NotificationType.Unknown:
         return -1;
@@ -57,22 +75,41 @@ extension NotificationTypeValue on NotificationType {
 
   static NotificationType from(int value) {
     switch (value) {
-      case 12:
-        return NotificationType.Badge;
-      case 4:
-        return NotificationType.Modify;
-
       case 1:
-        return NotificationType.Audit;
-
-      case 16:
-        return NotificationType.Mail;
+        return NotificationType.Mentioned;
 
       case 2:
-        return NotificationType.Reply;
+        return NotificationType.Replied;
+
+      case 3:
+        return NotificationType.Quoted;
+
+      case 4:
+        return NotificationType.Edited;
 
       case 5:
-        return NotificationType.Like;
+        return NotificationType.Liked;
+
+      case 6:
+        return NotificationType.PrivateMessage;
+
+      case 9:
+        return NotificationType.Posted;
+
+      case 10:
+        return NotificationType.MovePosted;
+
+      case 11:
+        return NotificationType.Linked;
+
+      case 12:
+        return NotificationType.GrantedBadge;
+
+      case 16:
+        return NotificationType.GroupMessageSummary;
+
+      case 20:
+        return NotificationType.PostApproved;
 
       default:
         return NotificationType.Unknown;

@@ -96,7 +96,7 @@ extension TopicClient on DiscourseApiClient {
   }
 
   Future<Topic> topicDetail(int topicId) async {
-    var res = await _dio.get('$siteUrl/t/$topicId');
+    var res = await _dio.get('$siteUrl/t/$topicId.json?track_visit=true');
     return _buildTopic(res.data);
   }
 
