@@ -1,6 +1,7 @@
 part of '../client.dart';
 
 const kNoticePageSize = 60;
+const kServerPort = 9080;
 
 extension UserClient on DiscourseApiClient {
   User _buildUser(dynamic json,
@@ -138,7 +139,7 @@ extension UserClient on DiscourseApiClient {
   Future<bool> register(String email, String username, String password) async {
     var signMap = _apiSignMap();
     var res = await _dio.post(
-      '${siteUrl.replaceFirst('https', 'http')}:9080/user',
+      '${siteUrl.replaceFirst('https', 'http')}:$kServerPort/user',
       options:
           Options(contentType: Headers.jsonContentType, headers: {...signMap}),
       data: {
