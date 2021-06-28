@@ -85,7 +85,7 @@ class DiscourseApiClient {
 
   static String _prepareUrl(String url) {
     if (url.endsWith('/')) {
-      return url.substring(0, url.length - 2);
+      return url.substring(0, url.length - 1);
     }
     return url;
   }

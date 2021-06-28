@@ -155,4 +155,8 @@ extension TopicClient on DiscourseApiClient {
         .toList());
     return result;
   }
+
+  String buildTopicUrl(int topicId) {
+    return '$siteUrl/t/topic/$topicId';
+  }
 }
