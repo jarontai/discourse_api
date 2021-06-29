@@ -22,6 +22,7 @@ class Topic with _$Topic {
     @JsonKey(name: 'pinned_globally') required bool pinnedGlobally,
     required bool pinned,
     @JsonKey(name: 'category_id') required int categoryId,
+    @JsonKey(ignore: true) DateTime? bumpedAt,
     @JsonKey(ignore: true) DateTime? lastPostedAt,
     @JsonKey(ignore: true) String? categorySlug,
     @JsonKey(ignore: true) String? excerpt,

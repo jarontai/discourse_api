@@ -45,6 +45,11 @@ extension TopicClient on DiscourseApiClient {
         lastPostedAt: DateTime.tryParse(json['last_posted_at']),
       );
     }
+    if (json['bumped_at'] != null) {
+      result = result.copyWith(
+        bumpedAt: DateTime.tryParse(json['bumped_at']),
+      );
+    }
     if (users != null) {
       result = result.copyWith(
         users: users.map((e) {

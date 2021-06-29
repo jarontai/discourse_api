@@ -34,6 +34,7 @@ class _$TopicTearOff {
       @JsonKey(name: 'pinned_globally') required bool pinnedGlobally,
       required bool pinned,
       @JsonKey(name: 'category_id') required int categoryId,
+      @JsonKey(ignore: true) DateTime? bumpedAt,
       @JsonKey(ignore: true) DateTime? lastPostedAt,
       @JsonKey(ignore: true) String? categorySlug,
       @JsonKey(ignore: true) String? excerpt,
@@ -57,6 +58,7 @@ class _$TopicTearOff {
       pinnedGlobally: pinnedGlobally,
       pinned: pinned,
       categoryId: categoryId,
+      bumpedAt: bumpedAt,
       lastPostedAt: lastPostedAt,
       categorySlug: categorySlug,
       excerpt: excerpt,
@@ -99,6 +101,8 @@ mixin _$Topic {
   @JsonKey(name: 'category_id')
   int get categoryId => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
+  DateTime? get bumpedAt => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
   DateTime? get lastPostedAt => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   String? get categorySlug => throw _privateConstructorUsedError;
@@ -140,6 +144,7 @@ abstract class $TopicCopyWith<$Res> {
       @JsonKey(name: 'pinned_globally') bool pinnedGlobally,
       bool pinned,
       @JsonKey(name: 'category_id') int categoryId,
+      @JsonKey(ignore: true) DateTime? bumpedAt,
       @JsonKey(ignore: true) DateTime? lastPostedAt,
       @JsonKey(ignore: true) String? categorySlug,
       @JsonKey(ignore: true) String? excerpt,
@@ -176,6 +181,7 @@ class _$TopicCopyWithImpl<$Res> implements $TopicCopyWith<$Res> {
     Object? pinnedGlobally = freezed,
     Object? pinned = freezed,
     Object? categoryId = freezed,
+    Object? bumpedAt = freezed,
     Object? lastPostedAt = freezed,
     Object? categorySlug = freezed,
     Object? excerpt = freezed,
@@ -239,6 +245,10 @@ class _$TopicCopyWithImpl<$Res> implements $TopicCopyWith<$Res> {
           ? _value.categoryId
           : categoryId // ignore: cast_nullable_to_non_nullable
               as int,
+      bumpedAt: bumpedAt == freezed
+          ? _value.bumpedAt
+          : bumpedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
       lastPostedAt: lastPostedAt == freezed
           ? _value.lastPostedAt
           : lastPostedAt // ignore: cast_nullable_to_non_nullable
@@ -309,6 +319,7 @@ abstract class _$TopicCopyWith<$Res> implements $TopicCopyWith<$Res> {
       @JsonKey(name: 'pinned_globally') bool pinnedGlobally,
       bool pinned,
       @JsonKey(name: 'category_id') int categoryId,
+      @JsonKey(ignore: true) DateTime? bumpedAt,
       @JsonKey(ignore: true) DateTime? lastPostedAt,
       @JsonKey(ignore: true) String? categorySlug,
       @JsonKey(ignore: true) String? excerpt,
@@ -347,6 +358,7 @@ class __$TopicCopyWithImpl<$Res> extends _$TopicCopyWithImpl<$Res>
     Object? pinnedGlobally = freezed,
     Object? pinned = freezed,
     Object? categoryId = freezed,
+    Object? bumpedAt = freezed,
     Object? lastPostedAt = freezed,
     Object? categorySlug = freezed,
     Object? excerpt = freezed,
@@ -410,6 +422,10 @@ class __$TopicCopyWithImpl<$Res> extends _$TopicCopyWithImpl<$Res>
           ? _value.categoryId
           : categoryId // ignore: cast_nullable_to_non_nullable
               as int,
+      bumpedAt: bumpedAt == freezed
+          ? _value.bumpedAt
+          : bumpedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
       lastPostedAt: lastPostedAt == freezed
           ? _value.lastPostedAt
           : lastPostedAt // ignore: cast_nullable_to_non_nullable
@@ -468,6 +484,7 @@ class _$_Topic implements _Topic {
       @JsonKey(name: 'pinned_globally') required this.pinnedGlobally,
       required this.pinned,
       @JsonKey(name: 'category_id') required this.categoryId,
+      @JsonKey(ignore: true) this.bumpedAt,
       @JsonKey(ignore: true) this.lastPostedAt,
       @JsonKey(ignore: true) this.categorySlug,
       @JsonKey(ignore: true) this.excerpt,
@@ -515,6 +532,9 @@ class _$_Topic implements _Topic {
   final int categoryId;
   @override
   @JsonKey(ignore: true)
+  final DateTime? bumpedAt;
+  @override
+  @JsonKey(ignore: true)
   final DateTime? lastPostedAt;
   @override
   @JsonKey(ignore: true)
@@ -543,7 +563,7 @@ class _$_Topic implements _Topic {
 
   @override
   String toString() {
-    return 'Topic(id: $id, title: $title, postsCount: $postsCount, createdAt: $createdAt, views: $views, replyCount: $replyCount, likeCount: $likeCount, visible: $visible, closed: $closed, archived: $archived, pinnedGlobally: $pinnedGlobally, pinned: $pinned, categoryId: $categoryId, lastPostedAt: $lastPostedAt, categorySlug: $categorySlug, excerpt: $excerpt, users: $users, posterIds: $posterIds, poster: $poster, posts: $posts, postIds: $postIds, rawJson: $rawJson)';
+    return 'Topic(id: $id, title: $title, postsCount: $postsCount, createdAt: $createdAt, views: $views, replyCount: $replyCount, likeCount: $likeCount, visible: $visible, closed: $closed, archived: $archived, pinnedGlobally: $pinnedGlobally, pinned: $pinned, categoryId: $categoryId, bumpedAt: $bumpedAt, lastPostedAt: $lastPostedAt, categorySlug: $categorySlug, excerpt: $excerpt, users: $users, posterIds: $posterIds, poster: $poster, posts: $posts, postIds: $postIds, rawJson: $rawJson)';
   }
 
   @override
@@ -584,6 +604,9 @@ class _$_Topic implements _Topic {
             (identical(other.categoryId, categoryId) ||
                 const DeepCollectionEquality()
                     .equals(other.categoryId, categoryId)) &&
+            (identical(other.bumpedAt, bumpedAt) ||
+                const DeepCollectionEquality()
+                    .equals(other.bumpedAt, bumpedAt)) &&
             (identical(other.lastPostedAt, lastPostedAt) ||
                 const DeepCollectionEquality()
                     .equals(other.lastPostedAt, lastPostedAt)) &&
@@ -625,6 +648,7 @@ class _$_Topic implements _Topic {
       const DeepCollectionEquality().hash(pinnedGlobally) ^
       const DeepCollectionEquality().hash(pinned) ^
       const DeepCollectionEquality().hash(categoryId) ^
+      const DeepCollectionEquality().hash(bumpedAt) ^
       const DeepCollectionEquality().hash(lastPostedAt) ^
       const DeepCollectionEquality().hash(categorySlug) ^
       const DeepCollectionEquality().hash(excerpt) ^
@@ -661,6 +685,7 @@ abstract class _Topic implements Topic {
       @JsonKey(name: 'pinned_globally') required bool pinnedGlobally,
       required bool pinned,
       @JsonKey(name: 'category_id') required int categoryId,
+      @JsonKey(ignore: true) DateTime? bumpedAt,
       @JsonKey(ignore: true) DateTime? lastPostedAt,
       @JsonKey(ignore: true) String? categorySlug,
       @JsonKey(ignore: true) String? excerpt,
@@ -705,6 +730,9 @@ abstract class _Topic implements Topic {
   @override
   @JsonKey(name: 'category_id')
   int get categoryId => throw _privateConstructorUsedError;
+  @override
+  @JsonKey(ignore: true)
+  DateTime? get bumpedAt => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   DateTime? get lastPostedAt => throw _privateConstructorUsedError;
