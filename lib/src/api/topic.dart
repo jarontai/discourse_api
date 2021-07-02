@@ -22,10 +22,7 @@ extension TopicClient on DiscourseApiClient {
     if (json['post_stream'] != null && json['post_stream']['posts'] != null) {
       List postList = json['post_stream']['posts'];
       result = result.copyWith(
-        posts: postList
-            .map((e) => _buildPost(e, cooked2md: true))
-            .where((element) => element.postType == 1)
-            .toList(),
+        posts: postList.map((e) => _buildPost(e, cooked2md: true)).toList(),
       );
     }
     if (json['post_stream'] != null && json['post_stream']['stream'] != null) {
