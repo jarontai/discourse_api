@@ -3,6 +3,41 @@ part of '../client.dart';
 const kPostPageSize = 20;
 const kDefaultPostType = 1;
 
+final mdImageTableRule = html2md.Rule(
+  'discourse-markdown-image-table',
+  filterFn: (node) {
+    if (node.className.contains('md-table')) {
+      if (node.outerHTML.contains('data-base62')) {
+        return true;
+      }
+    }
+    return false;
+  },
+  replacement: (content, node) {
+    final first = node.childNodes().first;
+    var tbody =
+        first.childNodes().firstWhere((element) => element.nodeName == 'tbody');
+    final trs = tbody.childNodes().where((element) => element.nodeName == 'tr');
+
+    final images = [];
+    for (var tr in trs) {
+      final tds = tr.childNodes().where((element) => element.nodeName == 'td');
+      for (var td in tds) {
+        var el = td.asElement();
+        if (el != null) {
+          var img = html2md.Node(el.getElementsByTagName('img').first);
+          var src = img.getAttribute('src');
+          var alt = img.getAttribute('alt');
+          images.add('![$alt]($src)');
+        }
+      }
+    }
+
+    var result = images.join('\n');
+    return result;
+  },
+);
+
 final oneboxRule = html2md.Rule(
   'discourse-onebox',
   filterFn: (node) {
@@ -42,7 +77,7 @@ final oneboxRule = html2md.Rule(
           first.childNodes().firstWhere((element) => element.nodeName == 'a');
       var href = link.getAttribute('href');
       if (href != null && href.isNotEmpty) {
-        return '[$href]($href)';
+        return '[$href]($href)\n';
       }
     }
 
@@ -106,7 +141,7 @@ extension PostClient on DiscourseApiClient {
       result = result.copyWith(
         markdown: html2md.convert(
           result.cooked,
-          rules: [emojiRule, oneboxRule, lighboxRule],
+          rules: [emojiRule, oneboxRule, lighboxRule, mdImageTableRule],
         ),
       );
     }

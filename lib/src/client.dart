@@ -93,7 +93,7 @@ class DiscourseApiClient {
     _clientId = _buildClientId();
   }
 
-  void setHttpStatusHandle(HttpErrorHandler handler) {
+  void setHttpErrorHandle(HttpErrorHandler handler) {
     _errorHandler = handler;
   }
 

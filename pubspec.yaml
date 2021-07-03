@@ -1,6 +1,6 @@
 name: discourse_api
 description: Minimal discourse api written in Dart.
-version: 0.4.3
+version: 0.4.5
 homepage: https://github.com/jarontai/discourse_api
 environment:
   sdk: '>=2.12.0 <3.0.0'
@@ -17,5 +17,5 @@ dependencies:
   dio_cookie_manager: ^2.0.0
   dotenv: ^3.0.0-nullsafety.0
   freezed_annotation: ^0.14.1
-  html2md: ^1.2.3
+  html2md: ^1.2.5
   json_serializable: ^4.1.0
