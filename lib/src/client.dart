@@ -19,6 +19,21 @@ part 'api/user.dart';
 const kStatusChannel = '/__status';
 const kLatestChannel = '/latest';
 
+typedef HttpErrorHandler = void Function(
+    int? statusCode, String message, String path);
+
+HttpErrorHandler? _errorHandler;
+
+class _CustomInterceptor extends Interceptor {
+  @override
+  void onError(DioError err, ErrorInterceptorHandler handler) {
+    // print('DIO HTTP ERROR[${err.response?.statusCode}] => PATH: ${err.requestOptions.path}');
+    _errorHandler?.call(
+        err.response?.statusCode, err.message, err.requestOptions.path);
+    return super.onError(err, handler);
+  }
+}
+
 class DiscourseApiClient {
   static DiscourseApiClient? _singleton;
 
@@ -55,6 +70,7 @@ class DiscourseApiClient {
     } else {
       cookieJar = CookieJar();
     }
+
     var dio = Dio();
     dio.options = BaseOptions(headers: {
       'Origin': siteUrl,
@@ -63,6 +79,7 @@ class DiscourseApiClient {
       Headers.acceptHeader: Headers.jsonContentType,
     });
     dio.interceptors.add(CookieManager(cookieJar));
+    dio.interceptors.add(_CustomInterceptor());
     _dio = dio;
 
     if (proxyAddress != null && proxyAddress.isNotEmpty) {
@@ -74,7 +91,10 @@ class DiscourseApiClient {
     }
 
     _clientId = _buildClientId();
-    // _csrf();
+  }
+
+  void setHttpStatusHandle(HttpErrorHandler handler) {
+    _errorHandler = handler;
   }
 
   static String _buildClientId() {
