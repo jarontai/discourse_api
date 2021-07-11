@@ -167,13 +167,13 @@ class DiscourseApiClient {
   }
 
   Future<About> about() async {
-    var res = await _dio.get('$siteUrl/about');
+    var res = await _dio.get('$siteUrl/about.json');
     var jsonMap = res.data['about'];
     return About.fromJson(jsonMap);
   }
 
   Future<List<Category>> categories() async {
-    var res = await _dio.get('$siteUrl/categories');
+    var res = await _dio.get('$siteUrl/categories.json');
     List list = res.data['category_list']['categories'];
     return list.map((map) => Category.fromJson(map)).toList();
   }
@@ -219,7 +219,7 @@ class DiscourseApiClient {
     ];
 
     var res = await _dio.get(
-      '$siteUrl/search',
+      '$siteUrl/search.json',
       options: options,
       queryParameters: {
         'q': tokens.join(' '),
