@@ -59,7 +59,7 @@ class DiscourseApiClient {
   }
 
   DiscourseApiClient(String siteUrl,
-      {String? cookieDir, this.cdnUrl, String? proxyAddress})
+      {String? cookieDir, this.cdnUrl, String? proxyAddress, int timeout = 30})
       : siteUrl = _prepareUrl(siteUrl) {
     var cookieJar;
     if (cookieDir != null) {
@@ -72,12 +72,16 @@ class DiscourseApiClient {
     }
 
     var dio = Dio();
-    dio.options = BaseOptions(headers: {
-      'Origin': siteUrl,
-      'Referer': siteUrl,
-      'x-requested-with': 'XMLHttpRequest',
-      Headers.acceptHeader: Headers.jsonContentType,
-    });
+    dio.options = BaseOptions(
+      connectTimeout: timeout * 1000,
+      receiveTimeout: timeout * 1000,
+      headers: {
+        'Origin': siteUrl,
+        'Referer': siteUrl,
+        'x-requested-with': 'XMLHttpRequest',
+        Headers.acceptHeader: Headers.jsonContentType,
+      },
+    );
     dio.interceptors.add(CookieManager(cookieJar));
     dio.interceptors.add(_CustomInterceptor());
     _dio = dio;
