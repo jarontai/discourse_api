@@ -52,14 +52,20 @@ class DiscourseApiClient {
   int _latestId = -1;
 
   factory DiscourseApiClient.single(String siteUrl,
-      {String? cookieDir, String? cdnUrl, String? proxyAddress}) {
+      {String? cookieDir,
+      String? cdnUrl,
+      String? proxyAddress,
+      int timeout = 10}) {
     _singleton ??= DiscourseApiClient(siteUrl,
-        cookieDir: cookieDir, cdnUrl: cdnUrl, proxyAddress: proxyAddress);
+        cookieDir: cookieDir,
+        cdnUrl: cdnUrl,
+        proxyAddress: proxyAddress,
+        timeout: timeout);
     return _singleton!;
   }
 
   DiscourseApiClient(String siteUrl,
-      {String? cookieDir, this.cdnUrl, String? proxyAddress, int timeout = 30})
+      {String? cookieDir, this.cdnUrl, String? proxyAddress, int timeout = 10})
       : siteUrl = _prepareUrl(siteUrl) {
     var cookieJar;
     if (cookieDir != null) {

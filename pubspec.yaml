@@ -1,6 +1,6 @@
 name: discourse_api
 description: Minimal discourse api written in Dart.
-version: 0.4.7
+version: 0.4.8
 homepage: https://github.com/jarontai/discourse_api
 environment:
   sdk: '>=2.12.0 <3.0.0'
